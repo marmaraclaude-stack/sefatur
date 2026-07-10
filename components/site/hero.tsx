@@ -1,233 +1,148 @@
 "use client";
 
 /**
- * AuroraMeshHero — "Mermer Sabahı" açık hero bölümü.
- * Aurora blob'lar, kendini çizen kıyı çizgisi + rota SVG'si ve
- * yukarı doğru sıralı (staggered) CSS giriş animasyonu
- * (hidrasyon beklemeden çalışır, sunucu HTML'inde opacity:0 yok).
+ * Hero: sade açılış bölümü.
+ * Solda başlık, iki net düğme ve canlı "sıradaki sefer" şeridi;
+ * sağda araç fotoğrafı. Giriş animasyonu CSS ile yapılır
+ * (animate-fade-up), böylece içerik SSR HTML'inde görünür kalır.
  */
-import { motion, useReducedMotion } from "motion/react";
-import { CalendarClock, CheckCircle2, MoveRight, Phone } from "lucide-react";
-import { BRAND, HERO } from "@/lib/copy";
-import { CONTACT, ROUTE_STOPS } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Clock, Phone } from "lucide-react";
+import { HERO, SCHEDULE_COPY } from "@/lib/copy";
+import { CONTACT } from "@/lib/data";
+import { IMAGES } from "@/lib/images";
+import { useNextDepartures } from "@/lib/use-next-departure";
 
-/* Sıralı giriş: animate-fade-up + satır başına 0.08s gecikme */
-const fadeUpDelay = (i: number) => ({ animationDelay: `${i * 0.08}s` });
-
-/* Rota SVG'si — batıdan doğuya 5 durak (dekoratif, soyut) */
-const STOP_POINTS = [
-  { x: 60, y: 322 },
-  { x: 192, y: 274 },
-  { x: 322, y: 236 },
-  { x: 452, y: 186 },
-  { x: 584, y: 128 },
-] as const;
-
-const ROUTE_PATH =
-  "M60 322 C 112 302, 142 284, 192 274 S 272 252, 322 236 S 402 206, 452 186 S 534 148, 584 128";
-
-const COAST_PATH_A =
-  "M0 118 C 82 88, 152 130, 232 110 C 322 86, 382 132, 472 108 C 542 92, 602 112, 640 96";
-
-const COAST_PATH_B =
-  "M20 388 C 110 356, 196 392, 300 364 C 396 338, 470 372, 560 344 C 600 332, 624 328, 640 326";
-
-const NOISE_URI =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
-
-function RouteArt({ reduceMotion }: { reduceMotion: boolean }) {
-  const draw = (delay: number) => ({
-    initial: reduceMotion ? false : { pathLength: 0 },
-    animate: { pathLength: 1 },
-    transition: { duration: 2.4, ease: "easeInOut" as const, delay },
-  });
-
-  return (
-    <svg
-      viewBox="0 0 640 420"
-      fill="none"
-      aria-hidden="true"
-      className="pointer-events-none absolute top-1/2 right-0 -z-10 hidden w-[44rem] -translate-y-1/2 translate-x-[14%] lg:block"
-    >
-      {/* Kıyı çizgileri — kendini çizen ince hatlar */}
-      <motion.path
-        d={COAST_PATH_A}
-        className="stroke-teal/15"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        {...draw(0.2)}
-      />
-      <motion.path
-        d={COAST_PATH_B}
-        className="stroke-teal/10"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        {...draw(0.5)}
-      />
-
-      {/* Kesikli rota, maske ile soldan sağa kendini çizer */}
-      <mask id="hero-rota-maskesi">
-        <motion.path
-          d={ROUTE_PATH}
-          stroke="#fff"
-          strokeWidth={32}
-          strokeLinecap="round"
-          {...draw(0.7)}
-        />
-      </mask>
-      <g mask="url(#hero-rota-maskesi)">
-        <path
-          d={ROUTE_PATH}
-          className="stroke-teal/25"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeDasharray="2 9"
-        />
-        {ROUTE_STOPS.map((stop, i) => {
-          const p = STOP_POINTS[Math.min(i, STOP_POINTS.length - 1)];
-          return (
-            <g key={stop.id}>
-              <circle cx={p.x} cy={p.y} r={7} className="fill-teal/15" />
-              <circle cx={p.x} cy={p.y} r={2.75} className="fill-teal/60" />
-            </g>
-          );
-        })}
-      </g>
-    </svg>
-  );
-}
+type Soonest = {
+  time: string;
+  name: string;
+  to: string;
+  minutesLeft: number;
+};
 
 export function Hero() {
-  const reduceMotion = useReducedMotion() ?? false;
+  const next = useNextDepartures();
 
   const [headBefore = "", headAfter = ""] = HERO.headline.split(HERO.highlight);
 
+  /* Tüm kalkış noktaları arasındaki en yakın sefer */
+  let soonest: Soonest | null = null;
+  if (next) {
+    for (const d of next.departures) {
+      if (
+        d.isToday &&
+        d.minutesLeft !== null &&
+        (soonest === null || d.minutesLeft < soonest.minutesLeft)
+      ) {
+        soonest = {
+          time: d.time,
+          name: d.point.name,
+          to: d.point.to,
+          minutesLeft: d.minutesLeft,
+        };
+      }
+    }
+  }
+
   return (
-    <section
-      id="hero"
-      aria-labelledby="hero-baslik"
-      className="relative isolate flex min-h-[92svh] overflow-hidden bg-marble pt-32 pb-36 sm:pt-36"
-    >
-      {/* Aurora mesh blob'ları */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 -right-40 -z-10 size-[40rem] rounded-full bg-glow/25 blur-3xl animate-aurora-a motion-reduce:animate-none"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-32 -left-32 -z-10 size-[30rem] rounded-full bg-amber/20 blur-3xl animate-aurora-b motion-reduce:animate-none"
-      />
-      {/* İnce tanecik dokusu */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.04]"
-        style={{ backgroundImage: NOISE_URI }}
-      />
-
-      {/* Yazının arkasında: kıyı + rota çizimi */}
-      <RouteArt reduceMotion={reduceMotion} />
-
-      <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center px-4 text-center sm:px-6">
-        {/* Kicker rozeti */}
-        <p
-          className="animate-fade-up inline-flex items-center gap-2 rounded-full bg-sand px-4 py-1.5 text-sm font-medium text-ink/80 ring-1 ring-ink/10"
-          style={fadeUpDelay(0)}
-        >
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-teal" />
-          {BRAND.tagline}
-        </p>
-
-        {/* Başlık */}
-        <h1
-          id="hero-baslik"
-          className="animate-fade-up mt-6 font-heading text-5xl font-extrabold tracking-tight text-balance text-ink sm:text-6xl lg:text-7xl"
-          style={fadeUpDelay(1)}
-        >
-          {headBefore}
-          <span className="text-teal">{HERO.highlight}</span>
-          {headAfter}
-        </h1>
-
-        {/* Alt başlık */}
-        <p
-          className="animate-fade-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink/70"
-          style={fadeUpDelay(2)}
-        >
-          {HERO.subheadline}
-        </p>
-
-        {/* Güzergâh şeridi */}
-        <p
-          className="animate-fade-up mt-7 inline-flex max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 rounded-full bg-white/60 px-5 py-2 ring-1 ring-ink/10"
-          style={fadeUpDelay(3)}
-        >
-          {ROUTE_STOPS.map((stop, i) => (
-            <span
-              key={stop.id}
-              className="inline-flex items-center gap-x-2.5 font-digits text-xs font-medium tracking-[0.18em] text-teal uppercase"
+    <section id="hero" className="bg-marble pt-28 pb-16 md:pt-36 sm:pb-24">
+      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          {/* Sol sütun: başlık, düğmeler, canlı sefer şeridi */}
+          <div>
+            <h1
+              className="animate-fade-up text-4xl font-semibold tracking-tight text-balance text-ink sm:text-5xl lg:text-6xl"
+              style={{ animationDelay: "0s" }}
             >
-              {i > 0 ? (
-                <MoveRight aria-hidden="true" className="size-3.5 text-teal/50" />
-              ) : null}
-              {stop.name}
-            </span>
-          ))}
-        </p>
+              {headBefore}
+              <span className="text-teal">{HERO.highlight}</span>
+              {headAfter}
+            </h1>
 
-        {/* Çift CTA */}
-        <div
-          className="animate-fade-up mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row"
-          style={fadeUpDelay(4)}
-        >
-          <a
-            href="#seferler"
-            className={cn(
-              "inline-flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-amber px-7 py-3.5 font-semibold text-navy shadow-lg shadow-amber/25 transition sm:w-auto",
-              "hover:-translate-y-0.5 hover:shadow-xl hover:shadow-amber/30 motion-reduce:hover:translate-y-0",
-              "focus-visible:ring-2 focus-visible:ring-glow focus-visible:ring-offset-2 focus-visible:ring-offset-marble focus-visible:outline-none"
-            )}
+            <p
+              className="animate-fade-up mt-5 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl"
+              style={{ animationDelay: "0.06s" }}
+            >
+              {HERO.subheadline}
+            </p>
+
+            <div
+              className="animate-fade-up mt-8 flex flex-wrap gap-3"
+              style={{ animationDelay: "0.12s" }}
+            >
+              <a
+                href={CONTACT.phoneHref}
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-xl bg-amber px-6 text-base font-semibold text-ink shadow-sm ring-1 ring-black/10 hover:brightness-95 focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <Phone aria-hidden="true" className="size-5 shrink-0" />
+                <span className="whitespace-nowrap">{HERO.ctaSecondary}</span>
+                <span className="hidden font-digits whitespace-nowrap min-[440px]:inline">
+                  {CONTACT.phoneDisplay}
+                </span>
+              </a>
+              <a
+                href="#seferler"
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-xl border border-ink/15 bg-white px-6 text-base font-semibold text-ink hover:border-ink/30 focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <Clock aria-hidden="true" className="size-5 shrink-0" />
+                {HERO.ctaPrimary}
+              </a>
+            </div>
+
+            <div className="animate-fade-up" style={{ animationDelay: "0.18s" }}>
+              <p className="mt-6 text-base text-ink/60">
+                {HERO.facts.join(" · ")}
+              </p>
+
+              {/* Canlı sıradaki sefer şeridi (tamamı #seferler'e gider) */}
+              <a
+                href="#seferler"
+                className="mt-4 inline-flex max-w-full items-center gap-3 rounded-xl border border-ink/10 bg-white px-4 py-3 shadow-sm hover:border-ink/30 focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <span aria-hidden="true" className="relative flex size-2.5 shrink-0">
+                  <span className="animate-beacon-ping absolute inline-flex h-full w-full rounded-full bg-amber" />
+                  <span className="relative inline-flex size-2.5 rounded-full bg-amber" />
+                </span>
+                {next === null ? (
+                  /* İskelet: sabit yükseklik, yerleşim kayması yok */
+                  <span
+                    aria-hidden="true"
+                    className="h-6 w-64 max-w-full animate-pulse rounded bg-sand"
+                  />
+                ) : soonest ? (
+                  <span className="text-base leading-6 text-ink">
+                    <span className="text-ink/60">{SCHEDULE_COPY.nextLabel}: </span>
+                    <span className="font-digits font-semibold">{soonest.time}</span>
+                    {" · "}
+                    {soonest.name} → {soonest.to}
+                  </span>
+                ) : (
+                  <span className="text-base leading-6 text-ink">
+                    <span className="text-ink/60">{SCHEDULE_COPY.doneToday}, </span>
+                    {SCHEDULE_COPY.firstTomorrow}{" "}
+                    <span className="font-digits font-semibold">08:30</span>
+                  </span>
+                )}
+              </a>
+            </div>
+          </div>
+
+          {/* Sağ sütun: araç fotoğrafı (mobilde metnin altında) */}
+          <div
+            className="animate-fade-up relative aspect-[4/3] overflow-hidden rounded-2xl border border-ink/10"
+            style={{ animationDelay: "0.1s" }}
           >
-            <CalendarClock aria-hidden="true" className="size-5" />
-            {HERO.ctaPrimary}
-          </a>
-          <a
-            href={CONTACT.phoneHref}
-            className={cn(
-              "inline-flex min-h-[52px] w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-0.5 rounded-full px-7 py-3.5 font-semibold text-teal ring-2 ring-teal transition ring-inset sm:w-auto",
-              "hover:-translate-y-0.5 hover:bg-teal/5 motion-reduce:hover:translate-y-0",
-              "focus-visible:ring-glow focus-visible:ring-offset-2 focus-visible:ring-offset-marble focus-visible:outline-none"
-            )}
-          >
-            <Phone aria-hidden="true" className="size-5" />
-            <span>{HERO.ctaSecondary}</span>
-            <span aria-hidden="true" className="text-teal/40">
-              •
-            </span>
-            <span className="font-digits text-[15px] tracking-wide whitespace-nowrap">
-              {CONTACT.phoneDisplay}
-            </span>
-          </a>
+            <Image
+              src={IMAGES.heroVehicle.src}
+              alt={IMAGES.heroVehicle.alt}
+              fill
+              preload
+              sizes="(min-width:1024px) 640px, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
-
-        {/* Güven rozetleri */}
-        <ul
-          className="animate-fade-up mt-10 flex flex-wrap items-center justify-center gap-2.5"
-          style={fadeUpDelay(5)}
-        >
-          {HERO.badges.map((badge) => (
-            <li
-              key={badge}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1.5 text-sm text-ink/70 ring-1 ring-ink/10"
-            >
-              <CheckCircle2 aria-hidden="true" className="size-4 shrink-0 text-teal" />
-              {badge}
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
 }
-
-export default Hero;

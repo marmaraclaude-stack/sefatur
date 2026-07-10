@@ -1,8 +1,7 @@
 import { Header } from "@/components/site/header";
 import { Hero } from "@/components/site/hero";
-import { NextDeparture } from "@/components/site/next-departure";
 import { Schedule } from "@/components/site/schedule";
-import { RouteTimeline } from "@/components/site/route-timeline";
+import { RouteMap } from "@/components/site/route-map";
 import { Services } from "@/components/site/services";
 import { Fleet } from "@/components/site/fleet";
 import { IslandStory } from "@/components/site/island-story";
@@ -25,9 +24,8 @@ export default function Home() {
       <Header />
       <main id="top" className="flex-1">
         <Hero />
-        <NextDeparture />
         <Schedule />
-        <RouteTimeline />
+        <RouteMap />
         <Services />
         <Fleet />
         <IslandStory />

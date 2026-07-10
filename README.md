@@ -10,7 +10,8 @@ yolcu taşımacılığı yapan SEFATUR'un tek sayfalık tanıtım sitesi.
 | **Sefer saatleri** | [`lib/data.ts`](lib/data.ts) → `SCHEDULE` içindeki `times` dizileri |
 | Telefon / WhatsApp | [`lib/data.ts`](lib/data.ts) → `CONTACT` |
 | Site metinleri (başlıklar, hizmetler, SSS...) | [`lib/copy.ts`](lib/copy.ts) |
-| Fotoğraflar | [`public/images/`](public/images/) — aynı dosya adıyla değiştirin, rehber klasörün içinde |
+| Fotoğraflar | [`lib/images.ts`](lib/images.ts) → rehber: [`public/images/README.md`](public/images/README.md) |
+| Harita durak konumları | [`lib/map-data.ts`](lib/map-data.ts) |
 
 GitHub'da dosyaya girip kalem simgesine tıklayın, düzenleyin, **Commit changes**
 deyin — Vercel 1-2 dakika içinde siteyi otomatik günceller.

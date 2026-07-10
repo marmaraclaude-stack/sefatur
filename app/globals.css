@@ -1,110 +1,57 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 /* ————————————————————————————————
-   SEFATUR tasarım tokenları
-   Palet: Marmara Denizi gecesi, Saraylar mermeri,
-   Ege turkuazı ve fener amberi.
+   SEFATUR tasarım tokenları (minimal)
+   Tek yazı ailesi: Geist. Tek vurgu rengi + arama düğmeleri için amber.
    ———————————————————————————————— */
 @theme inline {
   /* Renkler */
-  --color-navy: #0b2239; /* gece-lacivert — koyu bölüm zemini */
-  --color-deep: #061527; /* derin-deniz — gradyan ucu, footer */
-  --color-marble: #f7f5f0; /* mermer-beyaz — açık bölüm zemini */
-  --color-sand: #ede6d8; /* kum-bej — ada hikâyesi bandı */
-  --color-teal: #0e7c86; /* ege-turkuaz — açık zeminde marka rengi */
-  --color-glow: #2dd4bf; /* turkuaz-parlak — koyu zeminde parıltı */
-  --color-amber: #f5a524; /* fener-amber — TEK dönüşüm vurgusu */
-  --color-ink: #14273a; /* mürekkep — açık zeminde metin */
-  --color-mist: #9db2c7; /* sis-mavi — koyu zeminde ikincil metin */
+  --color-ink: #101d30; /* ana metin, koyu lacivert */
+  --color-navy: #13233c; /* koyu bölüm zemini (footer) */
+  --color-deep: #0b1728; /* footer gradyan ucu */
+  --color-marble: #fafaf8; /* açık bölüm zemini */
+  --color-sand: #f1f2f4; /* alternatif açık zemin, kart dolgusu */
+  --color-teal: #0e7490; /* vurgu: bağlantı, aktif durum */
+  --color-glow: #2dd4bf; /* koyu zemin üzerinde vurgu */
+  --color-amber: #f5a524; /* SADECE arama düğmeleri */
+  --color-mist: #9fb1c4; /* koyu zeminde ikincil metin */
 
   /* Fontlar (next/font değişkenleri) */
-  --font-heading: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
-  --font-digits: var(--font-grotesk), ui-monospace, monospace;
+  --font-heading: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-digits: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Animasyonlar */
-  --animate-marquee: marquee 40s linear infinite;
-  --animate-aurora-a: aurora-a 30s ease-in-out infinite;
-  --animate-aurora-b: aurora-b 26s ease-in-out infinite;
-  --animate-beacon: beacon 2s ease-out infinite;
+  /* Animasyonlar (yalnızca işlevsel olanlar) */
   --animate-beacon-ping: beacon-ping 2s ease-out infinite;
-  --animate-beam: beam 12s ease-in-out infinite;
-  --animate-fade-up: fade-up 0.7s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
 
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-  @keyframes aurora-a {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    33% {
-      transform: translate(6%, 10%) scale(1.15);
-    }
-    66% {
-      transform: translate(-4%, 4%) scale(0.95);
-    }
-  }
-  @keyframes aurora-b {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    50% {
-      transform: translate(-8%, -6%) scale(1.2);
-    }
-  }
-  @keyframes beacon {
-    0% {
-      box-shadow: 0 0 0 0 rgb(245 165 36 / 0.5);
-    }
-    100% {
-      box-shadow: 0 0 0 14px rgb(245 165 36 / 0);
-    }
-  }
-  /* Kompozitör dostu fener halkası: transform+opacity (box-shadow yerine) */
   @keyframes beacon-ping {
     0% {
       transform: scale(1);
-      opacity: 0.45;
+      opacity: 0.4;
     }
     80%,
     100% {
-      transform: scale(1.9);
+      transform: scale(1.8);
       opacity: 0;
     }
   }
-  /* Hidrasyon beklemeden çalışan CSS giriş animasyonu (hero için) */
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(16px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  @keyframes beam {
-    0%,
-    100% {
-      transform: translateX(-30%);
-      opacity: 0.25;
-    }
-    50% {
-      transform: translateX(30%);
-      opacity: 0.6;
-    }
-  }
 }
 
+/* Yaşça büyük kullanıcılar için taban yazı boyutu bir tık büyük */
 html {
+  font-size: 17px;
   scroll-behavior: smooth;
 }
 
@@ -117,14 +64,21 @@ body {
 }
 
 ::selection {
-  background: var(--color-glow);
-  color: var(--color-deep);
+  background: var(--color-teal);
+  color: #ffffff;
 }
 
 /* Bölümlere çapa ile gelindiğinde sabit menünün altında kalmasın */
-section[id] {
-  scroll-margin-top: 84px;
-  scroll-margin-bottom: 72px;
+section[id],
+footer[id] {
+  scroll-margin-top: 88px;
+}
+
+/* Leaflet harita köşe/katman uyumu */
+.leaflet-container {
+  font-family: var(--font-body);
+  border-radius: 0.75rem;
+  z-index: 0;
 }
 
 /* Hareket azaltma tercihi: tüm döngüsel animasyonları durdur */

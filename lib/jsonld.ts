@@ -2,7 +2,7 @@
  * schema.org yapılandırılmış verisi — Google'da zengin sonuçlar için.
  * LocalBusiness (yerel işletme) + FAQPage (SSS) şemaları.
  */
-import { CONTACT, SCHEDULE, ROUTE_STOPS } from "@/lib/data";
+import { CONTACT, SCHEDULE, STOPS } from "@/lib/data";
 import { FAQ, BRAND } from "@/lib/copy";
 import { SITE_URL } from "@/lib/site";
 
@@ -11,8 +11,8 @@ export const localBusinessJsonLd = {
   "@type": "LocalBusiness",
   "@id": `${SITE_URL}/#business`,
   name: BRAND.name,
-  description: `${BRAND.subtitle}. Kalkış saatleri — ${SCHEDULE.map(
-    (p) => `${p.name}: ${p.times.join(", ")}`
+  description: `${BRAND.subtitle}. Kalkış saatleri: ${SCHEDULE.map(
+    (p) => `${p.name} ${p.times.join(", ")}`
   ).join(" • ")}`,
   url: SITE_URL,
   telephone: "+905336555118",
@@ -29,7 +29,7 @@ export const localBusinessJsonLd = {
     latitude: 40.5758,
     longitude: 27.6205,
   },
-  areaServed: ROUTE_STOPS.map((s) => ({
+  areaServed: STOPS.map((s) => ({
     "@type": "Place",
     name: `${s.name}, Marmara Adası`,
   })),

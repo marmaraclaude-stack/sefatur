@@ -1,41 +1,38 @@
-# Görselleri Değiştirme Rehberi
+# Fotoğrafları Değiştirme Rehberi
 
-Bu klasördeki görseller **yer tutucudur** (elle çizilmiş illüstrasyonlar).
-Kendi fotoğraflarınızı koymak için yapmanız gereken tek şey:
+Sitedeki fotoğraflar şu an **Pexels stok fotoğrafları** olarak internetten geliyor.
+Hangi fotoğrafın nerede kullanıldığı **`lib/images.ts`** dosyasında tanımlıdır.
 
-> **Aynı dosya adıyla** yeni fotoğrafı bu klasöre yüklemek.
-> GitHub'da bu klasöre girin → dosyaya tıklayın → sağ üstten çöp kutusuyla silin →
-> "Add file → Upload files" ile aynı isimde yenisini yükleyin → Commit.
-> Vercel otomatik olarak yeniden yayınlar (1-2 dk).
+## Kendi fotoğrafınızı koymak için
 
-## Dosyalar ve nerede kullanıldıkları
+1. Fotoğrafı bu klasöre (`public/images/`) yükleyin.
+   GitHub'da: bu klasöre girin, "Add file" ve "Upload files" ile yükleyin, Commit edin.
+   Örnek dosya adı: `arac-1.jpg`
+2. `lib/images.ts` dosyasını açın (GitHub'da kalem simgesiyle düzenlenir).
+3. İlgili bölümün `src` değerini kendi dosyanızla değiştirin:
 
-| Dosya | Kullanıldığı yer | Önerilen boyut |
+   ```
+   heroVehicle: {
+     src: "/images/arac-1.jpg",
+     alt: "SEFATUR minibüsü Topağaç'ta",
+   },
+   ```
+
+4. Commit edin. Vercel 1-2 dakika içinde siteyi otomatik günceller.
+
+## Fotoğraf bölümleri (lib/images.ts içindeki isimler)
+
+| İsim | Nerede görünür | Önerilen kare |
 |---|---|---|
-| `hero-ada.jpg` | Güzergâh bölümü arka planı (koyu tema üstünde soluk) | 1920×1280, yatay |
-| `filo-minibus-1.jpg` | Filo — 1. minibüs kartı | 1600×1100, yatay |
-| `filo-minibus-2.jpg` | Filo — 2. minibüs kartı | 1600×1100, yatay |
-| `ada-liman.jpg` | Ada bölümü — büyük fotoğraf | 1600×1100, yatay |
-| `ada-koy.jpg` | Ada bölümü — küçük üstteki fotoğraf | 1600×1100, yatay |
-| `saraylar-mermer.jpg` | Ada bölümü — mermer doku çipi | 1600×1100 (kare kırpılır) |
-| `og-image.jpg` | WhatsApp/sosyal medyada link paylaşım kartı | 1200×630 (bu oran önemli) |
+| `heroVehicle` | Açılış (hero) bölümündeki büyük araç fotoğrafı | Aracın 3/4 açıdan, gündüz çekimi |
+| `fleet1` | Araçlarımız bölümü, 1. araç | Araç dış çekim |
+| `fleet2` | Araçlarımız bölümü, 2. araç | Araç dış veya iç çekim |
+| `islandSea` | Marmara Adası bölümü, 1. fotoğraf | Deniz veya koy |
+| `islandHarbor` | Marmara Adası bölümü, 2. fotoğraf | İskele veya liman |
+| `islandVillage` | Marmara Adası bölümü, 3. fotoğraf | Köyden bir görünüm |
 
 **İpuçları**
-- Minibüs fotoğraflarını gündüz, hafif yandan (3/4 açı) çekin; arkada deniz/köy görünürse harika olur.
-- Dosya boyutunu 500 KB altında tutun (fotoğrafı [squoosh.app](https://squoosh.app) ile küçültebilirsiniz).
-- Dosya adını ve uzantısını (`.jpg`) değiştirmeyin; kod bu adlara bakar.
-
-## Hazır stok fotoğraf önerileri (ücretsiz, indirip aynı adla yükleyin)
-
-- Turkuaz deniz / ada manzarası: <https://www.pexels.com/photo/turquoise-water-by-a-rocky-shore-23962081/>
-- Deniz kıyısı panorama: <https://www.pexels.com/photo/15598031/>
-- Liman & tekneler (Mersin, Türkiye): <https://www.pexels.com/photo/boats-moored-at-a-sea-harbor-mersin-turkey-13081252/>
-- Beyaz panelvan minibüs: <https://www.pexels.com/photo/white-van-parked-on-the-street-13297280/>
-- Beyaz minibüs (yol kenarı): <https://www.pexels.com/photo/a-white-van-is-parked-on-the-side-of-the-road-18687549/>
-- Beyaz Sprinter (Unsplash): <https://unsplash.com/photos/p_ILi6tlMwM>
-- Beyaz mermer doku: <https://www.pexels.com/photo/white-marble-surface-texture-6634145/>
-- Sahil yolu: <https://www.pexels.com/photo/road-on-sea-coast-16891801/>
-- Berrak koy: <https://www.pexels.com/photo/scenic-beach-cove-with-turquoise-waters-31934689/>
-
-> Yer tutucu illüstrasyonları yeniden üretmek isterseniz:
-> `node scripts/generate-placeholders.mjs`
+- Yatay (genişlik > yükseklik) fotoğraflar kullanın; alanlar 4:3 ve 16:10 oranında kırpılır.
+- Dosya boyutunu 500 KB altında tutun ([squoosh.app](https://squoosh.app) ile küçültebilirsiniz).
+- `og-image.jpg` dosyası WhatsApp/sosyal medya paylaşım kartıdır; değiştirmek isterseniz
+  1200x630 boyutunda aynı isimle yükleyin.

@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * SSS — tek seferde bir sorunun açık kaldığı akordeon.
- * Son satır: soruya gizlenmiş telefon CTA'sı.
+ * SSS: tek seferde bir sorunun açık olduğu sade akordeon.
+ * Son satır akordeon değildir; telefon çağrı düğmesi içerir.
  */
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -17,41 +17,34 @@ export function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="sss" className="bg-marble py-20 sm:py-28">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow={FAQ.eyebrow}
-          title={FAQ.title}
-          subtitle={FAQ.subtitle}
-        />
+    <section id="sss" className="bg-sand py-16 sm:py-24">
+      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+        <SectionHeading align="left" title={FAQ.title} subtitle={FAQ.subtitle} />
 
-        <div className="mt-12">
+        <div className="mt-10 max-w-3xl">
           {FAQ.items.map((item, i) => {
             const isOpen = open === i;
             const triggerId = `sss-soru-${i}`;
             const panelId = `sss-cevap-${i}`;
             return (
-              <FadeIn key={item.q} delay={Math.min(i * 0.06, 0.3)}>
-                <div
-                  className={cn(
-                    "border-b border-ink/10 px-5 transition duration-300",
-                    isOpen && "rounded-2xl border-transparent bg-white shadow-sm"
-                  )}
-                >
-                  <h3 className="font-body">
+              <FadeIn key={item.q} delay={Math.min(i * 0.05, 0.25)}>
+                <div className="mb-3 rounded-xl border border-ink/10 bg-white">
+                  <h3>
                     <button
                       type="button"
                       id={triggerId}
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       onClick={() => setOpen(isOpen ? null : i)}
-                      className="flex min-h-14 w-full items-center justify-between gap-4 rounded-lg py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+                      className="flex min-h-14 w-full items-center justify-between gap-4 rounded-xl px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
                     >
-                      <span className="font-semibold text-ink">{item.q}</span>
+                      <span className="text-lg font-semibold text-ink">
+                        {item.q}
+                      </span>
                       <ChevronDown
                         aria-hidden="true"
                         className={cn(
-                          "h-5 w-5 shrink-0 text-teal transition-transform duration-300",
+                          "w-5 shrink-0 text-teal transition-transform duration-200",
                           isOpen && "rotate-180"
                         )}
                       />
@@ -66,13 +59,10 @@ export function FaqAccordion() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          ease: [0.21, 0.47, 0.32, 0.98],
-                        }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
                         className="overflow-hidden"
                       >
-                        <p className="pb-6 leading-relaxed text-ink/70">
+                        <p className="px-5 pb-5 text-base leading-relaxed text-ink/70">
                           {item.a}
                         </p>
                       </motion.div>
@@ -83,20 +73,16 @@ export function FaqAccordion() {
             );
           })}
 
-          {/* Akordeon değil: soru kılığında telefon CTA'sı */}
-          <FadeIn delay={0.35}>
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-4 px-5 py-6">
-              <p className="font-semibold text-ink">
-                {"Sorunuz mu var? Fuat Bey'i arayın"}
-              </p>
+          {/* Akordeon değil: düz satır + arama düğmesi */}
+          <FadeIn delay={0.3}>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+              <p className="text-lg font-semibold text-ink">Sorunuz mu var?</p>
               <a
                 href={CONTACT.phoneHref}
-                className="inline-flex min-h-11 items-center gap-2.5 rounded-full bg-amber px-5 py-2.5 text-sm font-semibold text-deep shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:ring-offset-marble motion-reduce:hover:translate-y-0"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-amber px-6 text-base font-semibold text-ink shadow-sm ring-1 ring-black/10 transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
               >
-                <Phone aria-hidden="true" className="h-4 w-4" />
-                <span className="font-digits tracking-wide">
-                  {CONTACT.phoneDisplay}
-                </span>
+                <Phone aria-hidden="true" className="w-5" />
+                <span className="font-digits">{CONTACT.phoneDisplay}</span>
               </a>
             </div>
           </FadeIn>

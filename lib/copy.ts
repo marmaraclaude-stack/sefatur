@@ -1,209 +1,182 @@
 /**
  * SEFATUR — Tüm site metinleri (tek yerden düzenlenebilir).
  * Bir metni değiştirmek için sadece bu dosyayı düzenleyin.
+ * Kural: sade ve net dil; em dash (—) kullanılmaz.
  */
 
 export const BRAND = {
   name: "SEFATUR",
-  tagline: "Marmara Adası'nın yol arkadaşı",
-  subtitle:
-    "Topağaç merkezli minibüs ve taşımacılık hizmetleri • Marmara Adası, Balıkesir",
+  subtitle: "Marmara Adası'nda tarifeli minibüs seferleri ve taşımacılık hizmetleri",
 } as const;
 
 export const HERO = {
   headline: "Adanın Yolu Bizden Sorulur",
-  /** Başlıkta turkuazla vurgulanacak kelime */
   highlight: "Bizden",
   subheadline:
-    "Marmara'dan Saraylar'a beş durak, günde on iki tarifeli sefer. Topağaç merkezli SEFATUR ile ada içinde dakik, güvenli ve güler yüzlü ulaşım.",
-  ctaPrimary: "Sefer Saatlerine Bak",
+    "Marmara, Topağaç ve Saraylar arasında her gün karşılıklı minibüs seferleri. Turlar, öğrenci servisi ve şoförlü araç kiralama için bizi arayın.",
+  ctaPrimary: "Sefer Saatleri",
   ctaSecondary: "Hemen Ara",
-  badges: [
-    "Günde 12 tarifeli sefer",
-    "5 durak, tek hat",
-    "Topağaç merkezli yerli ekip",
-  ],
+  /** Pill değil, düz satır olarak gösterilir */
+  facts: ["Günde 12 sefer", "3 ana durak", "Topağaç merkezli"],
 } as const;
 
 export const SCHEDULE_COPY = {
-  eyebrow: "Tarife",
   title: "Sefer Saatleri",
   subtitle:
-    "Saatlerimiz kalkış noktasına göredir. Hangi duraktan bineceğinizi seçin, gerisini bize bırakın.",
+    "Saatler kalkış noktasına göredir. Asmalı, Topağaç ile Saraylar arasında ara duraktır.",
   notes: [
-    "Tüm saatler kalkış noktası bazlıdır; ara duraklara varış, yol durumuna göre birkaç dakika farklılık gösterebilir.",
-    "Yoğun yaz sezonunda ve feribot hareketliliğine göre ek sefer koyabilir, saatlerde küçük güncellemeler yapabiliriz.",
-    "Minibüslerimiz dakiktir; kalkış saatinden birkaç dakika önce durakta olmanızı rica ederiz.",
+    "Ara duraklara varış saati yol durumuna göre birkaç dakika değişebilir.",
+    "Yoğun yaz sezonunda ek sefer konulabilir ve saatlerde güncelleme yapılabilir.",
+    "Kalkış saatinden birkaç dakika önce durakta olmanızı rica ederiz.",
   ],
-  callNote: "Güncel saat bilgisi için Fuat Ercan'a her zaman ulaşabilirsiniz.",
+  callNote: "Güncel saat bilgisi için bizi arayabilirsiniz.",
+  nextLabel: "Sıradaki sefer",
+  doneToday: "Bugünkü seferler tamamlandı",
+  firstTomorrow: "İlk sefer yarın",
 } as const;
 
 export const ROUTE_COPY = {
-  eyebrow: "Güzergâh",
-  title: "Hattımız: Marmara'dan Saraylar'a",
+  title: "Güzergâh",
   subtitle:
-    "Ada kıyısı boyunca beş durak — her biri Marmara Adası'nın başka bir yüzü.",
+    "Batıda Marmara, ortada Topağaç, kuzeydoğuda Saraylar. Asmalı güzergâh üzerinde ara duraktır.",
+  mapNote: "Haritadaki duraklara dokunarak kalkış saatlerini görebilirsiniz.",
 } as const;
 
 export const SERVICES = {
-  eyebrow: "Hizmetler",
   title: "Hizmetlerimiz",
-  subtitle:
-    "Ada içinde her gün, ada dışında ihtiyacınız olan her yerde: dört başlıkta taşımacılık.",
+  subtitle: "Ana işimiz tarifeli hat seferleridir. Bunun yanında üç ek hizmet sunuyoruz.",
   items: [
     {
       id: "hat",
-      name: "Hat Taşımacılığı",
+      name: "Tarifeli Hat Seferleri",
       description:
-        "Marmara–Gündoğdu–Topağaç–Asmalı–Saraylar hattında her gün tarifeli seferler. Adada işiniz nereye düşerse düşsün, saatimiz bellidir, sözümüz sözdür.",
+        "Marmara, Topağaç ve Saraylar arasında her gün belirli saatlerde kalkan minibüs seferleri. Saatimiz bellidir, sözümüz sözdür.",
       highlights: [
-        "Günde 12 tarifeli sefer",
-        "5 durakta güvenilir kalkış",
-        "Feribot saatleriyle uyumlu planlama",
+        "Günde 12 sefer",
+        "Sabit ve net saatler",
+        "Feribot saatlerine uyumlu plan",
       ],
     },
     {
       id: "tur",
-      name: "Şehirler Arası Turlar & Geziler",
+      name: "Şehirler Arası Turlar ve Geziler",
       description:
-        "Ada dışına mı çıkıyorsunuz? Günübirlik gezilerden şehirler arası turlara, güzergâhı birlikte planlıyor, sizi kapınızdan alıyoruz.",
+        "Günübirlik geziler ve şehirler arası yolculuklar için güzergâhı birlikte planlıyor, sizi adresinizden alıyoruz.",
       highlights: [
         "Kişiye özel güzergâh",
-        "Adayı ve yolları bilen deneyimli şoförler",
-        "Grup ve aile dostu fiyatlar",
+        "Deneyimli şoförler",
+        "Grup ve aile dostu fiyat",
       ],
     },
     {
       id: "servis",
       name: "Öğrenci Servisi",
       description:
-        "Öğrencilerimizi her sabah okullarına güvenle götürüyor, akşam yine güvenle evlerine bırakıyoruz; ailelerin içi rahat ediyor, gözü arkada kalmıyor.",
+        "Öğrencilerimizi her sabah okullarına güvenle götürüyor, akşam evlerine bırakıyoruz. Kayıtlar her eğitim dönemi öncesinde telefonla alınır.",
       highlights: [
-        "Kapıdan okula güvenli ulaşım",
-        "Sabit güzergâh, düzenli saatler",
+        "Kapıdan okula ulaşım",
+        "Sabit güzergâh ve saat",
         "Velilerle bire bir iletişim",
       ],
     },
     {
       id: "kiralama",
-      name: "Özel Taşımacılık & Şoförlü Kiralama",
+      name: "Özel Taşımacılık ve Şoförlü Kiralama",
       description:
-        "Düğün, misafir karşılama, ekip taşıma ya da özel gezi... Minibüsümüz şoförüyle birlikte, istediğiniz saatte, istediğiniz yerde.",
+        "Düğün, misafir karşılama, ekip taşıma veya özel gezi için minibüslerimiz şoförüyle birlikte kiralanır.",
       highlights: [
         "Şoförüyle birlikte kiralama",
-        "16+1 ferah oturma düzeni",
-        "Esnek saat, net fiyat",
+        "16+1 oturma düzeni",
+        "Net fiyat, esnek saat",
       ],
     },
   ],
 } as const;
 
 export const FLEET = {
-  eyebrow: "Filo",
-  title: "Beyaz Filomuz",
+  title: "Araçlarımız",
   subtitle:
-    "İki beyaz Citroën Jumper; adanın yollarını ezbere bilen, bakımlı ve tertemiz.",
-  vehicleBlurb:
-    "16+1 koltuklu panelvan minibüslerimiz düzenli bakımdan geçer, her sefere temiz ve hazır çıkar. Yüksek tavanı, geniş bagajı ve konforlu koltuklarıyla kısa hat yolculuğunda da şehirler arası turda da rahat edersiniz.",
+    "İki adet 16+1 koltuklu, klimalı Citroën Jumper minibüs ile hizmet veriyoruz. Araçlarımız düzenli bakımdan geçer ve her sefere temiz çıkar.",
   vehicles: [
     {
       id: "jumper-1",
-      name: "Jumper 1",
+      name: "Citroën Jumper",
       role: "Hat seferleri",
-      image: "/images/filo-minibus-1.jpg",
-      specs: ["16+1 Koltuk", "Klima", "Geniş Bagaj"],
+      specs: ["16+1 koltuk", "Klima", "Geniş bagaj"],
     },
     {
       id: "jumper-2",
-      name: "Jumper 2",
-      role: "Tur & özel taşımacılık",
-      image: "/images/filo-minibus-2.jpg",
-      specs: ["16+1 Koltuk", "Klima", "USB Şarj"],
+      name: "Citroën Jumper",
+      role: "Tur ve özel taşımacılık",
+      specs: ["16+1 koltuk", "Klima", "USB şarj"],
     },
-  ],
-  marquee: [
-    "Klimalı Araçlar",
-    "16+1 Koltuk",
-    "Sigortalı Taşımacılık",
-    "Yerel Şoförler",
-    "Her Gün Seferde",
-    "Bakımlı Filo",
   ],
 } as const;
 
 export const ISLAND = {
-  eyebrow: "Marmara Adası",
-  title: "Adını Denize Veren Ada",
+  title: "Marmara Adası",
   subtitle:
-    "Antik Prokonnesos'tan bugünün Marmara'sına — mermerin, zeytinin ve berrak koyların adası.",
-  pullQuote: "Topağaç'tan Saraylar'a, bu yollar bizim mahallemiz.",
-  pullQuoteAuthor: "Fuat Ercan",
-  pullQuoteRole: "SEFATUR Firma Yetkilisi",
+    "Antik adı Prokonnesos olan Marmara Adası; mermeri, zeytinlikleri ve berrak koylarıyla Türkiye'nin ikinci büyük adasıdır.",
   paragraphs: [
-    "Marmara Denizi'nin ortasında, adını koca bir denize vermiş bir ada düşünün: Türkiye'nin ikinci büyük adası Marmara; zeytinlikleri, çam ormanları ve berrak koylarıyla Balıkesir'in denizdeki incisidir.",
-    "Antik çağdaki adı Prokonnesos'tu; buradan çıkarılan beyaz mermer Ayasofya'dan Roma saraylarına kadar taşındı. Bugün Saraylar'daki ocaklar ve Açık Hava Mermer Müzesi, bu binlerce yıllık hikâyeyi hâlâ anlatıyor.",
-    "Adada hayat sakindir ama yollar hiç boş kalmaz: köyler arasında işe, okula, pazara, iskeleye gidenlerin yolu mutlaka bir yerde SEFATUR'la kesişir. Biz de bu yolları, komşularımızı taşır gibi özenle gidip geliyoruz.",
+    "Marmara Denizi adını bu adadan alır. Saraylar'daki mermer ocakları iki bin beş yüz yıldır işletilir; Ayasofya'nın mermerleri de buradan çıkarılmıştır. Bugün Saraylar'daki Açık Hava Mermer Müzesi ücretsiz gezilebilir.",
+    "Adaya İstanbul'dan sezonluk deniz otobüsü, Erdek ve Tekirdağ'dan yıl boyu feribot seferleri vardır. Ada içinde köyler arası ulaşımı minibüs hatları sağlar. Marmara iskelesine inen yolcular, seferlerimizle Topağaç ve Saraylar yönüne aktarma yapabilir.",
   ],
   stats: [
-    { value: 5, suffix: "", label: "Durak: Marmara'dan Saraylar'a" },
-    { value: 12, suffix: "", label: "Günlük tarifeli sefer" },
-    { value: 17, suffix: "", label: "Koltuk: 16+1 oturma düzeni" },
-    { value: 117, suffix: " km²", label: "Türkiye'nin 2. büyük adası" },
+    { value: "3", label: "Ana durak" },
+    { value: "12", label: "Günlük sefer" },
+    { value: "16+1", label: "Koltuk düzeni" },
+    { value: "117 km²", label: "Ada yüzölçümü" },
   ],
-  images: {
-    harbor: "/images/ada-liman.jpg",
-    cove: "/images/ada-koy.jpg",
-    marble: "/images/saraylar-mermer.jpg",
-  },
 } as const;
 
 export const FAQ = {
-  eyebrow: "SSS",
-  title: "Merak Edilenler",
-  subtitle: "Aklınıza takılan başka bir şey varsa bir telefon uzaktayız.",
+  title: "Sık Sorulan Sorular",
+  subtitle: "Aklınıza takılan başka bir şey olursa bir telefon uzaktayız.",
   items: [
     {
       q: "Bagajım için yer var mı?",
-      a: "Elbette. Minibüslerimizin bagaj hacmi valiz, pazar arabası ve günlük eşyalarınız için fazlasıyla yeterli. Büyük hacimli bir eşya taşıyacaksanız binmeden önce 0533 655 51 18'den haber vermeniz yeterli.",
+      a: "Elbette. Minibüslerimizin bagaj hacmi valiz ve günlük eşyalarınız için yeterlidir. Büyük hacimli eşya taşıyacaksanız binmeden önce haber vermeniz yeterli.",
     },
     {
       q: "Evcil hayvanımla seyahat edebilir miyim?",
-      a: "Taşıma kabı veya kafes içinde, diğer yolcularımızı rahatsız etmeyecek şekilde evcil dostlarınızı ağırlıyoruz. Sefer öncesi kısa bir telefonla bilgi verirseniz yerinizi buna göre ayarlarız.",
+      a: "Taşıma kabı veya kafes içinde, diğer yolcuları rahatsız etmeyecek şekilde evcil hayvanınızla seyahat edebilirsiniz. Sefer öncesi kısa bir telefonla bilgi verirseniz yer düzenini ona göre yaparız.",
     },
     {
       q: "Seferler feribot saatleriyle uyumlu mu?",
-      a: "Hattımızı feribot hareketlerini gözeterek planlıyoruz; Marmara iskelesine iniş ve binişlerde çoğunlukla bekleme yaşanmaz. Yine de feribot rötarı olabilen günlerde kalkıştan önce bizi arayıp teyit almanızı öneririz.",
+      a: "Saatlerimizi feribot hareketlerini gözeterek planlıyoruz. Marmara iskelesinde çoğunlukla bekleme yaşanmaz. Feribotun rötar yaptığı günlerde kalkıştan önce arayıp teyit almanızı öneririz.",
+    },
+    {
+      q: "Asmalı'dan binebilir miyim?",
+      a: "Evet. Asmalı, Topağaç ile Saraylar arasındaki seferlerde ara duraktır. Saraylar kalkışlı seferler Asmalı'ya uğrar.",
     },
     {
       q: "Şoförlü araç kiralama nasıl yapılıyor?",
-      a: "Fuat Ercan'ı arıyorsunuz; tarih ve güzergâh netleşince size net bir fiyat veriyoruz, o kadar. Araçlarımız her zaman deneyimli şoförümüzle birlikte kiralanır; siz sadece yolculuğun keyfini çıkarırsınız.",
+      a: "Bizi arıyorsunuz; tarih ve güzergâh netleşince size net bir fiyat veriyoruz. Araçlar her zaman deneyimli şoförümüzle birlikte kiralanır.",
     },
     {
       q: "Öğrenci servisine kayıt nasıl oluyor?",
-      a: "Her eğitim dönemi öncesinde telefonla kayıt alıyoruz. Güzergâh ve saatleri velilerimizle birlikte planlıyor, dönem boyunca aynı düzenle, aynı özenle taşıyoruz.",
+      a: "Her eğitim dönemi öncesinde telefonla kayıt alıyoruz. Güzergâh ve saatleri velilerle birlikte planlıyor, dönem boyunca aynı düzenle taşıyoruz.",
     },
     {
       q: "Sefer saatleri değişir mi?",
-      a: "Kış ve yaz dönemlerinde ada hayatının ritmine göre saatlerde güncelleme olabilir; yoğun sezonda ek sefer de koyabiliyoruz. En güncel tarife için sayfamızdaki saatlere bakabilir veya 0533 655 51 18'i arayabilirsiniz.",
+      a: "Kış ve yaz dönemlerinde saatlerde güncelleme olabilir; yoğun sezonda ek sefer konulabilir. En güncel tarife için bu sayfaya bakabilir veya bizi arayabilirsiniz.",
     },
   ],
 } as const;
 
 export const CONTACT_COPY = {
-  eyebrow: "İletişim",
-  title: "Yerinizi Ayırtın, Gerisini Bize Bırakın",
+  title: "İletişim",
   subtitle:
-    "Sefer, tur, öğrenci servisi ya da şoförlü kiralama... Tek telefon yeter. Yetkilimiz Fuat Ercan tüm sorularınızı yanıtlıyor.",
+    "Sefer saatleri, turlar, öğrenci servisi ve araç kiralama için arayabilir veya WhatsApp'tan yazabilirsiniz.",
   callCta: "Hemen Ara",
   whatsappCta: "WhatsApp'tan Yaz",
-  closingLine: "Saraylar mermeri kadar sağlam söz: vaktinde kalkar, güvenle varırız.",
 } as const;
 
 export const NAV_LINKS = [
   { href: "#seferler", label: "Seferler" },
   { href: "#guzergah", label: "Güzergâh" },
   { href: "#hizmetler", label: "Hizmetler" },
-  { href: "#filo", label: "Filo" },
+  { href: "#araclar", label: "Araçlar" },
   { href: "#ada", label: "Ada" },
   { href: "#sss", label: "SSS" },
 ] as const;
