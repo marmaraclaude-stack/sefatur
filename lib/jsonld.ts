@@ -4,15 +4,16 @@
  */
 import { CONTACT, SCHEDULE, ROUTE_STOPS } from "@/lib/data";
 import { FAQ, BRAND } from "@/lib/copy";
-
-const SITE_URL = "https://sefatur.vercel.app";
+import { SITE_URL } from "@/lib/site";
 
 export const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "@id": `${SITE_URL}/#business`,
   name: BRAND.name,
-  description: BRAND.subtitle,
+  description: `${BRAND.subtitle}. Kalkış saatleri — ${SCHEDULE.map(
+    (p) => `${p.name}: ${p.times.join(", ")}`
+  ).join(" • ")}`,
   url: SITE_URL,
   telephone: "+905336555118",
   image: `${SITE_URL}/images/og-image.jpg`,
@@ -41,15 +42,10 @@ export const localBusinessJsonLd = {
   },
   makesOffer: [
     { "@type": "Offer", name: "Ada içi tarifeli minibüs seferleri" },
-    { "@type": "Offer", name: "Şehirlerarası turlar ve geziler" },
+    { "@type": "Offer", name: "Şehirler arası turlar ve geziler" },
     { "@type": "Offer", name: "Öğrenci servisi" },
     { "@type": "Offer", name: "Şoförlü araç kiralama / özel taşımacılık" },
   ],
-  openingHoursSpecification: SCHEDULE.map((point) => ({
-    "@type": "OpeningHoursSpecification",
-    name: `${point.name} kalkış saatleri`,
-    description: point.times.join(", "),
-  })),
 } as const;
 
 export const faqJsonLd = {

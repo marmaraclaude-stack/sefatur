@@ -349,7 +349,7 @@ scenes["og-image.jpg"] = {
 for (const [name, { w, h, svg }] of Object.entries(scenes)) {
   const doc = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${svg}</svg>`;
   const out = join(OUT, name);
-  await sharp(Buffer.from(doc), { density: 96 })
+  await sharp(Buffer.from(doc), { density: 72 })
     .jpeg({ quality: 88, mozjpeg: true })
     .toFile(out);
   console.log("✓", name, `${w}x${h}`);

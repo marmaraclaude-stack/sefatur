@@ -64,9 +64,9 @@ export const SERVICES = {
     },
     {
       id: "tur",
-      name: "Şehirlerarası Turlar & Geziler",
+      name: "Şehirler Arası Turlar & Geziler",
       description:
-        "Ada dışına mı çıkıyorsunuz? Günübirlik gezilerden şehirlerarası turlara, güzergâhı birlikte planlıyor, sizi kapınızdan alıyoruz.",
+        "Ada dışına mı çıkıyorsunuz? Günübirlik gezilerden şehirler arası turlara, güzergâhı birlikte planlıyor, sizi kapınızdan alıyoruz.",
       highlights: [
         "Kişiye özel güzergâh",
         "Adayı ve yolları bilen deneyimli şoförler",
@@ -77,11 +77,11 @@ export const SERVICES = {
       id: "servis",
       name: "Öğrenci Servisi",
       description:
-        "Ada içinde öğrencilerimizi her sabah ailelerin içi rahat, okula götürüyor; akşam güvenle evlerine bırakıyoruz.",
+        "Öğrencilerimizi her sabah okullarına güvenle götürüyor, akşam yine güvenle evlerine bırakıyoruz; ailelerin içi rahat ediyor, gözü arkada kalmıyor.",
       highlights: [
         "Kapıdan okula güvenli ulaşım",
         "Sabit güzergâh, düzenli saatler",
-        "Velilerle birebir iletişim",
+        "Velilerle bire bir iletişim",
       ],
     },
     {
@@ -104,7 +104,7 @@ export const FLEET = {
   subtitle:
     "İki beyaz Citroën Jumper; adanın yollarını ezbere bilen, bakımlı ve tertemiz.",
   vehicleBlurb:
-    "16+1 koltuklu panelvan minibüslerimiz düzenli bakımdan geçer, her sefere temiz ve hazır çıkar. Yüksek tavanı, geniş bagajı ve konforlu koltuklarıyla kısa hat yolculuğunda da şehirlerarası turda da rahat edersiniz.",
+    "16+1 koltuklu panelvan minibüslerimiz düzenli bakımdan geçer, her sefere temiz ve hazır çıkar. Yüksek tavanı, geniş bagajı ve konforlu koltuklarıyla kısa hat yolculuğunda da şehirler arası turda da rahat edersiniz.",
   vehicles: [
     {
       id: "jumper-1",

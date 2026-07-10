@@ -4,6 +4,8 @@ import {
   Figtree,
   Space_Grotesk,
 } from "next/font/google";
+import { MotionProvider } from "@/components/ui/motion-provider";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -27,10 +29,9 @@ const grotesk = Space_Grotesk({
   display: "swap",
 });
 
-const SITE_URL = "https://sefatur.vercel.app";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: {
     default: "SEFATUR — Marmara Adası Minibüs Seferleri | Sefer Saatleri",
     template: "%s | SEFATUR",
@@ -93,7 +94,11 @@ export default function RootLayout({
       className={`${bricolage.variable} ${figtree.variable} ${grotesk.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip">
-        {children}
+        {/* JS kapalıyken motion'ın gizli başlangıç stillerini etkisizleştir */}
+        <noscript>
+          <style>{`[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );
