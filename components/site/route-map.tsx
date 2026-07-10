@@ -56,6 +56,8 @@ export function RouteMap() {
         zoom: MAP_ZOOM,
         scrollWheelZoom: false,
         zoomControl: true,
+        /* Mobilde tek parmak kaydırma sayfayı kaydırmalı, haritayı değil */
+        dragging: !L.Browser.mobile,
       });
       mapRef.current = map;
 
@@ -80,7 +82,9 @@ export function RouteMap() {
           iconSize: [size, size],
           iconAnchor: [size / 2, size / 2],
         });
-        L.marker(coords, { icon })
+        /* keyboard: false — isimsiz sekme durağı olmasın; durak listesi
+           aynı bilgiyi klavye kullanıcılarına zaten veriyor */
+        L.marker(coords, { icon, keyboard: false })
           .addTo(map)
           .bindTooltip(stop.name, {
             permanent: true,
@@ -141,19 +145,19 @@ export function RouteMap() {
                     <p className="text-lg font-semibold text-ink">
                       {stop.name}
                       {stop.kind === "via" ? (
-                        <span className="ml-2 text-sm font-normal text-ink/50">
+                        <span className="ml-2 text-sm font-normal text-ink/70">
                           ara durak
                         </span>
                       ) : null}
                     </p>
-                    <p className="mt-0.5 leading-relaxed text-ink/60">
+                    <p className="mt-0.5 leading-relaxed text-ink/70">
                       {stop.blurb}
                     </p>
                   </div>
                 </li>
               ))}
             </ul>
-            <p className="mt-8 flex items-start gap-2 text-sm text-ink/50">
+            <p className="mt-8 flex items-start gap-2 text-sm text-ink/70">
               <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
               {ROUTE_COPY.mapNote}
             </p>

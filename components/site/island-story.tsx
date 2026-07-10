@@ -64,7 +64,7 @@ export function IslandStory() {
                 <div className="font-digits text-4xl font-semibold text-ink">
                   {stat.value}
                 </div>
-                <div className="mt-2 text-base text-ink/60">{stat.label}</div>
+                <div className="mt-2 text-base text-ink/70">{stat.label}</div>
               </div>
             ))}
           </div>

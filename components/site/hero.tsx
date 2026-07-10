@@ -11,7 +11,7 @@ import { Clock, Phone } from "lucide-react";
 import { HERO, SCHEDULE_COPY } from "@/lib/copy";
 import { CONTACT } from "@/lib/data";
 import { IMAGES } from "@/lib/images";
-import { useNextDepartures } from "@/lib/use-next-departure";
+import { timeToMinutes, useNextDepartures } from "@/lib/use-next-departure";
 
 type Soonest = {
   time: string;
@@ -90,7 +90,7 @@ export function Hero() {
             </div>
 
             <div className="animate-fade-up" style={{ animationDelay: "0.18s" }}>
-              <p className="mt-6 text-base text-ink/60">
+              <p className="mt-6 text-base text-ink/70">
                 {HERO.facts.join(" · ")}
               </p>
 
@@ -104,23 +104,32 @@ export function Hero() {
                   <span className="relative inline-flex size-2.5 rounded-full bg-amber" />
                 </span>
                 {next === null ? (
-                  /* İskelet: sabit yükseklik, yerleşim kayması yok */
-                  <span
-                    aria-hidden="true"
-                    className="h-6 w-64 max-w-full animate-pulse rounded bg-sand"
-                  />
+                  /* İskelet: sabit yükseklik, yerleşim kayması yok.
+                     sr-only metin, hidrasyon öncesinde de erişilebilir ad sağlar. */
+                  <>
+                    <span className="sr-only">{SCHEDULE_COPY.nextLabel}</span>
+                    <span
+                      aria-hidden="true"
+                      className="h-6 w-64 max-w-full animate-pulse rounded bg-sand"
+                    />
+                  </>
                 ) : soonest ? (
                   <span className="text-base leading-6 text-ink">
-                    <span className="text-ink/60">{SCHEDULE_COPY.nextLabel}: </span>
+                    <span className="text-ink/70">{SCHEDULE_COPY.nextLabel}: </span>
                     <span className="font-digits font-semibold">{soonest.time}</span>
                     {" · "}
                     {soonest.name} → {soonest.to}
                   </span>
                 ) : (
                   <span className="text-base leading-6 text-ink">
-                    <span className="text-ink/60">{SCHEDULE_COPY.doneToday}, </span>
+                    <span className="text-ink/70">{SCHEDULE_COPY.doneToday}, </span>
                     {SCHEDULE_COPY.firstTomorrow}{" "}
-                    <span className="font-digits font-semibold">08:30</span>
+                    <span className="font-digits font-semibold">
+                      {/* Yarınki ilk sefer veriden türetilir (lib/data.ts) */}
+                      {next.departures.reduce((a, b) =>
+                        timeToMinutes(a.time) <= timeToMinutes(b.time) ? a : b
+                      ).time}
+                    </span>
                   </span>
                 )}
               </a>

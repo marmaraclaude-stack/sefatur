@@ -5,6 +5,7 @@
 import { CONTACT, SCHEDULE, STOPS } from "@/lib/data";
 import { FAQ, BRAND } from "@/lib/copy";
 import { SITE_URL } from "@/lib/site";
+import { STOP_COORDS } from "@/lib/map-data";
 
 export const localBusinessJsonLd = {
   "@context": "https://schema.org",
@@ -26,8 +27,8 @@ export const localBusinessJsonLd = {
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 40.5758,
-    longitude: 27.6205,
+    latitude: STOP_COORDS.topagac[0],
+    longitude: STOP_COORDS.topagac[1],
   },
   areaServed: STOPS.map((s) => ({
     "@type": "Place",

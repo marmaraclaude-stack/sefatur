@@ -65,7 +65,7 @@ export function Schedule() {
                     />
                     <span>{point.to}</span>
                   </h3>
-                  <p className="mt-2 text-base leading-relaxed text-ink/60">
+                  <p className="mt-2 text-base leading-relaxed text-ink/70">
                     {point.note}
                   </p>
 
@@ -83,7 +83,7 @@ export function Schedule() {
                             className={cn(
                               "font-digits text-2xl leading-relaxed sm:text-3xl",
                               state === "past" &&
-                                "text-ink/35 line-through decoration-ink/20",
+                                "text-ink/65 line-through decoration-ink/30",
                               (state === "neutral" || state === "future") &&
                                 "text-ink",
                               isNext && "font-semibold text-teal"
@@ -110,7 +110,7 @@ export function Schedule() {
                   </ul>
 
                   {doneToday ? (
-                    <p className="mt-4 text-sm text-ink/50">
+                    <p className="mt-4 text-sm text-ink/70">
                       {SCHEDULE_COPY.doneToday}
                     </p>
                   ) : null}
@@ -126,7 +126,7 @@ export function Schedule() {
             {SCHEDULE_COPY.notes.map((note) => (
               <li
                 key={note}
-                className="flex items-start gap-3 text-base leading-relaxed text-ink/60"
+                className="flex items-start gap-3 text-base leading-relaxed text-ink/70"
               >
                 <Info aria-hidden className="mt-1 size-5 shrink-0 text-teal" />
                 <span>{note}</span>

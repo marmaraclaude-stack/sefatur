@@ -32,8 +32,8 @@ export function Fleet() {
                     <h3 className="text-xl font-semibold tracking-tight text-ink">
                       {vehicle.name}
                     </h3>
-                    <p className="mt-1 text-base text-ink/60">{vehicle.role}</p>
-                    <p className="mt-2 text-base text-ink/60">
+                    <p className="mt-1 text-base text-ink/70">{vehicle.role}</p>
+                    <p className="mt-2 text-base text-ink/70">
                       {vehicle.specs.join(" · ")}
                     </p>
                   </div>

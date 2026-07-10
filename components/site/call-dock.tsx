@@ -94,7 +94,7 @@ export function CallDock() {
               href="#seferler"
               className="flex min-h-[52px] flex-col items-center justify-center bg-white text-ink transition-colors hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal"
             >
-              <span className="text-[11px] font-medium uppercase tracking-wide text-teal">
+              <span className="text-xs font-medium uppercase tracking-wide text-teal">
                 {SCHEDULE_COPY.nextLabel}
               </span>
               <span className="max-w-full truncate px-2 font-digits text-sm font-semibold whitespace-nowrap">
