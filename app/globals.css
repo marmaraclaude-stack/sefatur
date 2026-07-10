@@ -17,10 +17,20 @@
   --color-amber: #f5a524; /* SADECE arama düğmeleri */
   --color-mist: #9fb1c4; /* koyu zeminde ikincil metin */
 
-  /* Fontlar (next/font değişkenleri) */
-  --font-heading: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-digits: var(--font-geist-mono), ui-monospace, monospace;
+  /* Fontlar: başlıklar Montserrat, gövde Geist (SF sistem yedeğiyle).
+     Rakamlar da Geist kullanır (tabular-nums gövdede açık, mono yok). */
+  --font-heading: var(--font-montserrat), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", ui-sans-serif, sans-serif;
+  --font-body: var(--font-geist), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", ui-sans-serif, sans-serif;
+  --font-digits: var(--font-geist), -apple-system, BlinkMacSystemFont,
+    ui-sans-serif, sans-serif;
+
+  /* Katmanlı yumuşak gölgeler */
+  --shadow-card: 0 1px 2px rgb(16 29 48 / 0.04),
+    0 8px 24px -8px rgb(16 29 48 / 0.1);
+  --shadow-card-lg: 0 2px 4px rgb(16 29 48 / 0.05),
+    0 20px 48px -16px rgb(16 29 48 / 0.18);
 
   /* Animasyonlar (yalnızca işlevsel olanlar) */
   --animate-beacon-ping: beacon-ping 2s ease-out infinite;

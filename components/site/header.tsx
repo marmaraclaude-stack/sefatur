@@ -90,7 +90,7 @@ export function Header() {
           {/* Sol: marka */}
           <a
             href="#top"
-            className="rounded-lg py-2 text-xl font-bold tracking-tight text-ink outline-none focus-visible:ring-2 focus-visible:ring-teal"
+            className="rounded-lg py-2 font-heading text-xl font-extrabold tracking-tight text-ink outline-none focus-visible:ring-2 focus-visible:ring-teal"
           >
             {BRAND.name}
           </a>
@@ -148,7 +148,7 @@ export function Header() {
         >
           {/* Üst şerit: marka + kapat düğmesi */}
           <div className="mx-auto flex h-16 w-full max-w-[1400px] shrink-0 items-center justify-between px-5 sm:px-8 md:h-[72px]">
-            <span className="text-xl font-bold tracking-tight text-ink">
+            <span className="font-heading text-xl font-extrabold tracking-tight text-ink">
               {BRAND.name}
             </span>
             <button

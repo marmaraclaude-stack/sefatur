@@ -14,9 +14,10 @@ import { FadeIn } from "@/components/ui/fade-in";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 /**
- * Hizmetler bölümü: sade, eşit yükseklikte 4 kart.
- * "hat" kartı ana hizmet olarak ince bir teal kenarlıkla ayrılır,
- * "kiralama" kartında amber arama bağlantısı bulunur.
+ * Hizmetler bölümü: eşit yükseklikte 4 kart.
+ * "hat" kartı ana hizmet olarak koyu lacivert kartla öne çıkar;
+ * diğerleri katmanlı gölgeli beyaz kartlardır. "kiralama" kartında
+ * küçük bir arama bağlantısı bulunur (buton değil, tekrar azaltıldı).
  * Sunucu bileşeni; animasyon yalnızca FadeIn (client) ile.
  */
 
@@ -39,7 +40,7 @@ export function Services() {
           subtitle={SERVICES.subtitle}
         />
 
-        <div className="mt-10 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 items-stretch gap-5 sm:mt-12 sm:grid-cols-2 xl:grid-cols-4">
           {SERVICES.items.map((item, index) => {
             const Icon = SERVICE_ICONS[item.id];
             const isPrimary = item.id === "hat";
@@ -47,29 +48,36 @@ export function Services() {
               <FadeIn key={item.id} delay={index * 0.06} className="h-full">
                 <article
                   className={cn(
-                    "flex h-full flex-col rounded-xl border bg-white p-6",
+                    "flex h-full flex-col rounded-2xl p-6 transition duration-300 sm:p-7",
                     isPrimary
-                      ? "border-teal/30"
-                      : "border-ink/10 hover:border-ink/20"
+                      ? "bg-navy text-white shadow-card-lg"
+                      : "border border-ink/[0.06] bg-white shadow-card hover:-translate-y-1 hover:shadow-card-lg"
                   )}
                 >
-                  {isPrimary ? (
-                    <p className="mb-3 text-sm font-medium text-teal">
-                      Ana hizmetimiz
-                    </p>
-                  ) : null}
-
                   <div
                     aria-hidden
-                    className="flex h-11 w-11 items-center justify-center rounded-lg bg-sand text-teal"
+                    className={cn(
+                      "flex h-11 w-11 items-center justify-center rounded-xl",
+                      isPrimary ? "bg-glow/15 text-glow" : "bg-teal/10 text-teal"
+                    )}
                   >
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
 
-                  <h3 className="mt-4 text-lg font-semibold tracking-tight text-ink">
+                  <h3
+                    className={cn(
+                      "font-heading mt-4 text-lg font-bold tracking-tight",
+                      isPrimary ? "text-white" : "text-ink"
+                    )}
+                  >
                     {item.name}
                   </h3>
-                  <p className="mt-2 text-base leading-relaxed text-ink/70">
+                  <p
+                    className={cn(
+                      "mt-2 text-base leading-relaxed",
+                      isPrimary ? "text-mist" : "text-ink/70"
+                    )}
+                  >
                     {item.description}
                   </p>
 
@@ -77,11 +85,17 @@ export function Services() {
                     {item.highlights.map((highlight) => (
                       <li
                         key={highlight}
-                        className="flex items-start gap-2 text-[15px] text-ink/70"
+                        className={cn(
+                          "flex items-start gap-2 text-[15px]",
+                          isPrimary ? "text-white/85" : "text-ink/70"
+                        )}
                       >
                         <Check
                           aria-hidden
-                          className="mt-0.5 w-4 shrink-0 text-teal"
+                          className={cn(
+                            "mt-0.5 w-4 shrink-0",
+                            isPrimary ? "text-glow" : "text-teal"
+                          )}
                         />
                         <span>{highlight}</span>
                       </li>
@@ -89,13 +103,15 @@ export function Services() {
                   </ul>
 
                   {item.id === "kiralama" ? (
-                    <div className="mt-auto pt-4">
+                    <div className="mt-auto pt-5">
                       <a
                         href={CONTACT.phoneHref}
-                        className="inline-flex w-fit min-h-11 items-center gap-2 rounded-lg bg-amber px-4 py-2.5 font-semibold text-ink shadow-sm ring-1 ring-black/10 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+                        className="group inline-flex items-center gap-2 rounded text-[15px] font-semibold text-teal transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-teal focus-visible:outline-none"
                       >
-                        <Phone aria-hidden className="h-4 w-4" />
-                        Fiyat için arayın
+                        <Phone aria-hidden className="h-4 w-4 shrink-0" />
+                        <span className="underline decoration-teal/30 decoration-2 underline-offset-4 group-hover:decoration-ink/30">
+                          Fiyat için arayın
+                        </span>
                       </a>
                     </div>
                   ) : null}

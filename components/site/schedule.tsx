@@ -1,16 +1,16 @@
 "use client";
 
 /**
- * Sefer Saatleri: sade ve okunaklı tarife bölümü.
+ * Sefer Saatleri: sitenin ana bölümü, koyu lacivert pano.
  * Üç kalkış noktası aynı anda görünür (sekme yok). Saatlerin tek
  * kaynağı lib/data.ts; canlı "sıradaki sefer" durumu mount sonrası
  * hesaplanır, ilk render'da tüm satırlar nötrdür (hydration güvenli).
  */
 
-import { ArrowRight, Info, Phone } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 
 import { CONTACT, SCHEDULE } from "@/lib/data";
-import { CONTACT_COPY, SCHEDULE_COPY } from "@/lib/copy";
+import { SCHEDULE_COPY } from "@/lib/copy";
 import {
   formatMinutes,
   timeToMinutes,
@@ -30,11 +30,18 @@ export function Schedule() {
     <section
       id="seferler"
       aria-label={SCHEDULE_COPY.title}
-      className="bg-sand py-16 sm:py-24"
+      className="relative overflow-hidden bg-navy py-16 sm:py-24"
     >
-      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+      {/* Zemin dokusu */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-40 left-1/2 size-[40rem] -translate-x-1/2 rounded-full bg-glow/[0.05] blur-3xl"
+      />
+
+      <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <SectionHeading
           align="left"
+          tone="dark"
           title={SCHEDULE_COPY.title}
           subtitle={SCHEDULE_COPY.subtitle}
         />
@@ -56,16 +63,16 @@ export function Schedule() {
 
             return (
               <FadeIn key={point.id} delay={index * 0.08}>
-                <article className="flex h-full flex-col rounded-xl border border-ink/10 bg-white p-6 shadow-sm">
-                  <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
+                <article className="flex h-full flex-col rounded-2xl bg-white/[0.04] p-6 ring-1 ring-white/10 transition-colors hover:ring-white/20 sm:p-7">
+                  <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-heading text-xl font-bold tracking-tight text-white sm:text-2xl">
                     <span>{point.name}</span>
                     <ArrowRight
                       aria-hidden
-                      className="size-6 shrink-0 text-teal"
+                      className="size-6 shrink-0 text-glow"
                     />
                     <span>{point.to}</span>
                   </h3>
-                  <p className="mt-2 text-base leading-relaxed text-ink/70">
+                  <p className="mt-2 text-base leading-relaxed text-mist">
                     {point.note}
                   </p>
 
@@ -76,24 +83,23 @@ export function Schedule() {
                       return (
                         <li
                           key={time}
-                          className="flex items-center justify-between gap-3 border-b border-ink/5 py-2.5 last:border-0"
+                          className="flex items-center justify-between gap-3 border-b border-white/[0.06] py-2.5 last:border-0"
                         >
                           <time
                             dateTime={time}
                             className={cn(
-                              "font-digits text-2xl leading-relaxed sm:text-3xl",
-                              state === "past" &&
-                                "text-ink/65 line-through decoration-ink/30",
+                              "font-digits text-2xl leading-relaxed tracking-tight sm:text-3xl",
+                              state === "past" && "text-white/50",
                               (state === "neutral" || state === "future") &&
-                                "text-ink",
-                              isNext && "font-semibold text-teal"
+                                "font-medium text-white",
+                              isNext && "font-bold text-glow"
                             )}
                           >
                             {time}
                           </time>
 
                           {isNext && departure?.minutesLeft != null ? (
-                            <span className="flex shrink-0 items-center gap-2 text-sm text-teal">
+                            <span className="flex shrink-0 items-center gap-2 text-sm font-medium text-glow">
                               <span
                                 aria-hidden
                                 className="relative flex size-2.5"
@@ -110,7 +116,7 @@ export function Schedule() {
                   </ul>
 
                   {doneToday ? (
-                    <p className="mt-4 text-sm text-ink/70">
+                    <p className="mt-4 text-sm text-mist">
                       {SCHEDULE_COPY.doneToday}
                     </p>
                   ) : null}
@@ -120,32 +126,28 @@ export function Schedule() {
           })}
         </div>
 
-        {/* Notlar */}
+        {/* Notlar + tek küçük arama bağlantısı */}
         <FadeIn delay={0.1} className="mt-12">
           <ul className="max-w-3xl space-y-3">
             {SCHEDULE_COPY.notes.map((note) => (
               <li
                 key={note}
-                className="flex items-start gap-3 text-base leading-relaxed text-ink/70"
+                className="flex items-start gap-3 text-base leading-relaxed text-mist"
               >
-                <Info aria-hidden className="mt-1 size-5 shrink-0 text-teal" />
+                <Info aria-hidden className="mt-1 size-5 shrink-0 text-glow" />
                 <span>{note}</span>
               </li>
             ))}
           </ul>
-
-          {/* Arama satırı */}
-          <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <p className="text-lg text-ink/70">{SCHEDULE_COPY.callNote}</p>
+          <p className="mt-6 text-base text-mist">
+            {SCHEDULE_COPY.callNote}{" "}
             <a
               href={CONTACT.phoneHref}
-              className="inline-flex min-h-12 items-center gap-2.5 rounded-xl bg-amber px-6 text-base font-semibold text-ink shadow-sm ring-1 ring-black/10 outline-none hover:brightness-95 focus-visible:ring-2 focus-visible:ring-teal"
+              className="font-digits font-semibold whitespace-nowrap text-glow underline decoration-glow/30 decoration-2 underline-offset-4 transition hover:decoration-glow focus-visible:ring-2 focus-visible:ring-glow focus-visible:outline-none rounded"
             >
-              <Phone aria-hidden className="size-5 shrink-0" />
-              <span>{CONTACT_COPY.callCta}</span>
-              <span className="font-digits">{CONTACT.phoneDisplay}</span>
+              {CONTACT.phoneDisplay}
             </a>
-          </div>
+          </p>
         </FadeIn>
 
         {/* SEO / ekran okuyucu ikizi: tüm noktaların tam tarifesi.

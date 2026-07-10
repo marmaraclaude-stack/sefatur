@@ -1,4 +1,4 @@
-import { MapPin, MessageCircle, Phone } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 import { BRAND, CONTACT_COPY, NAV_LINKS } from "@/lib/copy";
 import { CONTACT, STOPS } from "@/lib/data";
 
@@ -15,10 +15,18 @@ export function Footer() {
   ].join(" · ");
 
   return (
-    <footer id="iletisim" className="bg-navy pt-16 pb-28 lg:pb-12">
-      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+    <footer
+      id="iletisim"
+      className="relative overflow-hidden bg-navy pt-16 pb-28 lg:pb-12"
+    >
+      {/* Zemin dokusu */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-48 left-1/3 size-[36rem] rounded-full bg-glow/[0.05] blur-3xl"
+      />
+      <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         {/* Başlık */}
-        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        <h2 className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">
           {CONTACT_COPY.title}
         </h2>
         <p className="mt-3 max-w-2xl text-lg leading-relaxed text-mist">
@@ -38,13 +46,6 @@ export function Footer() {
           </a>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a
-              href={CONTACT.phoneHref}
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-amber px-6 text-base font-semibold text-ink shadow-sm transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow"
-            >
-              <Phone className="size-5" aria-hidden />
-              {CONTACT_COPY.callCta}
-            </a>
             <a
               href={CONTACT.whatsappHref}
               target="_blank"

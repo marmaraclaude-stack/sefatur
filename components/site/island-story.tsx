@@ -40,34 +40,34 @@ export function IslandStory() {
             {PHOTOS.map((photo) => (
               <div
                 key={photo.src}
-                className="relative aspect-[4/3] overflow-hidden rounded-xl border border-ink/10"
+                className="group relative aspect-[4/3] overflow-hidden rounded-2xl shadow-card"
               >
                 <Image
                   src={photo.src}
                   alt={photo.alt}
                   fill
                   sizes="(min-width: 640px) 33vw, 100vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </div>
             ))}
           </div>
         </FadeIn>
 
+        {/* İstatistikler: tek kart, ince çizgilerle bölünmüş kompakt hücreler */}
         <FadeIn delay={0.15}>
-          <div className="mt-10 grid auto-rows-fr grid-cols-2 gap-5 lg:grid-cols-4">
+          <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink/[0.06] bg-ink/[0.06] shadow-card lg:grid-cols-4">
             {ISLAND.stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="flex min-h-[120px] flex-col justify-between rounded-xl border border-ink/10 bg-white p-6"
-              >
-                <div className="font-digits text-4xl font-semibold text-ink">
+              <div key={stat.label} className="bg-white p-6 sm:p-8">
+                <dd className="font-heading text-3xl font-bold tracking-tight text-ink sm:text-4xl">
                   {stat.value}
-                </div>
-                <div className="mt-2 text-base text-ink/70">{stat.label}</div>
+                </dd>
+                <dt className="mt-1.5 text-sm text-ink/60 sm:text-base">
+                  {stat.label}
+                </dt>
               </div>
             ))}
-          </div>
+          </dl>
         </FadeIn>
       </div>
     </section>

@@ -124,7 +124,7 @@ export function RouteMap() {
               ref={containerRef}
               role="region"
               aria-label="Güzergâh haritası"
-              className="h-[380px] w-full overflow-hidden rounded-xl border border-ink/10 bg-sand sm:h-[480px]"
+              className="h-[380px] w-full overflow-hidden rounded-2xl bg-sand shadow-card sm:h-[480px]"
             />
           </FadeIn>
 

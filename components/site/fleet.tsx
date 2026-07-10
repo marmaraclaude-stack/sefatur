@@ -18,23 +18,27 @@ export function Fleet() {
             const image = VEHICLE_IMAGES[i] ?? VEHICLE_IMAGES[0];
             return (
               <FadeIn as="li" key={vehicle.id} delay={i * 0.08}>
-                <article className="overflow-hidden rounded-xl border border-ink/10 bg-white shadow-sm">
-                  <div className="relative aspect-[16/10]">
+                <article className="group overflow-hidden rounded-2xl bg-white shadow-card transition duration-300 hover:shadow-card-lg">
+                  <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
                       src={image.src}
                       alt={image.alt}
                       fill
                       sizes="(min-width: 768px) 660px, 100vw"
-                      className="object-cover"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold tracking-tight text-ink">
-                      {vehicle.name}
-                    </h3>
-                    <p className="mt-1 text-base text-ink/70">{vehicle.role}</p>
+                  <div className="p-6 sm:p-7">
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-heading text-xl font-bold tracking-tight text-ink">
+                        {vehicle.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-teal">
+                        {vehicle.role}
+                      </p>
+                    </div>
                     <p className="mt-2 text-base text-ink/70">
-                      {vehicle.specs.join(" · ")}
+                      {vehicle.specs.join("  ·  ")}
                     </p>
                   </div>
                 </article>
