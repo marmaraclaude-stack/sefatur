@@ -114,7 +114,7 @@ export function CallDock() {
               href="#seferler"
               className="flex min-h-[52px] flex-col items-center justify-center bg-navy/90 py-2 text-white transition-colors hover:bg-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-glow"
             >
-              <span className="text-[10px] uppercase tracking-widest text-glow">
+              <span className="text-[11px] uppercase tracking-widest text-glow">
                 {"Sıradaki sefer"}
               </span>
               <span className="font-digits text-base font-semibold">

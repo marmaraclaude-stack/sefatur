@@ -78,7 +78,7 @@ export function Fleet() {
                       src={vehicle.image}
                       alt={`SEFATUR beyaz Citroën Jumper minibüs — ${vehicle.name}, ${vehicle.role}`}
                       fill
-                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
                     {/* Duotone katmanı */}
@@ -122,7 +122,7 @@ export function Fleet() {
           </ul>
 
           <FadeIn delay={0.3}>
-            <p className="mt-10 text-center text-sm text-mist/70">
+            <p className="mt-10 text-center text-sm text-mist">
               {PHOTO_NOTE}
             </p>
           </FadeIn>

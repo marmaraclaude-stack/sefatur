@@ -16,15 +16,18 @@ export function Marquee({
 }) {
   return (
     <div
+      tabIndex={0}
+      aria-label="Hizmet özellikleri — durdurmak için odaklanın"
       className={cn(
         "group relative flex w-full overflow-hidden",
         "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow",
         className
       )}
     >
       <div
         className={cn(
-          "flex w-max shrink-0 items-center animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none",
+          "flex w-max shrink-0 items-center animate-marquee group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none",
           innerClassName
         )}
       >

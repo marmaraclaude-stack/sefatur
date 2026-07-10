@@ -7,7 +7,7 @@
  * Escape ve bağlantı tıklamasıyla kapanır).
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -72,6 +72,9 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reduceMotion = useReducedMotion();
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   /* ~24px kaydırma sonrası cam görünüme geç */
   useEffect(() => {
@@ -81,17 +84,73 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Menü açıkken gövde kaydırmasını kilitle + Escape ile kapat */
+  /* lg (64rem) eşiğine geçildiğinde menüyü kapat — kaydırma kilidi
+     masaüstünde takılı kalmasın (menü lg:hidden ile zaten görünmezdir) */
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 64rem)");
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setOpen(false);
+    };
+    /* İlk kontrol bir kare ertelenir; efekt gövdesinde eşzamanlı setState olmasın */
+    const raf = requestAnimationFrame(() => {
+      if (mq.matches) setOpen(false);
+    });
+    mq.addEventListener("change", onChange);
+    return () => {
+      cancelAnimationFrame(raf);
+      mq.removeEventListener("change", onChange);
+    };
+  }, []);
+
+  /* Menü açıkken gövde kaydırmasını kilitle + Escape ile kapat
+     + Tab odağını kaplama içinde döngüle (odak tuzağı) */
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const overlay = overlayRef.current;
+      if (!overlay) return;
+      const focusables = overlay.querySelectorAll<HTMLElement>(
+        "a[href], button"
+      );
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (!first || !last) return;
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !overlay.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !overlay.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  /* Odak yönetimi: açılınca kapat (X) düğmesine odaklan,
+     kapanınca odağı hamburger düğmesine geri ver */
+  useEffect(() => {
+    if (!open) return;
+    const trigger = menuButtonRef.current;
+    /* AnimatePresence montajını beklemek için bir kare ertele */
+    const raf = requestAnimationFrame(() => {
+      closeButtonRef.current?.focus();
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      trigger?.focus();
     };
   }, [open]);
 
@@ -176,6 +235,7 @@ export function Header() {
             </a>
 
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Menüyü aç"
@@ -193,6 +253,7 @@ export function Header() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={overlayRef}
             id={MOBILE_MENU_ID}
             role="dialog"
             aria-modal="true"
@@ -207,6 +268,7 @@ export function Header() {
             <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6 md:h-[72px]">
               <Wordmark light />
               <button
+                ref={closeButtonRef}
                 type="button"
                 onClick={closeMenu}
                 aria-label="Menüyü kapat"

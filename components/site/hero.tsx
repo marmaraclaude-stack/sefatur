@@ -3,28 +3,17 @@
 /**
  * AuroraMeshHero — "Mermer Sabahı" açık hero bölümü.
  * Aurora blob'lar, kendini çizen kıyı çizgisi + rota SVG'si ve
- * yukarı doğru sıralı (staggered) giriş animasyonu.
+ * yukarı doğru sıralı (staggered) CSS giriş animasyonu
+ * (hidrasyon beklemeden çalışır, sunucu HTML'inde opacity:0 yok).
  */
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { CalendarClock, CheckCircle2, MoveRight, Phone } from "lucide-react";
 import { BRAND, HERO } from "@/lib/copy";
 import { CONTACT, ROUTE_STOPS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-/* Sıralı giriş animasyonu (above-the-fold olduğu için animate, whileInView değil) */
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
-};
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
-  },
-};
+/* Sıralı giriş: animate-fade-up + satır başına 0.08s gecikme */
+const fadeUpDelay = (i: number) => ({ animationDelay: `${i * 0.08}s` });
 
 /* Rota SVG'si — batıdan doğuya 5 durak (dekoratif, soyut) */
 const STOP_POINTS = [
@@ -139,49 +128,44 @@ export function Hero() {
       {/* Yazının arkasında: kıyı + rota çizimi */}
       <RouteArt reduceMotion={reduceMotion} />
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="visible"
-        className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center px-4 text-center sm:px-6"
-      >
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center px-4 text-center sm:px-6">
         {/* Kicker rozeti */}
-        <motion.p
-          variants={item}
-          className="inline-flex items-center gap-2 rounded-full bg-sand px-4 py-1.5 text-sm font-medium text-ink/80 ring-1 ring-ink/10"
+        <p
+          className="animate-fade-up inline-flex items-center gap-2 rounded-full bg-sand px-4 py-1.5 text-sm font-medium text-ink/80 ring-1 ring-ink/10"
+          style={fadeUpDelay(0)}
         >
           <span aria-hidden="true" className="size-1.5 rounded-full bg-teal" />
           {BRAND.tagline}
-        </motion.p>
+        </p>
 
         {/* Başlık */}
-        <motion.h1
-          variants={item}
+        <h1
           id="hero-baslik"
-          className="mt-6 font-heading text-5xl font-extrabold tracking-tight text-balance text-ink sm:text-6xl lg:text-7xl"
+          className="animate-fade-up mt-6 font-heading text-5xl font-extrabold tracking-tight text-balance text-ink sm:text-6xl lg:text-7xl"
+          style={fadeUpDelay(1)}
         >
           {headBefore}
           <span className="text-teal">{HERO.highlight}</span>
           {headAfter}
-        </motion.h1>
+        </h1>
 
         {/* Alt başlık */}
-        <motion.p
-          variants={item}
-          className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink/70"
+        <p
+          className="animate-fade-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink/70"
+          style={fadeUpDelay(2)}
         >
           {HERO.subheadline}
-        </motion.p>
+        </p>
 
         {/* Güzergâh şeridi */}
-        <motion.p
-          variants={item}
-          className="mt-7 inline-flex max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 rounded-full bg-white/60 px-5 py-2 ring-1 ring-ink/10"
+        <p
+          className="animate-fade-up mt-7 inline-flex max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 rounded-full bg-white/60 px-5 py-2 ring-1 ring-ink/10"
+          style={fadeUpDelay(3)}
         >
           {ROUTE_STOPS.map((stop, i) => (
             <span
               key={stop.id}
-              className="inline-flex items-center gap-x-2.5 font-digits text-[11px] font-medium tracking-[0.18em] text-teal uppercase sm:text-xs"
+              className="inline-flex items-center gap-x-2.5 font-digits text-xs font-medium tracking-[0.18em] text-teal uppercase"
             >
               {i > 0 ? (
                 <MoveRight aria-hidden="true" className="size-3.5 text-teal/50" />
@@ -189,12 +173,12 @@ export function Hero() {
               {stop.name}
             </span>
           ))}
-        </motion.p>
+        </p>
 
         {/* Çift CTA */}
-        <motion.div
-          variants={item}
-          className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row"
+        <div
+          className="animate-fade-up mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row"
+          style={fadeUpDelay(4)}
         >
           <a
             href="#seferler"
@@ -224,12 +208,12 @@ export function Hero() {
               {CONTACT.phoneDisplay}
             </span>
           </a>
-        </motion.div>
+        </div>
 
         {/* Güven rozetleri */}
-        <motion.ul
-          variants={item}
-          className="mt-10 flex flex-wrap items-center justify-center gap-2.5"
+        <ul
+          className="animate-fade-up mt-10 flex flex-wrap items-center justify-center gap-2.5"
+          style={fadeUpDelay(5)}
         >
           {HERO.badges.map((badge) => (
             <li
@@ -240,8 +224,8 @@ export function Hero() {
               {badge}
             </li>
           ))}
-        </motion.ul>
-      </motion.div>
+        </ul>
+      </div>
     </section>
   );
 }

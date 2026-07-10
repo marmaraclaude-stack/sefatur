@@ -107,13 +107,16 @@ export function NextDeparture() {
               className="mt-5 flex min-h-[104px] flex-wrap items-center justify-between gap-x-6 gap-y-4 sm:mt-6"
             >
               <div className="flex min-w-0 items-start gap-3">
-                <span
-                  aria-hidden
-                  className="mt-1 h-3 w-3 shrink-0 rounded-full bg-amber animate-beacon motion-reduce:animate-none"
-                />
+                <span aria-hidden className="relative mt-1 inline-flex h-3 w-3 shrink-0">
+                  <span className="h-3 w-3 rounded-full bg-amber" />
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 rounded-full bg-amber/50 animate-beacon-ping motion-reduce:animate-none"
+                  />
+                </span>
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-ink/60">{TICKER.nextLabel}</p>
-                  <p className="mt-1 max-w-[28ch] text-xs leading-relaxed text-ink/45">
+                  <p className="mt-1 max-w-[28ch] text-xs leading-relaxed text-ink/60">
                     {departure.point.note}
                   </p>
                 </div>

@@ -136,10 +136,8 @@ export function Footer() {
           </FadeIn>
 
           {/* Alt bar */}
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-mist/60">
-            <p>
-              © {new Date().getFullYear()} {BRAND.name} — Marmara Adası
-            </p>
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-mist/85">
+            <p>© {BRAND.name} — Marmara Adası</p>
             <p>Topağaç Köyü, Marmara / Balıkesir</p>
           </div>
         </div>

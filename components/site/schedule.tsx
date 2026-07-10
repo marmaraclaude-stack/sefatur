@@ -209,12 +209,17 @@ export function Schedule() {
                         "bg-white/[0.03] ring-white/5",
                       (state === "neutral" || state === "future") &&
                         "bg-white/5 ring-white/10",
-                      isNext &&
-                        "bg-amber/10 ring-amber/40 animate-beacon motion-reduce:animate-none"
+                      isNext && "bg-amber/10 ring-amber/40"
                     )}
                   >
                     {isNext ? (
-                      <span className="absolute inset-x-0 top-1.5 text-[10px] font-semibold uppercase tracking-widest text-amber/80">
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 rounded-2xl bg-amber/20 animate-beacon-ping motion-reduce:animate-none"
+                      />
+                    ) : null}
+                    {isNext ? (
+                      <span className="absolute inset-x-0 top-1.5 text-[11px] font-semibold uppercase tracking-widest text-amber/80">
                         sıradaki
                       </span>
                     ) : null}
@@ -223,7 +228,7 @@ export function Schedule() {
                       className={cn(
                         "font-digits text-2xl font-semibold sm:text-3xl",
                         state === "past" &&
-                          "text-mist/40 line-through decoration-mist/30 decoration-1",
+                          "text-mist/60 line-through decoration-mist/30 decoration-1",
                         (state === "neutral" || state === "future") &&
                           "text-white",
                         isNext && "text-amber"

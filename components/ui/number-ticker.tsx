@@ -2,7 +2,7 @@
 
 /** Görünüme girince 0'dan hedefe sayan sayaç — tabular rakamlarla zıplamaz. */
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "motion/react";
+import { useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export function NumberTicker({
@@ -20,10 +20,16 @@ export function NumberTicker({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reducedMotion = useReducedMotion();
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
+    // Hareket azaltma tercihinde animasyonu atla, doğrudan hedef değeri göster.
+    if (reducedMotion) {
+      const raf = requestAnimationFrame(() => setDisplay(value));
+      return () => cancelAnimationFrame(raf);
+    }
     let raf: number;
     let start: number | null = null;
     const step = (ts: number) => {
@@ -35,7 +41,7 @@ export function NumberTicker({
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, duration]);
+  }, [inView, value, duration, reducedMotion]);
 
   return (
     <span ref={ref} className={cn("font-digits tabular-nums", className)}>

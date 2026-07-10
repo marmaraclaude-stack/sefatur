@@ -6,10 +6,11 @@
  * dalgalı bir hat + yolculuk eden minibüs işaretiyle; mobilde dikey
  * bir zaman çizelgesiyle anlatır. Durak verisi lib/data.ts'ten gelir.
  */
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -80,13 +81,32 @@ export function RouteTimeline() {
   /** Hareket azaltma tercihinde hat baştan tamamlanmış görünür. */
   const progress = useTransform(smoothed, (v) => (reduceMotion ? 1 : v));
 
-  const busLeft = useTransform(
-    progress,
-    (p) => `${(pointAt(p).x / VB_W) * 100}%`
+  /**
+   * Minibüs işareti transform (translate) ile konumlanır — 'left'/'top'
+   * animasyonu her karede layout tetiklediği için kap piksel cinsinden
+   * ölçülür ve x/y MotionValue'ları üretilir.
+   */
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const trackW = useMotionValue(0);
+  const trackH = useMotionValue(0);
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = trackRef.current;
+      if (!el) return;
+      trackW.set(el.offsetWidth);
+      trackH.set(el.offsetHeight);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [trackW, trackH]);
+
+  const busX = useTransform(
+    () => (pointAt(progress.get()).x / VB_W) * trackW.get()
   );
-  const busTop = useTransform(
-    progress,
-    (p) => `${(pointAt(p).y / VB_H) * 100}%`
+  const busY = useTransform(
+    () => (pointAt(progress.get()).y / VB_H) * trackH.get()
   );
 
   return (
@@ -117,7 +137,7 @@ export function RouteTimeline() {
 
         {/* ————— Masaüstü: yatay yolculuk ————— */}
         <div className="mt-16 hidden lg:block">
-          <div aria-hidden className="relative h-44">
+          <div aria-hidden ref={trackRef} className="relative h-44">
             <svg
               className="absolute inset-0 h-full w-full"
               viewBox={`0 0 ${VB_W} ${VB_H}`}
@@ -187,8 +207,8 @@ export function RouteTimeline() {
 
             {/* Hat boyunca yolculuk eden minibüs */}
             <motion.div
-              className="absolute z-10"
-              style={{ left: busLeft, top: busTop }}
+              className="absolute left-0 top-0 z-10"
+              style={{ x: busX, y: busY }}
             >
               <div className="flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-navy shadow-[0_0_28px_rgba(45,212,191,0.45)] ring-2 ring-glow">
                 <BusFront className="h-5 w-5 text-glow" strokeWidth={2} />
@@ -208,7 +228,7 @@ export function RouteTimeline() {
                   className="relative px-3 text-center"
                 >
                   {isCenter ? (
-                    <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-sand px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-ink">
+                    <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-full bg-sand px-2 py-0.5 text-[11px] font-bold uppercase tracking-[0.12em] text-ink">
                       {CENTER_TAG}
                     </span>
                   ) : null}
@@ -265,7 +285,7 @@ export function RouteTimeline() {
                       {stop.name}
                     </h3>
                     {isCenter ? (
-                      <span className="rounded-full bg-sand px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-ink">
+                      <span className="rounded-full bg-sand px-2 py-0.5 text-[11px] font-bold uppercase tracking-[0.12em] text-ink">
                         {CENTER_TAG}
                       </span>
                     ) : null}
