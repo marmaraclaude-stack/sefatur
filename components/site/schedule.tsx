@@ -30,7 +30,7 @@ export function Schedule() {
     <section
       id="seferler"
       aria-label={SCHEDULE_COPY.title}
-      className="relative overflow-hidden bg-linear-to-b from-navy to-deep py-14 sm:py-20"
+      className="relative overflow-hidden bg-linear-to-b from-navy to-deep py-10 sm:py-14"
     >
       {/* Zemin dokusu */}
       <div

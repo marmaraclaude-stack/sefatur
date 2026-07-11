@@ -21,7 +21,7 @@ function specIcon(spec: string): LucideIcon {
 /** Araçlarımız: iki araç kartı; görsel üstünde cam rozet, gövdede ikonlu spec satırı. */
 export function Fleet() {
   return (
-    <section id="araclar" className="bg-sand py-14 sm:py-20">
+    <section id="araclar" className="bg-sand py-10 sm:py-14">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <SectionHeading title={FLEET.title} subtitle={FLEET.subtitle} />
 
@@ -39,18 +39,14 @@ export function Fleet() {
                       sizes="(min-width: 768px) 660px, 100vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-ink/30 to-transparent"
-                    />
-                    <p className="absolute bottom-4 left-4 rounded-full border border-white/50 bg-white/80 px-3.5 py-1.5 text-sm font-semibold text-ink backdrop-blur">
-                      {vehicle.role}
-                    </p>
                   </div>
                   <div className="p-6 sm:p-7">
                     <h3 className="text-xl font-bold tracking-tight text-ink">
                       {vehicle.name}
                     </h3>
+                    <p className="mt-1 text-[15px] text-ink/60">
+                      {vehicle.role}
+                    </p>
                     <ul className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-ink/10 pt-4">
                       {vehicle.specs.map((spec, j) => {
                         const Icon = specIcon(spec);

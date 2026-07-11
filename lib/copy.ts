@@ -118,9 +118,9 @@ export const FLEET = {
 export const ISLAND = {
   title: "Marmara Adası",
   subtitle:
-    "Antik adı Prokonnesos olan Marmara Adası; mermeri, zeytinlikleri ve berrak koylarıyla Türkiye'nin ikinci büyük adasıdır.",
+    "Antik adı Prokonnesos olan Marmara Adası, mermeri, zeytinlikleri ve berrak koylarıyla Türkiye'nin ikinci büyük adasıdır.",
   paragraphs: [
-    "Marmara Denizi adını bu adadan alır. Saraylar'daki mermer ocakları iki bin beş yüz yıldır işletilir; Ayasofya'nın mermerleri de buradan çıkarılmıştır. Bugün Saraylar'daki Açık Hava Mermer Müzesi ücretsiz gezilebilir.",
+    "Marmara Denizi adını bu adadan alır. Saraylar'daki mermer ocakları iki bin beş yüz yıldır işletilir. Ayasofya'nın mermerleri de buradan çıkarılmıştır. Bugün Saraylar'daki Açık Hava Mermer Müzesi ücretsiz gezilebilir.",
     "Adaya İstanbul'dan sezonluk deniz otobüsü, Erdek ve Tekirdağ'dan yıl boyu feribot seferleri vardır. Ada içinde köyler arası ulaşımı minibüs hatları sağlar. Marmara iskelesine inen yolcular, seferlerimizle Topağaç ve Saraylar yönüne aktarma yapabilir.",
   ],
   stats: [
@@ -153,7 +153,7 @@ export const FAQ = {
     },
     {
       q: "Şoförlü araç kiralama nasıl yapılıyor?",
-      a: "Bizi arıyorsunuz; tarih ve güzergâh netleşince size net bir fiyat veriyoruz. Araçlar her zaman deneyimli şoförümüzle birlikte kiralanır.",
+      a: "Bizi arıyorsunuz, tarih ve güzergâh netleşince size net bir fiyat veriyoruz. Araçlar her zaman deneyimli şoförümüzle birlikte kiralanır.",
     },
     {
       q: "Öğrenci servisine kayıt nasıl oluyor?",
@@ -161,11 +161,11 @@ export const FAQ = {
     },
     {
       q: "Sefer saatleri değişir mi?",
-      a: "Kış ve yaz dönemlerinde saatlerde güncelleme olabilir; yoğun sezonda ek sefer konulabilir. En güncel tarife için bu sayfaya bakabilir veya bizi arayabilirsiniz.",
+      a: "Kış ve yaz dönemlerinde saatlerde güncelleme olabilir, yoğun sezonda ek sefer konulabilir. En güncel tarife için bu sayfaya bakabilir veya bizi arayabilirsiniz.",
     },
     {
       q: "Kaç kişilik grupları taşıyabilirsiniz?",
-      a: "Minibüslerimiz 16+1 koltukludur. Daha kalabalık gruplar için iki aracımızla birlikte plan yapabiliyoruz; tarihiniz netleşince bizi aramanız yeterli.",
+      a: "Minibüslerimiz 16+1 koltukludur. Daha kalabalık gruplar için iki aracımızla birlikte plan yapabiliyoruz. Tarihiniz netleşince bizi aramanız yeterli.",
     },
   ],
 } as const;

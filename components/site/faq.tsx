@@ -93,7 +93,7 @@ export function FaqAccordion() {
   return (
     <section
       id="sss"
-      className="relative overflow-hidden bg-sand py-14 sm:py-20"
+      className="relative overflow-hidden bg-sand py-10 sm:py-14"
     >
       {/* Zemin: nokta deseni */}
       <div

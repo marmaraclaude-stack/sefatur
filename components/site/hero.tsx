@@ -64,7 +64,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-linear-to-b from-sand via-marble to-marble pt-28 pb-16 md:pt-36 sm:pb-20"
+      className="relative overflow-hidden bg-linear-to-b from-sand via-marble to-marble pt-28 pb-12 md:pt-32 sm:pb-16"
     >
       {/* Zemin: nokta deseni + renk lekeleri */}
       <div

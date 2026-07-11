@@ -13,7 +13,7 @@ export function Footer() {
   return (
     <footer
       id="iletisim"
-      className="relative overflow-hidden bg-linear-to-b from-navy to-deep pt-14 pb-28 lg:pb-12"
+      className="relative overflow-hidden bg-linear-to-b from-navy to-deep pt-10 pb-28 lg:pb-10"
     >
       {/* Zemin dokusu: parıltı lekeleri */}
       <div
