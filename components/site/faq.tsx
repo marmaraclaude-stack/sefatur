@@ -91,8 +91,16 @@ export function FaqAccordion() {
   const right = FAQ.items.map((item, i) => ({ item, i })).filter((x) => x.i % 2 === 1);
 
   return (
-    <section id="sss" className="bg-sand py-14 sm:py-20">
-      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+    <section
+      id="sss"
+      className="relative overflow-hidden bg-sand py-14 sm:py-20"
+    >
+      {/* Zemin: nokta deseni */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 [background-image:radial-gradient(circle,rgb(56_87_55/0.06)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(32rem_at_10%_90%,black,transparent)]"
+      />
+      <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <SectionHeading align="left" title={FAQ.title} subtitle={FAQ.subtitle} />
 
         <FadeIn delay={0.05} className="mt-8 grid items-start gap-x-5 lg:grid-cols-2">

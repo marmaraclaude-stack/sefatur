@@ -163,6 +163,10 @@ export const FAQ = {
       q: "Sefer saatleri değişir mi?",
       a: "Kış ve yaz dönemlerinde saatlerde güncelleme olabilir; yoğun sezonda ek sefer konulabilir. En güncel tarife için bu sayfaya bakabilir veya bizi arayabilirsiniz.",
     },
+    {
+      q: "Kaç kişilik grupları taşıyabilirsiniz?",
+      a: "Minibüslerimiz 16+1 koltukludur. Daha kalabalık gruplar için iki aracımızla birlikte plan yapabiliyoruz; tarihiniz netleşince bizi aramanız yeterli.",
+    },
   ],
 } as const;
 

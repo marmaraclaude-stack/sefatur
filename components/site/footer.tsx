@@ -15,11 +15,6 @@ export function Footer() {
       id="iletisim"
       className="relative overflow-hidden bg-linear-to-b from-navy to-deep pt-14 pb-28 lg:pb-12"
     >
-      {/* Üst kenar: gökyüzü gradyanlı ince çizgi */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-sky/70 to-transparent"
-      />
       {/* Zemin dokusu: parıltı lekeleri */}
       <div
         aria-hidden
@@ -62,24 +57,24 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Sağ: iletişim kartı */}
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur sm:p-8">
+          {/* Sağ: kompakt iletişim kartı */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur lg:justify-self-end lg:w-full lg:max-w-md">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/25 to-transparent"
             />
-            <p className="text-base text-mist">
+            <p className="text-sm text-mist">
               {CONTACT.name} · {CONTACT.title}
             </p>
             <a
               href={CONTACT.phoneHref}
-              className="mt-3 flex w-fit flex-wrap items-center gap-x-4 gap-y-2 rounded-xl text-[clamp(1.9rem,4.5vw,3rem)] font-extrabold tracking-tight text-white transition-colors hover:text-skylight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
+              className="mt-2.5 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 rounded-xl text-[clamp(1.5rem,2.6vw,2rem)] font-extrabold tracking-tight text-white transition-colors hover:text-skylight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
             >
               <span
                 aria-hidden
-                className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-sky to-skylight text-ink"
+                className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-sky to-skylight text-ink"
               >
-                <Phone className="size-6" />
+                <Phone className="size-5" />
               </span>
               {CONTACT.phoneDisplay}
             </a>
@@ -87,10 +82,10 @@ export function Footer() {
               href={MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex min-h-11 items-center gap-2.5 rounded-md text-mist transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
+              className="mt-3 inline-flex min-h-11 items-center gap-2.5 rounded-md text-mist transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
             >
               <MapPin className="size-5 shrink-0" aria-hidden />
-              <span className="text-base leading-relaxed">{CONTACT.base}</span>
+              <span className="text-[15px] leading-relaxed">{CONTACT.base}</span>
             </a>
           </div>
         </div>

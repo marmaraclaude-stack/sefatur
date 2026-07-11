@@ -13,8 +13,20 @@ import { SectionHeading } from "@/components/ui/section-heading";
  */
 export function IslandStory() {
   return (
-    <section id="ada" className="bg-marble py-14 sm:py-20">
-      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+    <section
+      id="ada"
+      className="relative overflow-hidden bg-marble py-14 sm:py-20"
+    >
+      {/* Zemin: yumuşak parıltılar */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-40 right-[-8%] size-[30rem] rounded-full bg-ice/60 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-48 left-[-10%] size-[26rem] rounded-full bg-forest/[0.07] blur-3xl"
+      />
+      <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <FadeIn>
           <SectionHeading
             title={ISLAND.title}

@@ -108,8 +108,20 @@ export function RouteMap() {
   }, []);
 
   return (
-    <section id="guzergah" className="bg-marble py-14 sm:py-20">
-      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+    <section
+      id="guzergah"
+      className="relative overflow-hidden bg-marble py-14 sm:py-20"
+    >
+      {/* Zemin: yumuşak buz mavisi parıltı + nokta deseni */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 left-[-8%] size-[30rem] rounded-full bg-ice/60 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 [background-image:radial-gradient(circle,rgb(56_87_55/0.07)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(30rem_at_88%_12%,black,transparent)]"
+      />
+      <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <FadeIn>
           <SectionHeading
             align="left"
