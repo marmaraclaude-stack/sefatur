@@ -113,7 +113,7 @@ export function Header() {
             <a
               href={CONTACT.phoneHref}
               aria-label={`${CONTACT_COPY.callCta}: ${CONTACT.phoneDisplay}`}
-              className="flex h-11 w-11 items-center justify-center gap-2 rounded-full bg-amber text-ink shadow-sm ring-1 ring-black/10 outline-none transition hover:brightness-95 focus-visible:ring-2 focus-visible:ring-teal sm:w-auto sm:rounded-xl sm:px-5"
+              className="flex h-11 w-11 items-center justify-center gap-2 rounded-full bg-amber text-ink shadow-sm ring-1 ring-black/10 outline-none transition hover:brightness-95 focus-visible:ring-2 focus-visible:ring-teal sm:w-auto sm:rounded-full sm:px-5"
             >
               <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
               <span className="hidden font-digits text-base font-semibold tracking-tight sm:inline">
@@ -128,7 +128,7 @@ export function Header() {
               aria-label="Menüyü aç"
               aria-expanded={open}
               aria-controls={MOBILE_MENU_ID}
-              className="flex h-11 w-11 items-center justify-center rounded-xl text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal lg:hidden"
             >
               <Menu className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -156,7 +156,7 @@ export function Header() {
               type="button"
               onClick={closeMenu}
               aria-label="Menüyü kapat"
-              className="flex h-11 w-11 items-center justify-center rounded-xl text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal"
             >
               <X className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -165,14 +165,14 @@ export function Header() {
           {/* Bağlantı listesi */}
           <nav
             aria-label={BRAND.name}
-            className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-5 pt-4 sm:px-8"
+            className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-5 pt-1 sm:px-8"
           >
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={closeMenu}
-                className="border-b border-ink/10 py-4 text-2xl font-semibold tracking-tight text-ink outline-none transition-colors hover:text-teal focus-visible:ring-2 focus-visible:ring-teal"
+                className="border-b border-ink/10 py-3.5 text-2xl font-semibold tracking-tight text-ink outline-none transition-colors hover:text-teal focus-visible:ring-2 focus-visible:ring-teal"
               >
                 {link.label}
               </a>
@@ -184,7 +184,7 @@ export function Header() {
             <a
               href={CONTACT.phoneHref}
               onClick={closeMenu}
-              className="flex min-h-12 items-center justify-center gap-3 rounded-xl bg-amber px-6 py-3 text-base font-semibold text-ink shadow-sm ring-1 ring-black/10 outline-none transition hover:brightness-95 focus-visible:ring-2 focus-visible:ring-teal"
+              className="flex min-h-12 items-center justify-center gap-3 rounded-full bg-linear-to-r from-sky to-skylight px-6 py-3 text-base font-bold text-ink shadow-card outline-none transition hover:brightness-95 focus-visible:ring-2 focus-visible:ring-teal"
             >
               <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
               <span className="flex flex-col items-start leading-tight">
@@ -201,7 +201,7 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={closeMenu}
-              className="flex min-h-12 items-center justify-center gap-2 rounded-xl border border-ink/15 bg-white px-6 py-3 text-base font-semibold text-ink outline-none transition-colors hover:border-ink/30 focus-visible:ring-2 focus-visible:ring-teal"
+              className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-3 text-base font-semibold text-ink outline-none transition-colors hover:border-ink/30 focus-visible:ring-2 focus-visible:ring-teal"
             >
               <MessageCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
               {CONTACT_COPY.whatsappCta}

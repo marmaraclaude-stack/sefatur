@@ -1,6 +1,6 @@
 import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 import { BRAND, CONTACT_COPY, NAV_LINKS, SCHEDULE_COPY } from "@/lib/copy";
-import { CONTACT, STOPS } from "@/lib/data";
+import { CONTACT } from "@/lib/data";
 
 const MAPS_URL = "https://maps.google.com/?q=Topağaç,+Marmara,+Balıkesir";
 
@@ -42,14 +42,14 @@ export function Footer() {
                 href={CONTACT.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight sm:w-auto"
               >
                 <MessageCircle className="size-5" aria-hidden />
                 {CONTACT_COPY.whatsappCta}
               </a>
               <a
                 href="#seferler"
-                className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight sm:w-auto"
               >
                 <Clock className="size-5" aria-hidden />
                 {SCHEDULE_COPY.title}
@@ -90,24 +90,24 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bilgi ızgarası: marka · bağlantılar · duraklar */}
-        <div className="mt-14 grid gap-10 border-t border-white/10 pt-10 lg:grid-cols-3">
+        {/* Bilgi ızgarası: marka + bağlantılar */}
+        <div className="mt-10 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-2 sm:items-start">
           <div>
             <p className="text-xl font-bold tracking-tight text-white">
               {BRAND.name}
             </p>
-            <p className="mt-3 max-w-sm text-base leading-relaxed text-mist">
+            <p className="mt-2 max-w-sm text-base leading-relaxed text-mist">
               {BRAND.subtitle}
             </p>
           </div>
 
-          <nav aria-label="Site içi bağlantılar">
-            <ul className="grid max-w-xs grid-cols-2 gap-x-8">
+          <nav aria-label="Site içi bağlantılar" className="sm:justify-self-end">
+            <ul className="grid grid-cols-2 gap-x-10">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="inline-flex min-h-11 items-center rounded-md text-base text-mist transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
+                    className="inline-flex min-h-10 items-center rounded-md text-base text-mist transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
                   >
                     {link.label}
                   </a>
@@ -115,29 +115,10 @@ export function Footer() {
               ))}
             </ul>
           </nav>
-
-          <ul className="space-y-2.5">
-            {STOPS.map((stop) => (
-              <li
-                key={stop.id}
-                className="flex items-center gap-3 text-base text-mist"
-              >
-                <span
-                  aria-hidden
-                  className={
-                    stop.kind === "main"
-                      ? "size-2 shrink-0 rounded-full bg-sky shadow-[0_0_8px] shadow-sky/60"
-                      : "size-2 shrink-0 rounded-full bg-sage"
-                  }
-                />
-                {stop.name}
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* Alt bar */}
-        <div className="mt-10 border-t border-white/10 pt-6 text-sm text-mist/90">
+        <div className="mt-8 border-t border-white/10 pt-5 text-sm text-mist/90">
           <p>© {BRAND.name}, Marmara Adası</p>
         </div>
       </div>

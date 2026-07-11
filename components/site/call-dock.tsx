@@ -81,20 +81,20 @@ export function CallDock() {
         >
           <nav
             aria-label="Hızlı arama ve sıradaki sefer"
-            className="pointer-events-auto mx-3 mb-[max(env(safe-area-inset-bottom),12px)] grid grid-cols-2 overflow-hidden rounded-xl border border-ink/15 bg-white shadow-lg"
+            className="pointer-events-auto mx-3 mb-[max(env(safe-area-inset-bottom),12px)] grid grid-cols-2 overflow-hidden rounded-full border border-ink/15 bg-white shadow-lg"
           >
             <a
               href={CONTACT.phoneHref}
-              className="flex min-h-[52px] items-center justify-center gap-2 bg-amber font-semibold text-ink transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal"
+              className="flex min-h-[52px] items-center justify-center gap-2 bg-linear-to-r from-sky to-skylight font-bold text-ink transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest"
             >
               <Phone className="size-5" aria-hidden />
               {CONTACT_COPY.callCta}
             </a>
             <a
               href="#seferler"
-              className="flex min-h-[52px] flex-col items-center justify-center bg-white text-ink transition-colors hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal"
+              className="flex min-h-[52px] flex-col items-center justify-center bg-white text-ink transition-colors hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest"
             >
-              <span className="text-xs font-medium uppercase tracking-wide text-teal">
+              <span className="text-xs font-medium uppercase tracking-wide text-forest">
                 {SCHEDULE_COPY.nextLabel}
               </span>
               <span className="max-w-full truncate px-2 font-digits text-sm font-semibold whitespace-nowrap">

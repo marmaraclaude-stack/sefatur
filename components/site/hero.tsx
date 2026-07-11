@@ -112,14 +112,14 @@ export function Hero() {
             >
               <a
                 href="#seferler"
-                className="inline-flex h-13 items-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-7 text-base font-bold text-ink shadow-lg shadow-sky/30 inset-ring-1 inset-ring-white/45 transition hover:shadow-xl hover:shadow-sky/35 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-7 text-base font-bold text-ink shadow-lg shadow-sky/30 inset-ring-1 inset-ring-white/45 transition hover:shadow-xl hover:shadow-sky/35 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
               >
                 <Clock aria-hidden="true" className="size-5 shrink-0" />
                 {HERO.ctaPrimary}
               </a>
               <a
                 href={CONTACT.phoneHref}
-                className="inline-flex h-13 items-center gap-2.5 rounded-full border border-white/80 bg-white/70 px-6 text-base font-semibold text-ink shadow-card ring-1 ring-ink/5 backdrop-blur-md transition hover:bg-white hover:text-forest hover:ring-forest/25 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-white/80 bg-white/70 px-6 text-base font-semibold text-ink shadow-card ring-1 ring-ink/5 backdrop-blur-md transition hover:bg-white hover:text-forest hover:ring-forest/25 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
               >
                 <Phone aria-hidden="true" className="size-5 shrink-0 text-forest" />
                 <span className="whitespace-nowrap">{CONTACT.phoneDisplay}</span>
@@ -128,7 +128,7 @@ export function Hero() {
 
             {/* Mikro istatistik satırı: küçük ikonlu düz öğeler, ince çizgilerle ayrılır */}
             <div
-              className="animate-fade-up mt-9 flex flex-wrap items-center gap-x-0 gap-y-3"
+              className="animate-fade-up mt-8 flex flex-col items-start gap-2.5 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-y-3"
               style={{ animationDelay: "0.24s" }}
             >
               {HERO.facts.map((fact, i) => {
@@ -138,7 +138,7 @@ export function Hero() {
                     {i > 0 ? (
                       <span
                         aria-hidden
-                        className="mx-4 h-5 w-px bg-ink/10 sm:mx-5"
+                        className="mx-4 hidden h-5 w-px bg-ink/10 sm:mx-5 sm:block"
                       />
                     ) : null}
                     <span className="flex items-center gap-2">
@@ -158,7 +158,7 @@ export function Hero() {
 
           {/* Sağ sütun: gradyan çerçeveli fotoğraf + yüzen kartlar */}
           <div
-            className="animate-fade-up relative mb-10 lg:mb-6"
+            className="animate-fade-up relative sm:mb-10 lg:mb-6"
             style={{ animationDelay: "0.12s" }}
           >
             {/* Gradyan çerçeve */}
@@ -186,9 +186,10 @@ export function Hero() {
             </div>
 
             {/* Yüzen canlı sefer kartı: ince gradyan kenarlıklı cam */}
+            {/* Mobilde fotoğrafın altında tam genişlik, sm ve üzeri yüzen kart */}
             <a
               href="#seferler"
-              className="group absolute -bottom-7 left-4 block max-w-[calc(100%-2rem)] rounded-2xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg transition hover:from-sky/60 hover:to-skylight/40 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:left-6"
+              className="group mt-3 block w-full rounded-2xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg transition hover:from-sky/60 hover:to-skylight/40 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:absolute sm:-bottom-7 sm:left-6 sm:mt-0 sm:w-auto sm:max-w-[calc(100%-3rem)]"
             >
               <span className="flex items-center gap-3 rounded-[calc(1rem-1px)] bg-white/80 px-4 py-3.5 backdrop-blur-2xl sm:px-5">
                 <span

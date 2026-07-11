@@ -162,7 +162,7 @@ export function Services() {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href={CONTACT.phoneHref}
-                className="inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-6 text-base font-bold text-ink shadow-card transition hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-6 text-base font-bold text-ink shadow-card transition hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
               >
                 <Phone aria-hidden className="size-5" />
                 <span className="whitespace-nowrap">{CONTACT.phoneDisplay}</span>
@@ -171,7 +171,7 @@ export function Services() {
                 href={CONTACT.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-ink/10 bg-white px-5 text-base font-semibold text-ink transition-colors hover:border-forest/40 hover:text-forest focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/10 bg-white px-5 text-base font-semibold text-ink transition-colors hover:border-forest/40 hover:text-forest focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
               >
                 <MessageCircle aria-hidden className="size-5" />
                 {CONTACT_COPY.whatsappCta}
