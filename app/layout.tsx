@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Montserrat } from "next/font/google";
+import { Geist } from "next/font/google";
 import { MotionProvider } from "@/components/ui/motion-provider";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -7,13 +7,6 @@ import "./globals.css";
 const geist = Geist({
   variable: "--font-geist",
   subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin", "latin-ext"],
-  weight: ["600", "700", "800"],
   display: "swap",
 });
 
@@ -66,7 +59,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#13233C",
+  themeColor: "#2C4630",
   width: "device-width",
   initialScale: 1,
 };
@@ -79,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${geist.variable} ${montserrat.variable} h-full antialiased`}
+      className={`${geist.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip">
         {/* JS kapalıyken motion'ın gizli başlangıç stillerini etkisizleştir */}

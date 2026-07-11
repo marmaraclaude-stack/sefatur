@@ -17,7 +17,7 @@ export const HERO = {
   ctaPrimary: "Sefer Saatleri",
   ctaSecondary: "Hemen Ara",
   /** Pill değil, düz satır olarak gösterilir */
-  facts: ["Günde 12 sefer", "3 ana durak", "Topağaç merkezli"],
+  facts: ["Günde 12 sefer", "3 ana durak", "Her gün hizmette"],
 } as const;
 
 export const SCHEDULE_COPY = {
@@ -91,6 +91,8 @@ export const SERVICES = {
       ],
     },
   ],
+  pricingNote: "Tur, öğrenci servisi ve kiralama fiyatları için",
+  pricingLink: "bize ulaşın",
 } as const;
 
 export const FLEET = {
@@ -122,10 +124,10 @@ export const ISLAND = {
     "Adaya İstanbul'dan sezonluk deniz otobüsü, Erdek ve Tekirdağ'dan yıl boyu feribot seferleri vardır. Ada içinde köyler arası ulaşımı minibüs hatları sağlar. Marmara iskelesine inen yolcular, seferlerimizle Topağaç ve Saraylar yönüne aktarma yapabilir.",
   ],
   stats: [
-    { value: "3", label: "Ana durak" },
-    { value: "12", label: "Günlük sefer" },
-    { value: "16+1", label: "Koltuk düzeni" },
-    { value: "117 km²", label: "Ada yüzölçümü" },
+    { value: 3, suffix: "", label: "Ana durak" },
+    { value: 12, suffix: "", label: "Günlük sefer" },
+    { value: 16, suffix: "+1", label: "Koltuk düzeni" },
+    { value: 117, suffix: " km²", label: "Ada yüzölçümü" },
   ],
 } as const;
 
@@ -171,6 +173,17 @@ export const CONTACT_COPY = {
   callCta: "Hemen Ara",
   whatsappCta: "WhatsApp'tan Yaz",
 } as const;
+
+/** Hero altındaki akan şerit (marquee) öğeleri */
+export const MARQUEE_ITEMS = [
+  "Günde 12 sefer",
+  "3 ana durak",
+  "Klimalı araçlar",
+  "16+1 koltuk",
+  "Sigortalı taşımacılık",
+  "Yerel şoförler",
+  "Feribot saatlerine uyumlu",
+] as const;
 
 export const NAV_LINKS = [
   { href: "#seferler", label: "Seferler" },

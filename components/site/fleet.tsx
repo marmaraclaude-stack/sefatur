@@ -9,11 +9,11 @@ const VEHICLE_IMAGES = [IMAGES.fleet1, IMAGES.fleet2];
 /** Araçlarımız: sade beyaz kartlarda iki araç, fotoğraf + kısa bilgi. */
 export function Fleet() {
   return (
-    <section id="araclar" className="bg-sand py-16 sm:py-24">
+    <section id="araclar" className="bg-sand py-14 sm:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <SectionHeading title={FLEET.title} subtitle={FLEET.subtitle} />
 
-        <ul className="mt-10 grid gap-6 md:grid-cols-2">
+        <ul className="mt-8 grid gap-6 md:grid-cols-2 sm:mt-10">
           {FLEET.vehicles.map((vehicle, i) => {
             const image = VEHICLE_IMAGES[i] ?? VEHICLE_IMAGES[0];
             return (
@@ -30,16 +30,23 @@ export function Fleet() {
                   </div>
                   <div className="p-6 sm:p-7">
                     <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                      <h3 className="font-heading text-xl font-bold tracking-tight text-ink">
+                      <h3 className="text-xl font-bold tracking-tight text-ink">
                         {vehicle.name}
                       </h3>
-                      <p className="text-sm font-semibold text-teal">
+                      <p className="text-sm font-semibold text-forest">
                         {vehicle.role}
                       </p>
                     </div>
-                    <p className="mt-2 text-base text-ink/70">
-                      {vehicle.specs.join("  ·  ")}
-                    </p>
+                    <ul className="mt-3 flex flex-wrap gap-2">
+                      {vehicle.specs.map((spec) => (
+                        <li
+                          key={spec}
+                          className="rounded-full bg-ice px-3 py-1 text-[13px] font-semibold text-forest"
+                        >
+                          {spec}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </article>
               </FadeIn>

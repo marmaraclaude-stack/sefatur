@@ -17,16 +17,21 @@ export function Footer() {
   return (
     <footer
       id="iletisim"
-      className="relative overflow-hidden bg-navy pt-16 pb-28 lg:pb-12"
+      className="relative overflow-hidden bg-linear-to-b from-navy to-deep pt-14 pb-28 lg:pb-12"
     >
+      {/* Üst kenar: gökyüzü gradyanlı ince çizgi */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-sky/70 to-transparent"
+      />
       {/* Zemin dokusu */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-48 left-1/3 size-[36rem] rounded-full bg-glow/[0.05] blur-3xl"
+        className="pointer-events-none absolute -top-48 left-1/3 size-[36rem] rounded-full bg-skylight/[0.07] blur-3xl"
       />
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         {/* Başlık */}
-        <h2 className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
           {CONTACT_COPY.title}
         </h2>
         <p className="mt-3 max-w-2xl text-lg leading-relaxed text-mist">
@@ -40,7 +45,7 @@ export function Footer() {
           </p>
           <a
             href={CONTACT.phoneHref}
-            className="mt-2 block w-fit rounded-md font-digits text-[clamp(2rem,6vw,3.5rem)] font-semibold text-white transition-colors hover:text-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow"
+            className="mt-2 block w-fit rounded-md text-[clamp(2rem,6vw,3.5rem)] font-extrabold tracking-tight text-white transition-colors hover:text-skylight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
           >
             {CONTACT.phoneDisplay}
           </a>

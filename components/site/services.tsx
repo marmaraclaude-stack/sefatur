@@ -1,25 +1,24 @@
+/**
+ * Hizmetler: bento ızgara. Ana hizmet (hat seferleri) iki sütunluk koyu
+ * kartta, canlı ilk/son sefer bilgisiyle öne çıkar; diğerleri hover'da
+ * gradyan kenarlık kazanan beyaz kartlardır. Kart içi arama düğmesi yok;
+ * fiyat yönlendirmesi bölüm sonunda tek zarif satırdır.
+ */
 import {
+  ArrowRight,
   BusFront,
   Check,
+  Clock,
   GraduationCap,
   KeyRound,
   Map,
-  Phone,
   type LucideIcon,
 } from "lucide-react";
 import { SERVICES } from "@/lib/copy";
-import { CONTACT } from "@/lib/data";
+import { SCHEDULE } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { FadeIn } from "@/components/ui/fade-in";
 import { SectionHeading } from "@/components/ui/section-heading";
-
-/**
- * Hizmetler bölümü: eşit yükseklikte 4 kart.
- * "hat" kartı ana hizmet olarak koyu lacivert kartla öne çıkar;
- * diğerleri katmanlı gölgeli beyaz kartlardır. "kiralama" kartında
- * küçük bir arama bağlantısı bulunur (buton değil, tekrar azaltıldı).
- * Sunucu bileşeni; animasyon yalnızca FadeIn (client) ile.
- */
 
 type ServiceId = (typeof SERVICES.items)[number]["id"];
 
@@ -30,9 +29,14 @@ const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
   kiralama: KeyRound,
 };
 
+/** Günün ilk ve son kalkışı (tüm noktalar arasında) */
+const ALL_TIMES = SCHEDULE.flatMap((p) => p.times).sort();
+const FIRST_TIME = ALL_TIMES[0];
+const LAST_TIME = ALL_TIMES[ALL_TIMES.length - 1];
+
 export function Services() {
   return (
-    <section id="hizmetler" className="bg-marble py-16 sm:py-24">
+    <section id="hizmetler" className="bg-marble py-14 sm:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <SectionHeading
           align="left"
@@ -40,33 +44,57 @@ export function Services() {
           subtitle={SERVICES.subtitle}
         />
 
-        <div className="mt-10 grid grid-cols-1 items-stretch gap-5 sm:mt-12 sm:grid-cols-2 xl:grid-cols-4">
+        {/* Bento: [hat x2][tur] / [servis][kiralama x2] */}
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 lg:grid-cols-3">
           {SERVICES.items.map((item, index) => {
             const Icon = SERVICE_ICONS[item.id];
             const isPrimary = item.id === "hat";
+            const wide = item.id === "hat" || item.id === "kiralama";
             return (
-              <FadeIn key={item.id} delay={index * 0.06} className="h-full">
+              <FadeIn
+                key={item.id}
+                delay={index * 0.06}
+                className={cn("h-full", wide && "lg:col-span-2")}
+              >
                 <article
                   className={cn(
-                    "flex h-full flex-col rounded-2xl p-6 transition duration-300 sm:p-7",
+                    "group relative flex h-full flex-col overflow-hidden rounded-2xl p-6 transition duration-300 sm:p-8",
                     isPrimary
-                      ? "bg-navy text-white shadow-card-lg"
-                      : "border border-ink/[0.06] bg-white shadow-card hover:-translate-y-1 hover:shadow-card-lg"
+                      ? "bg-linear-to-br from-navy to-deep text-white shadow-card-lg"
+                      : "border border-ink/[0.06] bg-white shadow-card hover:-translate-y-1 hover:border-sky/40 hover:shadow-card-lg"
                   )}
                 >
-                  <div
-                    aria-hidden
-                    className={cn(
-                      "flex h-11 w-11 items-center justify-center rounded-xl",
-                      isPrimary ? "bg-glow/15 text-glow" : "bg-teal/10 text-teal"
-                    )}
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={1.75} />
+                  {isPrimary ? (
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute -top-24 -right-24 size-72 rounded-full bg-skylight/15 blur-3xl"
+                    />
+                  ) : null}
+
+                  <div className="relative flex flex-wrap items-start justify-between gap-4">
+                    <div
+                      aria-hidden
+                      className={cn(
+                        "flex size-12 items-center justify-center rounded-xl",
+                        isPrimary
+                          ? "bg-skylight/15 text-skylight"
+                          : "bg-ice text-forest"
+                      )}
+                    >
+                      <Icon className="size-6" strokeWidth={1.75} />
+                    </div>
+
+                    {isPrimary ? (
+                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-skylight">
+                        <Clock aria-hidden className="size-4" />
+                        Her gün {FIRST_TIME} ile {LAST_TIME} arasında
+                      </span>
+                    ) : null}
                   </div>
 
                   <h3
                     className={cn(
-                      "font-heading mt-4 text-lg font-bold tracking-tight",
+                      "relative mt-4 text-xl font-bold tracking-tight",
                       isPrimary ? "text-white" : "text-ink"
                     )}
                   >
@@ -74,14 +102,19 @@ export function Services() {
                   </h3>
                   <p
                     className={cn(
-                      "mt-2 text-base leading-relaxed",
+                      "relative mt-2 max-w-2xl text-base leading-relaxed",
                       isPrimary ? "text-mist" : "text-ink/70"
                     )}
                   >
                     {item.description}
                   </p>
 
-                  <ul className="mt-4 space-y-2">
+                  <ul
+                    className={cn(
+                      "relative mt-5 grid gap-x-8 gap-y-2.5",
+                      wide && "sm:grid-cols-3"
+                    )}
+                  >
                     {item.highlights.map((highlight) => (
                       <li
                         key={highlight}
@@ -94,32 +127,37 @@ export function Services() {
                           aria-hidden
                           className={cn(
                             "mt-0.5 w-4 shrink-0",
-                            isPrimary ? "text-glow" : "text-teal"
+                            isPrimary ? "text-skylight" : "text-forest"
                           )}
                         />
                         <span>{highlight}</span>
                       </li>
                     ))}
                   </ul>
-
-                  {item.id === "kiralama" ? (
-                    <div className="mt-auto pt-5">
-                      <a
-                        href={CONTACT.phoneHref}
-                        className="group inline-flex items-center gap-2 rounded text-[15px] font-semibold text-teal transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-teal focus-visible:outline-none"
-                      >
-                        <Phone aria-hidden className="h-4 w-4 shrink-0" />
-                        <span className="underline decoration-teal/30 decoration-2 underline-offset-4 group-hover:decoration-ink/30">
-                          Fiyat için arayın
-                        </span>
-                      </a>
-                    </div>
-                  ) : null}
                 </article>
               </FadeIn>
             );
           })}
         </div>
+
+        {/* Fiyat yönlendirmesi: tek zarif satır */}
+        <FadeIn delay={0.15}>
+          <p className="mt-8 text-base text-ink/60">
+            {SERVICES.pricingNote}{" "}
+            <a
+              href="#iletisim"
+              className="group inline-flex items-center gap-1.5 rounded font-semibold text-forest transition-colors hover:text-sky focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
+            >
+              <span className="underline decoration-forest/30 decoration-2 underline-offset-4 group-hover:decoration-sky/50">
+                {SERVICES.pricingLink}
+              </span>
+              <ArrowRight
+                aria-hidden
+                className="size-4 transition-transform group-hover:translate-x-0.5"
+              />
+            </a>
+          </p>
+        </FadeIn>
       </div>
     </section>
   );

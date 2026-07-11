@@ -13,13 +13,13 @@ const OUT = join(__dirname, "..", "public", "images");
 mkdirSync(OUT, { recursive: true });
 
 const C = {
-  navy: "#13233C",
-  deep: "#0B1728",
+  navy: "#2C4630",
+  deep: "#182B1A",
   white: "#FFFFFF",
-  mist: "#9FB1C4",
-  glow: "#2DD4BF",
-  amber: "#F5A524",
-  ink: "#101D30",
+  mist: "#B9CFD2",
+  glow: "#67D6FF",
+  amber: "#3EB5FF",
+  ink: "#0F2015",
 };
 
 const W = 1200;

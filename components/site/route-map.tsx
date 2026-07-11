@@ -15,20 +15,20 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { FadeIn } from "@/components/ui/fade-in";
 import { cn } from "@/lib/utils";
 
-const TEAL = "#0E7490";
-const VIA_GRAY = "#64748B";
+const ROUTE_BLUE = "#3EB5FF";
+const VIA_SAGE = "#759B9E";
 
 function markerHtml(kind: "main" | "via"): string {
   if (kind === "main") {
     return (
       '<span style="display:block;width:18px;height:18px;border-radius:9999px;' +
-      `background:${TEAL};border:3px solid #ffffff;box-sizing:content-box;` +
-      'box-shadow:0 1px 3px rgba(16,29,48,0.35);"></span>'
+      `background:${ROUTE_BLUE};border:3px solid #ffffff;box-sizing:content-box;` +
+      'box-shadow:0 1px 3px rgba(15,32,21,0.35);"></span>'
     );
   }
   return (
     '<span style="display:block;width:12px;height:12px;border-radius:9999px;' +
-    `background:${VIA_GRAY};"></span>`
+    `background:${VIA_SAGE};"></span>`
   );
 }
 
@@ -67,7 +67,7 @@ export function RouteMap() {
       }).addTo(map);
 
       L.polyline(ROUTE_WAYPOINTS, {
-        color: TEAL,
+        color: ROUTE_BLUE,
         weight: 4,
         opacity: 0.9,
       }).addTo(map);
@@ -108,7 +108,7 @@ export function RouteMap() {
   }, []);
 
   return (
-    <section id="guzergah" className="bg-marble py-16 sm:py-24">
+    <section id="guzergah" className="bg-marble py-14 sm:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <FadeIn>
           <SectionHeading
@@ -118,7 +118,7 @@ export function RouteMap() {
           />
         </FadeIn>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr] lg:items-start">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[2fr_1fr] lg:items-start sm:mt-10">
           <FadeIn>
             <div
               ref={containerRef}
@@ -129,23 +129,28 @@ export function RouteMap() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <ul className="flex flex-col gap-6">
+            {/* Durak listesi: bağlantı çizgili zaman çizelgesi */}
+            <ul className="relative flex flex-col gap-7">
+              <span
+                aria-hidden="true"
+                className="absolute top-2 bottom-2 left-[8px] w-px bg-linear-to-b from-sky/60 via-sage/40 to-sky/60"
+              />
               {STOPS.map((stop) => (
-                <li key={stop.id} className="flex items-start gap-4">
+                <li key={stop.id} className="relative flex items-start gap-4">
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "mt-1.5 shrink-0 rounded-full",
+                      "relative z-10 mt-1 shrink-0 rounded-full",
                       stop.kind === "main"
-                        ? "size-[18px] border-[3px] border-white bg-teal shadow-sm"
-                        : "mx-[3px] size-3 bg-[#64748B]"
+                        ? "size-[17px] border-[3px] border-white bg-sky shadow-sm ring-1 ring-sky/30"
+                        : "mx-[2.5px] mt-1.5 size-3 bg-sage"
                     )}
                   />
                   <div>
-                    <p className="text-lg font-semibold text-ink">
+                    <p className="text-lg font-bold tracking-tight text-ink">
                       {stop.name}
                       {stop.kind === "via" ? (
-                        <span className="ml-2 text-sm font-normal text-ink/70">
+                        <span className="ml-2 text-sm font-medium text-sage">
                           ara durak
                         </span>
                       ) : null}
@@ -157,8 +162,11 @@ export function RouteMap() {
                 </li>
               ))}
             </ul>
-            <p className="mt-8 flex items-start gap-2 text-sm text-ink/70">
-              <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+            <p className="mt-7 flex items-start gap-2 rounded-xl bg-sand px-4 py-3 text-sm text-ink/70">
+              <Info
+                aria-hidden="true"
+                className="mt-0.5 size-4 shrink-0 text-forest"
+              />
               {ROUTE_COPY.mapNote}
             </p>
           </FadeIn>

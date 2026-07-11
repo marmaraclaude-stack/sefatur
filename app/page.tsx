@@ -1,5 +1,6 @@
 import { Header } from "@/components/site/header";
 import { Hero } from "@/components/site/hero";
+import { MarqueeStrip } from "@/components/site/marquee-strip";
 import { Schedule } from "@/components/site/schedule";
 import { RouteMap } from "@/components/site/route-map";
 import { Services } from "@/components/site/services";
@@ -24,6 +25,7 @@ export default function Home() {
       <Header />
       <main id="top" className="flex-1">
         <Hero />
+        <MarqueeStrip />
         <Schedule />
         <RouteMap />
         <Services />

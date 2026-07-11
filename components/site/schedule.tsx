@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Sefer Saatleri: sitenin ana bölümü, koyu lacivert pano.
+ * Sefer Saatleri: sitenin ana bölümü, koyu orman yeşili pano.
  * Üç kalkış noktası aynı anda görünür (sekme yok). Saatlerin tek
  * kaynağı lib/data.ts; canlı "sıradaki sefer" durumu mount sonrası
  * hesaplanır, ilk render'da tüm satırlar nötrdür (hydration güvenli).
@@ -30,12 +30,16 @@ export function Schedule() {
     <section
       id="seferler"
       aria-label={SCHEDULE_COPY.title}
-      className="relative overflow-hidden bg-navy py-16 sm:py-24"
+      className="relative overflow-hidden bg-linear-to-b from-navy to-deep py-14 sm:py-20"
     >
       {/* Zemin dokusu */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 size-[40rem] -translate-x-1/2 rounded-full bg-glow/[0.05] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-skylight/[0.07] blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 [background-image:radial-gradient(circle,rgb(207_238_252/0.05)_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(36rem_at_18%_88%,black,transparent)]"
       />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
@@ -47,7 +51,7 @@ export function Schedule() {
         />
 
         {/* Üç kalkış noktası, tek bakışta */}
-        <div className="mt-10 grid gap-5 md:grid-cols-3 sm:mt-12">
+        <div className="mt-8 grid gap-5 md:grid-cols-3 sm:mt-10">
           {SCHEDULE.map((point, index) => {
             const departure = live?.departures.find(
               (d) => d.point.id === point.id
@@ -63,12 +67,12 @@ export function Schedule() {
 
             return (
               <FadeIn key={point.id} delay={index * 0.08}>
-                <article className="flex h-full flex-col rounded-2xl bg-white/[0.04] p-6 ring-1 ring-white/10 transition-colors hover:ring-white/20 sm:p-7">
-                  <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-heading text-xl font-bold tracking-tight text-white sm:text-2xl">
+                <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-sm transition-colors hover:border-skylight/30 sm:p-7">
+                  <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xl font-bold tracking-tight text-white sm:text-2xl">
                     <span>{point.name}</span>
                     <ArrowRight
                       aria-hidden
-                      className="size-6 shrink-0 text-glow"
+                      className="size-6 shrink-0 text-skylight"
                     />
                     <span>{point.to}</span>
                   </h3>
@@ -83,29 +87,29 @@ export function Schedule() {
                       return (
                         <li
                           key={time}
-                          className="flex items-center justify-between gap-3 border-b border-white/[0.06] py-2.5 last:border-0"
+                          className="flex items-center justify-between gap-3 border-b border-white/[0.07] py-2.5 last:border-0"
                         >
                           <time
                             dateTime={time}
                             className={cn(
-                              "font-digits text-2xl leading-relaxed tracking-tight sm:text-3xl",
+                              "text-2xl leading-relaxed tracking-tight sm:text-3xl",
                               state === "past" && "text-white/50",
                               (state === "neutral" || state === "future") &&
                                 "font-medium text-white",
-                              isNext && "font-bold text-glow"
+                              isNext && "font-bold text-skylight"
                             )}
                           >
                             {time}
                           </time>
 
                           {isNext && departure?.minutesLeft != null ? (
-                            <span className="flex shrink-0 items-center gap-2 text-sm font-medium text-glow">
+                            <span className="flex shrink-0 items-center gap-2 text-sm font-semibold text-skylight">
                               <span
                                 aria-hidden
                                 className="relative flex size-2.5"
                               >
-                                <span className="absolute inset-0 rounded-full bg-amber animate-beacon-ping motion-reduce:animate-none" />
-                                <span className="relative size-2.5 rounded-full bg-amber" />
+                                <span className="absolute inset-0 rounded-full bg-sky animate-beacon-ping motion-reduce:animate-none" />
+                                <span className="relative size-2.5 rounded-full bg-sky" />
                               </span>
                               sıradaki · {formatMinutes(departure.minutesLeft)}
                             </span>
@@ -126,24 +130,27 @@ export function Schedule() {
           })}
         </div>
 
-        {/* Notlar + tek küçük arama bağlantısı */}
-        <FadeIn delay={0.1} className="mt-12">
-          <ul className="max-w-3xl space-y-3">
+        {/* Notlar: tam genişlikte üç sütun + tek küçük arama bağlantısı */}
+        <FadeIn delay={0.1} className="mt-10">
+          <ul className="grid gap-4 lg:grid-cols-3">
             {SCHEDULE_COPY.notes.map((note) => (
               <li
                 key={note}
-                className="flex items-start gap-3 text-base leading-relaxed text-mist"
+                className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-4 py-3.5 text-[15px] leading-relaxed text-mist"
               >
-                <Info aria-hidden className="mt-1 size-5 shrink-0 text-glow" />
+                <Info
+                  aria-hidden
+                  className="mt-0.5 size-5 shrink-0 text-skylight"
+                />
                 <span>{note}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-base text-mist">
+          <p className="mt-7 text-base text-mist">
             {SCHEDULE_COPY.callNote}{" "}
             <a
               href={CONTACT.phoneHref}
-              className="font-digits font-semibold whitespace-nowrap text-glow underline decoration-glow/30 decoration-2 underline-offset-4 transition hover:decoration-glow focus-visible:ring-2 focus-visible:ring-glow focus-visible:outline-none rounded"
+              className="font-semibold whitespace-nowrap text-skylight underline decoration-skylight/30 decoration-2 underline-offset-4 transition hover:decoration-skylight focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none rounded"
             >
               {CONTACT.phoneDisplay}
             </a>

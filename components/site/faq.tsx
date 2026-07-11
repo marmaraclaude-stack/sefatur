@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * SSS: tek seferde bir sorunun açık olduğu sade akordeon.
- * Sorular tek kart içinde ince çizgilerle ayrılır; bölüm sonunda
- * iletişime yönlendiren küçük bir bağlantı vardır (buton tekrarı yok).
+ * SSS: tek seferde bir sorunun açık olduğu akordeon.
+ * Geniş ekranda iki sütuna yayılır (tam genişlik kullanımı);
+ * bölüm sonunda iletişime yönlendiren küçük bir bağlantı vardır.
  */
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -13,77 +13,119 @@ import { cn } from "@/lib/utils";
 import { FadeIn } from "@/components/ui/fade-in";
 import { SectionHeading } from "@/components/ui/section-heading";
 
+type Item = (typeof FAQ.items)[number];
+
+function FaqItem({
+  item,
+  index,
+  isOpen,
+  onToggle,
+}: {
+  item: Item;
+  index: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const triggerId = `sss-soru-${index}`;
+  const panelId = `sss-cevap-${index}`;
+  return (
+    <div
+      className={cn(
+        "mb-4 rounded-2xl border bg-white shadow-card transition-colors",
+        isOpen ? "border-sky/40" : "border-ink/[0.06]"
+      )}
+    >
+      <h3>
+        <button
+          type="button"
+          id={triggerId}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          onClick={onToggle}
+          className="flex min-h-14 w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left transition-colors hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest sm:px-6"
+        >
+          <span className="text-lg font-semibold text-ink">{item.q}</span>
+          <span
+            aria-hidden="true"
+            className={cn(
+              "flex size-8 shrink-0 items-center justify-center rounded-full transition",
+              isOpen ? "bg-ice text-forest" : "bg-sand text-forest"
+            )}
+          >
+            <ChevronDown
+              className={cn(
+                "size-5 transition-transform duration-200",
+                isOpen && "rotate-180"
+              )}
+            />
+          </span>
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {isOpen ? (
+          <motion.div
+            id={panelId}
+            role="region"
+            aria-labelledby={triggerId}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <p className="px-5 pb-5 text-base leading-relaxed text-ink/70 sm:px-6">
+              {item.a}
+            </p>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(0);
+  const left = FAQ.items.map((item, i) => ({ item, i })).filter((x) => x.i % 2 === 0);
+  const right = FAQ.items.map((item, i) => ({ item, i })).filter((x) => x.i % 2 === 1);
 
   return (
-    <section id="sss" className="bg-sand py-16 sm:py-24">
+    <section id="sss" className="bg-sand py-14 sm:py-20">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <SectionHeading align="left" title={FAQ.title} subtitle={FAQ.subtitle} />
 
-        <FadeIn
-          delay={0.05}
-          className="mt-10 max-w-3xl divide-y divide-ink/[0.06] rounded-2xl border border-ink/[0.06] bg-white shadow-card"
-        >
-          {FAQ.items.map((item, i) => {
-            const isOpen = open === i;
-            const triggerId = `sss-soru-${i}`;
-            const panelId = `sss-cevap-${i}`;
-            return (
-              <div key={item.q}>
-                  <h3>
-                    <button
-                      type="button"
-                      id={triggerId}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onClick={() => setOpen(isOpen ? null : i)}
-                      className="flex min-h-14 w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-marble/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal sm:px-7 sm:py-5"
-                    >
-                      <span className="text-lg font-semibold text-ink">
-                        {item.q}
-                      </span>
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={cn(
-                          "w-5 shrink-0 text-teal transition-transform duration-200",
-                          isOpen && "rotate-180"
-                        )}
-                      />
-                    </button>
-                  </h3>
-                  <AnimatePresence initial={false}>
-                    {isOpen ? (
-                      <motion.div
-                        id={panelId}
-                        role="region"
-                        aria-labelledby={triggerId}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="overflow-hidden"
-                      >
-                        <p className="px-5 pb-5 text-base leading-relaxed text-ink/70 sm:px-7 sm:pb-6">
-                          {item.a}
-                        </p>
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
-                </div>
-            );
-          })}
+        <FadeIn delay={0.05} className="mt-8 grid items-start gap-x-5 lg:grid-cols-2">
+          <div>
+            {left.map(({ item, i }) => (
+              <FaqItem
+                key={item.q}
+                item={item}
+                index={i}
+                isOpen={open === i}
+                onToggle={() => setOpen(open === i ? null : i)}
+              />
+            ))}
+          </div>
+          <div>
+            {right.map(({ item, i }) => (
+              <FaqItem
+                key={item.q}
+                item={item}
+                index={i}
+                isOpen={open === i}
+                onToggle={() => setOpen(open === i ? null : i)}
+              />
+            ))}
+          </div>
         </FadeIn>
 
-        {/* Buton tekrarı yerine iletişime küçük yönlendirme */}
-        <FadeIn delay={0.15}>
-          <p className="mt-8 text-base text-ink/70">
+        <FadeIn delay={0.1}>
+          <p className="mt-4 text-base text-ink/70">
             Sorunuz mu var?{" "}
             <a
               href="#iletisim"
-              className="group inline-flex items-center gap-1.5 rounded font-semibold text-teal transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-teal focus-visible:outline-none"
+              className="group inline-flex items-center gap-1.5 rounded font-semibold text-forest transition-colors hover:text-sky focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
             >
-              <span className="underline decoration-teal/30 decoration-2 underline-offset-4 group-hover:decoration-ink/30">
+              <span className="underline decoration-forest/30 decoration-2 underline-offset-4 group-hover:decoration-sky/50">
                 Bize ulaşın
               </span>
               <ArrowRight

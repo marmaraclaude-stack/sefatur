@@ -2,24 +2,29 @@
 @import "leaflet/dist/leaflet.css";
 
 /* ————————————————————————————————
-   SEFATUR tasarım tokenları (minimal)
-   Tek yazı ailesi: Geist. Tek vurgu rengi + arama düğmeleri için amber.
+   SEFATUR tasarım tokenları
+   Palet: orman yeşili + gökyüzü mavileri
+   #385737 · #759B9E · #3EB5FF · #67D6FF · #CFEEFC
+   Tek yazı ailesi: Geist (başlıklarda farklı kalınlıklar).
    ———————————————————————————————— */
 @theme inline {
   /* Renkler */
-  --color-ink: #101d30; /* ana metin, koyu lacivert */
-  --color-navy: #13233c; /* koyu bölüm zemini (footer) */
-  --color-deep: #0b1728; /* footer gradyan ucu */
-  --color-marble: #fafaf8; /* açık bölüm zemini */
-  --color-sand: #f1f2f4; /* alternatif açık zemin, kart dolgusu */
-  --color-teal: #0e7490; /* vurgu: bağlantı, aktif durum */
-  --color-glow: #2dd4bf; /* koyu zemin üzerinde vurgu */
-  --color-amber: #f5a524; /* SADECE arama düğmeleri */
-  --color-mist: #9fb1c4; /* koyu zeminde ikincil metin */
+  --color-ink: #0f2015; /* ana metin: çok koyu yeşil-siyah */
+  --color-forest: #385737; /* marka yeşili: vurgu metni, ikonlar */
+  --color-navy: #2c4630; /* koyu bölüm zemini (orman tonu) */
+  --color-deep: #182b1a; /* koyu bölüm gradyan ucu */
+  --color-marble: #fafcfe; /* açık bölüm zemini */
+  --color-sand: #e9f5fc; /* soluk mavi bölüm zemini */
+  --color-ice: #cfeefc; /* açık mavi: çip/karo dolgusu, vurgu bloğu */
+  --color-sage: #759b9e; /* adaçayı: ikincil işaretler, ara durak */
+  --color-sky: #3eb5ff; /* ana eylem mavisi (düğmeler) */
+  --color-skylight: #67d6ff; /* gradyan ucu, koyu zeminde parıltı */
+  --color-glow: #67d6ff; /* koyu zeminde vurgu (eski ad korunur) */
+  --color-amber: #3eb5ff; /* arama düğmeleri artık gökyüzü mavisi */
+  --color-mist: #b9cfd2; /* koyu zeminde ikincil metin */
 
-  /* Fontlar: başlıklar Montserrat, gövde Geist (SF sistem yedeğiyle).
-     Rakamlar da Geist kullanır (tabular-nums gövdede açık, mono yok). */
-  --font-heading: var(--font-montserrat), -apple-system, BlinkMacSystemFont,
+  /* Fontlar: yalnızca Geist */
+  --font-heading: var(--font-geist), -apple-system, BlinkMacSystemFont,
     "Segoe UI", ui-sans-serif, sans-serif;
   --font-body: var(--font-geist), -apple-system, BlinkMacSystemFont,
     "Segoe UI", ui-sans-serif, sans-serif;
@@ -27,15 +32,24 @@
     ui-sans-serif, sans-serif;
 
   /* Katmanlı yumuşak gölgeler */
-  --shadow-card: 0 1px 2px rgb(16 29 48 / 0.04),
-    0 8px 24px -8px rgb(16 29 48 / 0.1);
-  --shadow-card-lg: 0 2px 4px rgb(16 29 48 / 0.05),
-    0 20px 48px -16px rgb(16 29 48 / 0.18);
+  --shadow-card: 0 1px 2px rgb(15 32 21 / 0.04),
+    0 8px 24px -8px rgb(15 32 21 / 0.1);
+  --shadow-card-lg: 0 2px 4px rgb(15 32 21 / 0.05),
+    0 20px 48px -16px rgb(15 32 21 / 0.18);
 
-  /* Animasyonlar (yalnızca işlevsel olanlar) */
+  /* Animasyonlar */
+  --animate-marquee: marquee 36s linear infinite;
   --animate-beacon-ping: beacon-ping 2s ease-out infinite;
   --animate-fade-up: fade-up 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
 
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
   @keyframes beacon-ping {
     0% {
       transform: scale(1);
@@ -74,8 +88,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-teal);
-  color: #ffffff;
+  background: var(--color-sky);
+  color: var(--color-ink);
 }
 
 /* Bölümlere çapa ile gelindiğinde sabit menünün altında kalmasın */
