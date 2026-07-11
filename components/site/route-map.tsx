@@ -120,29 +120,53 @@ export function RouteMap() {
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[2fr_1fr] lg:items-start sm:mt-10">
           <FadeIn>
-            <div
-              ref={containerRef}
-              role="region"
-              aria-label="Güzergâh haritası"
-              className="h-[380px] w-full overflow-hidden rounded-2xl bg-sand shadow-card sm:h-[480px]"
-            />
+            {/* Gradyan çerçeve: harita karosuna mücevher gibi ince bir kenar */}
+            <div className="rounded-[1.35rem] bg-linear-to-br from-sky/50 via-ice to-forest/30 p-[2px] shadow-card-lg">
+              <div
+                ref={containerRef}
+                role="region"
+                aria-label="Güzergâh haritası"
+                className="h-[380px] w-full overflow-hidden rounded-[1.25rem] bg-sand sm:h-[480px]"
+              />
+            </div>
           </FadeIn>
 
           <FadeIn delay={0.1}>
+            {/* Küçük lejant: nokta + düz metin, rozet değil */}
+            <div className="mb-4 flex items-center gap-6 text-sm text-ink/60">
+              <span className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="size-2.5 shrink-0 rounded-full bg-sky shadow-[0_0_8px_rgba(62,181,255,0.5)]"
+                />
+                Ana durak
+              </span>
+              <span className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="size-2.5 shrink-0 rounded-full bg-sage"
+                />
+                Ara durak
+              </span>
+            </div>
+
             {/* Durak listesi: bağlantı çizgili zaman çizelgesi */}
-            <ul className="relative flex flex-col gap-7">
+            <ul className="relative flex flex-col gap-3">
               <span
                 aria-hidden="true"
-                className="absolute top-2 bottom-2 left-[8px] w-px bg-linear-to-b from-sky/60 via-sage/40 to-sky/60"
+                className="absolute top-4 bottom-4 left-[8px] w-px bg-linear-to-b from-sky/60 via-sage/40 to-sky/60"
               />
               {STOPS.map((stop) => (
-                <li key={stop.id} className="relative flex items-start gap-4">
+                <li
+                  key={stop.id}
+                  className="relative -mx-3 flex items-start gap-4 rounded-xl px-3 py-2 transition hover:bg-sand/70"
+                >
                   <span
                     aria-hidden="true"
                     className={cn(
                       "relative z-10 mt-1 shrink-0 rounded-full",
                       stop.kind === "main"
-                        ? "size-[17px] border-[3px] border-white bg-sky shadow-sm ring-1 ring-sky/30"
+                        ? "size-[17px] border-[3px] border-white bg-sky ring-1 ring-sky/30 shadow-[0_0_12px_rgba(62,181,255,0.5)]"
                         : "mx-[2.5px] mt-1.5 size-3 bg-sage"
                     )}
                   />
@@ -162,7 +186,7 @@ export function RouteMap() {
                 </li>
               ))}
             </ul>
-            <p className="mt-7 flex items-start gap-2 rounded-xl bg-sand px-4 py-3 text-sm text-ink/70">
+            <p className="mt-5 flex items-start gap-2 rounded-xl bg-sand px-4 py-3 text-sm text-ink/70">
               <Info
                 aria-hidden="true"
                 className="mt-0.5 size-4 shrink-0 text-forest"

@@ -7,10 +7,10 @@
  * hesaplanır, ilk render'da tüm satırlar nötrdür (hydration güvenli).
  */
 
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight, Info, MessageCircle, Phone } from "lucide-react";
 
 import { CONTACT, SCHEDULE } from "@/lib/data";
-import { SCHEDULE_COPY } from "@/lib/copy";
+import { CONTACT_COPY, SCHEDULE_COPY } from "@/lib/copy";
 import {
   formatMinutes,
   timeToMinutes,
@@ -130,31 +130,63 @@ export function Schedule() {
           })}
         </div>
 
-        {/* Notlar: tam genişlikte üç sütun + tek küçük arama bağlantısı */}
+        {/* Notlar: tam genişlikte üç sütun */}
         <FadeIn delay={0.1} className="mt-10">
           <ul className="grid gap-4 lg:grid-cols-3">
             {SCHEDULE_COPY.notes.map((note) => (
               <li
                 key={note}
-                className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-4 py-3.5 text-[15px] leading-relaxed text-mist"
+                className="flex items-start gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-4 py-4"
               >
-                <Info
+                <span
                   aria-hidden
-                  className="mt-0.5 size-5 shrink-0 text-skylight"
-                />
-                <span>{note}</span>
+                  className="mt-0.5 shrink-0 rounded-lg bg-white/[0.06] p-1.5"
+                >
+                  <Info className="size-5 text-skylight" />
+                </span>
+                <p className="pt-1 text-[15px] leading-snug text-mist">
+                  {note}
+                </p>
               </li>
             ))}
           </ul>
-          <p className="mt-7 text-base text-mist">
-            {SCHEDULE_COPY.callNote}{" "}
-            <a
-              href={CONTACT.phoneHref}
-              className="font-semibold whitespace-nowrap text-skylight underline decoration-skylight/30 decoration-2 underline-offset-4 transition hover:decoration-skylight focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none rounded"
-            >
-              {CONTACT.phoneDisplay}
-            </a>
-          </p>
+        </FadeIn>
+
+        {/* Arama bandı: güncel saat için telefon ve WhatsApp */}
+        <FadeIn delay={0.16} className="mt-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-5 backdrop-blur">
+            <div className="flex min-w-0 items-center gap-3.5">
+              <span
+                aria-hidden
+                className="grid size-10 shrink-0 place-items-center rounded-lg bg-skylight/15 text-skylight"
+              >
+                <Phone className="size-5" />
+              </span>
+              <p className="text-base text-mist">{SCHEDULE_COPY.callNote}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={CONTACT.phoneHref}
+                className="inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-6 text-base font-bold text-ink shadow-card transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep"
+              >
+                <Phone aria-hidden className="size-5" />
+                <span className="whitespace-nowrap">
+                  {CONTACT.phoneDisplay}
+                </span>
+              </a>
+              <a
+                href={CONTACT.whatsappHref}
+                target="_blank"
+                rel="noopener"
+                className="inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.06] px-5 text-base font-semibold text-white transition hover:border-skylight/40 hover:bg-white/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep"
+              >
+                <MessageCircle aria-hidden className="size-5" />
+                <span className="whitespace-nowrap">
+                  {CONTACT_COPY.whatsappCta}
+                </span>
+              </a>
+            </div>
+          </div>
         </FadeIn>
 
         {/* SEO / ekran okuyucu ikizi: tüm noktaların tam tarifesi.

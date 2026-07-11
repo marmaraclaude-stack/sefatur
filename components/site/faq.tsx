@@ -42,14 +42,16 @@ function FaqItem({
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={onToggle}
-          className="flex min-h-14 w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left transition-colors hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest sm:px-6"
+          className="group flex min-h-14 w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left transition-colors hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest sm:px-6"
         >
           <span className="text-lg font-semibold text-ink">{item.q}</span>
           <span
             aria-hidden="true"
             className={cn(
               "flex size-8 shrink-0 items-center justify-center rounded-full transition",
-              isOpen ? "bg-ice text-forest" : "bg-sand text-forest"
+              isOpen
+                ? "bg-linear-to-br from-sky to-skylight text-ink"
+                : "bg-sand text-forest group-hover:bg-ice"
             )}
           >
             <ChevronDown
@@ -73,7 +75,7 @@ function FaqItem({
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 text-base leading-relaxed text-ink/70 sm:px-6">
+            <p className="mb-5 ml-5 border-l-2 border-sky/40 pl-4 pr-5 text-base leading-relaxed text-ink/70 sm:ml-6 sm:pr-6">
               {item.a}
             </p>
           </motion.div>
@@ -119,11 +121,11 @@ export function FaqAccordion() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <p className="mt-4 text-base text-ink/70">
-            Sorunuz mu var?{" "}
+          <div className="mt-6 flex w-full flex-wrap items-center justify-between gap-4 rounded-2xl border border-ink/[0.06] bg-white px-6 py-5 shadow-card">
+            <p className="text-base font-semibold text-ink">Sorunuz mu var?</p>
             <a
               href="#iletisim"
-              className="group inline-flex items-center gap-1.5 rounded font-semibold text-forest transition-colors hover:text-sky focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
+              className="group -my-2.5 inline-flex items-center gap-1.5 rounded py-2.5 text-base font-semibold text-forest transition-colors hover:text-sky focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
             >
               <span className="underline decoration-forest/30 decoration-2 underline-offset-4 group-hover:decoration-sky/50">
                 Bize ulaşın
@@ -133,7 +135,7 @@ export function FaqAccordion() {
                 className="size-4 transition-transform group-hover:translate-x-0.5"
               />
             </a>
-          </p>
+          </div>
         </FadeIn>
       </div>
     </section>
