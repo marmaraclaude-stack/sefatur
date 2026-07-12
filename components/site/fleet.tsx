@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Check, Luggage, Snowflake, Users, Zap } from "lucide-react";
+import { Snowflake, Users, Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { FLEET } from "@/lib/copy";
 import { IMAGES } from "@/lib/images";
@@ -8,17 +8,18 @@ import { SectionHeading } from "@/components/ui/section-heading";
 
 const VEHICLE_IMAGES = [IMAGES.fleet1, IMAGES.fleet2];
 
-/** Spec metnini uygun lucide ikonuna eşler (koltuk, klima, bagaj, şarj). */
+/** Spec metnini uygun lucide ikonuna eşler. */
 function specIcon(spec: string): LucideIcon {
   const s = spec.toLocaleLowerCase("tr-TR");
   if (s.includes("koltuk")) return Users;
   if (s.includes("klima")) return Snowflake;
-  if (s.includes("bagaj")) return Luggage;
-  if (s.includes("usb") || s.includes("şarj")) return Zap;
   return Check;
 }
 
-/** Araçlarımız: iki araç kartı; görsel üstünde cam rozet, gövdede ikonlu spec satırı. */
+/**
+ * Araçlarımız: iki araç kartı. Görselin üzerinde, hero'daki canlı sefer
+ * kartıyla aynı dilde cam bir plaka kartı bulunur.
+ */
 export function Fleet() {
   return (
     <section id="araclar" className="bg-sand py-10 sm:py-14">
@@ -39,22 +40,29 @@ export function Fleet() {
                       sizes="(min-width: 768px) 660px, 100vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
+
+                    {/* Plaka kartı: ince gradyan kenarlıklı cam */}
+                    <div className="absolute bottom-4 left-4 rounded-xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg">
+                      <div className="rounded-[calc(0.75rem-1px)] bg-white/85 px-4 py-2.5 backdrop-blur-xl">
+                        <span className="block text-[11px] font-semibold tracking-wide text-forest uppercase">
+                          Plaka
+                        </span>
+                        <span className="block text-base font-bold tracking-wide text-ink">
+                          {vehicle.plate}
+                        </span>
+                      </div>
+                    </div>
                   </div>
+
                   <div className="p-6 sm:p-7">
                     <h3 className="text-xl font-bold tracking-tight text-ink">
                       {vehicle.name}
                     </h3>
-                    <p className="mt-1 text-[15px] text-ink/60">
-                      {vehicle.role}
-                    </p>
                     <ul className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-ink/10 pt-4">
                       {vehicle.specs.map((spec, j) => {
                         const Icon = specIcon(spec);
                         return (
-                          <li
-                            key={spec}
-                            className="flex items-center gap-x-3"
-                          >
+                          <li key={spec} className="flex items-center gap-x-3">
                             {j > 0 ? (
                               <span aria-hidden="true" className="text-ink/30">
                                 ·

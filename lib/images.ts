@@ -3,13 +3,11 @@
  *
  * KENDİ FOTOĞRAFLARINIZI KOYMAK İÇİN:
  * 1. Fotoğrafı GitHub'da public/images/ klasörüne yükleyin
- *    (örnek dosya adı: arac-1.jpg)
- * 2. Aşağıdaki ilgili "src" değerini "/images/arac-1.jpg" yapın
+ *    ("Commit changes" derken bu branch'i seçtiğinizden emin olun)
+ * 2. Aşağıdaki ilgili "src" değerini "/images/dosyaadi.jpg" yapın
  * 3. Commit edin; Vercel 1-2 dakika içinde siteyi günceller.
  *
  * Şu an geçici olarak Pexels stok fotoğrafları kullanılıyor (hotlink).
- * Bir stok fotoğraf açılmazsa src'yi başka bir Pexels fotoğrafının
- * adresiyle veya kendi dosyanızla değiştirmeniz yeterli.
  */
 
 export type ImageSlot = {
@@ -17,38 +15,51 @@ export type ImageSlot = {
   alt: string;
 };
 
-export const IMAGES: Record<
-  "heroVehicle" | "fleet1" | "fleet2" | "islandSea" | "islandHarbor" | "islandVillage",
-  ImageSlot
-> = {
-  /** Hero bölümündeki araç fotoğrafı */
+/** Konum kartlı yer fotoğrafları (Marmara Adası bölümü) */
+export type PlaceSlot = ImageSlot & {
+  /** Fotoğraf üzerindeki konum kartında görünen ad */
+  label: string;
+};
+
+export const IMAGES: {
+  heroVehicle: ImageSlot;
+  fleet1: ImageSlot;
+  fleet2: ImageSlot;
+  placeMarmara: PlaceSlot;
+  placeTopagac: PlaceSlot;
+  placeSaraylar: PlaceSlot;
+} = {
+  /** Hero bölümündeki araç fotoğrafı (yerine: /images/FleetHero.jpg) */
   heroVehicle: {
     src: "https://images.pexels.com/photos/13297280/pexels-photo-13297280.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Beyaz panelvan minibüs",
+    alt: "SEFATUR minibüsü",
   },
-  /** Araçlarımız bölümü, 1. araç */
+  /** Araçlarımız: Citroën Jumper (yerine: /images/Fleet1.jpg) */
   fleet1: {
     src: "https://images.pexels.com/photos/18687549/pexels-photo-18687549.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Beyaz minibüs, hat seferleri aracı",
+    alt: "Citroën Jumper minibüs",
   },
-  /** Araçlarımız bölümü, 2. araç */
+  /** Araçlarımız: Opel Movano (yerine: /images/Fleet2.jpg) */
   fleet2: {
     src: "https://images.pexels.com/photos/13731636/pexels-photo-13731636.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Beyaz minibüs, tur ve özel taşımacılık aracı",
+    alt: "Opel Movano minibüs",
   },
-  /** Marmara Adası bölümü, deniz fotoğrafı */
-  islandSea: {
+  /** Ada bölümü, büyük fotoğraf: Marmara (yerine: /images/Marmara.jpg) */
+  placeMarmara: {
     src: "https://images.pexels.com/photos/23962081/pexels-photo-23962081.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Kayalık kıyıda berrak turkuaz deniz",
+    alt: "Marmara merkezden bir görünüm",
+    label: "Marmara",
   },
-  /** Marmara Adası bölümü, liman fotoğrafı */
-  islandHarbor: {
-    src: "https://images.pexels.com/photos/13081252/pexels-photo-13081252.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Limanda demirli balıkçı tekneleri",
-  },
-  /** Marmara Adası bölümü, köy fotoğrafı */
-  islandVillage: {
+  /** Ada bölümü: Topağaç (yerine: /images/Topagac.jpg) */
+  placeTopagac: {
     src: "https://images.pexels.com/photos/34482767/pexels-photo-34482767.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Taş evli bir Ege köyü sokağı",
+    alt: "Topağaç köyünden bir görünüm",
+    label: "Topağaç",
+  },
+  /** Ada bölümü: Saraylar (yerine: /images/Saraylar.jpg) */
+  placeSaraylar: {
+    src: "https://images.pexels.com/photos/13081252/pexels-photo-13081252.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: "Saraylar'dan bir görünüm",
+    label: "Saraylar",
   },
 };

@@ -26,27 +26,27 @@ export type DeparturePoint = {
   note: string;
 };
 
-/** Fotoğraftaki resmi tarifeden birebir alınmıştır. */
+/** Firma yetkilisinin verdiği güncel tarife. */
 export const SCHEDULE: DeparturePoint[] = [
   {
     id: "topagac",
     name: "Topağaç",
     to: "Marmara",
-    times: ["08:30", "10:00", "12:40", "14:30", "18:30"],
+    times: ["08:30", "10:00", "12:40", "14:45", "18:30"],
     note: "Topağaç kalkışlı seferler Marmara merkeze gider.",
   },
   {
     id: "marmara",
     name: "Marmara",
     to: "Topağaç",
-    times: ["10:30", "12:15", "13:30", "16:15", "19:30"],
+    times: ["12:15", "13:30", "16:15", "19:30"],
     note: "Marmara kalkışlı seferler Topağaç yönüne gider.",
   },
   {
     id: "saraylar",
     name: "Saraylar",
     to: "Marmara",
-    times: ["14:00", "18:00"],
+    times: ["14:20", "18:00"],
     note: "Saraylar kalkışlı seferler Asmalı ve Topağaç üzerinden Marmara merkeze gider.",
   },
 ];

@@ -17,7 +17,7 @@ export const HERO = {
   ctaPrimary: "Sefer Saatleri",
   ctaSecondary: "Hemen Ara",
   /** Pill değil, düz satır olarak gösterilir */
-  facts: ["Günde 12 sefer", "3 ana durak", "Her gün hizmette"],
+  facts: ["Günde 11 sefer", "3 ana durak", "Her gün hizmette"],
 } as const;
 
 export const SCHEDULE_COPY = {
@@ -25,7 +25,7 @@ export const SCHEDULE_COPY = {
   subtitle:
     "Saatler kalkış noktasına göredir. Asmalı, Topağaç ile Saraylar arasında ara duraktır.",
   notes: [
-    "Ara duraklara varış saati yol durumuna göre birkaç dakika değişebilir.",
+    "Seferler iki minibüsle karşılıklı yürütülür. Ara duraklara varış saati yol durumuna göre birkaç dakika değişebilir.",
     "Yoğun yaz sezonunda ek sefer konulabilir ve saatlerde güncelleme yapılabilir.",
     "Kalkış saatinden birkaç dakika önce durakta olmanızı rica ederiz.",
   ],
@@ -52,7 +52,7 @@ export const SERVICES = {
       description:
         "Marmara, Topağaç ve Saraylar arasında her gün belirli saatlerde kalkan minibüs seferleri. Saatimiz bellidir, sözümüz sözdür.",
       highlights: [
-        "Günde 12 sefer",
+        "Günde 11 sefer",
         "Sabit ve net saatler",
         "Feribot saatlerine uyumlu plan",
       ],
@@ -98,19 +98,19 @@ export const SERVICES = {
 export const FLEET = {
   title: "Araçlarımız",
   subtitle:
-    "İki adet 16+1 koltuklu, klimalı Citroën Jumper minibüs ile hizmet veriyoruz. Araçlarımız düzenli bakımdan geçer ve her sefere temiz çıkar.",
+    "Biri Citroën Jumper, biri Opel Movano olmak üzere iki adet 16+1 koltuklu, klimalı minibüs ile hizmet veriyoruz. Araçlarımız düzenli bakımdan geçer ve her sefere temiz çıkar.",
   vehicles: [
     {
-      id: "jumper-1",
+      id: "jumper",
       name: "Citroën Jumper",
-      role: "Hat seferleri",
-      specs: ["16+1 koltuk", "Klima", "Geniş bagaj"],
+      plate: "10 AOT 182",
+      specs: ["16+1 koltuk", "Klima"],
     },
     {
-      id: "jumper-2",
-      name: "Citroën Jumper",
-      role: "Tur ve özel taşımacılık",
-      specs: ["16+1 koltuk", "Klima", "USB şarj"],
+      id: "movano",
+      name: "Opel Movano",
+      plate: "10 AYC 533",
+      specs: ["16+1 koltuk", "Klima"],
     },
   ],
 } as const;
@@ -125,7 +125,7 @@ export const ISLAND = {
   ],
   stats: [
     { value: 3, suffix: "", label: "Ana durak" },
-    { value: 12, suffix: "", label: "Günlük sefer" },
+    { value: 11, suffix: "", label: "Günlük sefer" },
     { value: 16, suffix: "+1", label: "Koltuk düzeni" },
     { value: 117, suffix: " km²", label: "Ada yüzölçümü" },
   ],
@@ -180,7 +180,7 @@ export const CONTACT_COPY = {
 
 /** Hero altındaki akan şerit (marquee) öğeleri */
 export const MARQUEE_ITEMS = [
-  "Günde 12 sefer",
+  "Günde 11 sefer",
   "3 ana durak",
   "Klimalı araçlar",
   "16+1 koltuk",

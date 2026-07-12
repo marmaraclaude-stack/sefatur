@@ -1,15 +1,26 @@
 import Image from "next/image";
-import { Landmark, Ship } from "lucide-react";
+import { Landmark, MapPin, Ship } from "lucide-react";
 import { ISLAND } from "@/lib/copy";
-import { IMAGES } from "@/lib/images";
+import { IMAGES, type PlaceSlot } from "@/lib/images";
 import { FadeIn } from "@/components/ui/fade-in";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { SectionHeading } from "@/components/ui/section-heading";
 
+/** Fotoğraf üzerindeki konum kartı: MapPin + yer adı */
+function PlaceChip({ label }: { label: string }) {
+  return (
+    <span className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full border border-white/60 bg-white/85 px-3.5 py-1.5 shadow-card backdrop-blur-xl">
+      <MapPin aria-hidden className="size-4 shrink-0 text-forest" />
+      <span className="text-sm font-semibold text-ink">{label}</span>
+    </span>
+  );
+}
+
 /**
  * Marmara Adası: dergi kapağı düzeninde tam genişlik tanıtım.
- * Solda büyük deniz fotoğrafı ve üzerinde cam dokulu istatistik bandı,
- * sağda biri açık biri koyu iki içerik kartı, altta ikili fotoğraf sırası.
+ * Solda büyük Marmara fotoğrafı (konum kartı + istatistik bandı),
+ * sağda biri açık biri koyu iki içerik kartı, altta Topağaç ve
+ * Saraylar fotoğrafları (konum kartlı).
  */
 export function IslandStory() {
   return (
@@ -40,12 +51,13 @@ export function IslandStory() {
           <FadeIn delay={0.05} className="lg:col-span-7">
             <figure className="group relative min-h-[420px] overflow-hidden rounded-2xl shadow-card-lg lg:h-full">
               <Image
-                src={IMAGES.islandSea.src}
-                alt={IMAGES.islandSea.alt}
+                src={IMAGES.placeMarmara.src}
+                alt={IMAGES.placeMarmara.alt}
                 fill
                 sizes="(min-width: 1024px) 58vw, 100vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
               />
+              <PlaceChip label={IMAGES.placeMarmara.label} />
 
               {/* Fotoğraf üzerinde cam dokulu istatistik bandı */}
               <dl className="absolute inset-x-4 bottom-4 grid grid-cols-2 gap-3 rounded-xl border border-white/50 bg-white/80 px-5 py-4 backdrop-blur-xl sm:grid-cols-4">
@@ -98,21 +110,24 @@ export function IslandStory() {
           </div>
         </div>
 
-        {/* İkili fotoğraf sırası: liman ve köy */}
+        {/* İkili fotoğraf sırası: Topağaç ve Saraylar (konum kartlı) */}
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
-          {[IMAGES.islandHarbor, IMAGES.islandVillage].map((photo, index) => (
-            <FadeIn key={photo.src} delay={0.1 + index * 0.06}>
-              <figure className="group relative aspect-[16/9] overflow-hidden rounded-2xl shadow-card">
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes="(min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </figure>
-            </FadeIn>
-          ))}
+          {([IMAGES.placeTopagac, IMAGES.placeSaraylar] as PlaceSlot[]).map(
+            (photo, index) => (
+              <FadeIn key={photo.label} delay={0.1 + index * 0.06}>
+                <figure className="group relative aspect-[16/9] overflow-hidden rounded-2xl shadow-card">
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                  <PlaceChip label={photo.label} />
+                </figure>
+              </FadeIn>
+            )
+          )}
         </div>
       </div>
     </section>
