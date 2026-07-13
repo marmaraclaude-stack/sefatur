@@ -33,7 +33,9 @@ export type DeparturePoint = {
 /**
  * Firma yetkilisinin verdiği güncel tarife (duraklar arası yol
  * yaklaşık 20-25 dakikadır). Saraylar'a giden seferler Asmalı'ya
- * uğrar. Devam eden seferler her iki durakta da listelenir:
+ * uğrar. Asmalı çıkışları Topağaç üzerinden Marmara'ya iner
+ * (14:30 ve 18:20, Saraylar 14:20 ve 18:00 çıkışlarının Asmalı
+ * ayağıdır). Devam eden seferler her durakta ayrıca listelenir:
  * 12:15 ve 16:15 Marmara çıkışları Topağaç'a uğrayıp Saraylar'a
  * devam eder (Topağaç ayağı 12:40 ve 16:45 olarak listelidir),
  * Saraylar çıkışları Asmalı ve Topağaç üzerinden Marmara'ya iner
@@ -61,6 +63,15 @@ export const SCHEDULE: DeparturePoint[] = [
       { time: "13:30", to: "Topağaç" },
       { time: "16:15", to: "Saraylar", via: "Topağaç ve Asmalı üzerinden" },
       { time: "19:30", to: "Topağaç" },
+    ],
+  },
+  {
+    id: "asmali",
+    name: "Asmalı",
+    departures: [
+      { time: "09:45", to: "Marmara", via: "Topağaç üzerinden" },
+      { time: "14:30", to: "Marmara", via: "Topağaç üzerinden" },
+      { time: "18:20", to: "Marmara", via: "Topağaç üzerinden" },
     ],
   },
   {

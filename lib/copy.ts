@@ -158,7 +158,7 @@ export const FAQ = {
     },
     {
       q: "Asmalı'dan binebilir miyim?",
-      a: "Evet. Asmalı, Topağaç ile Saraylar arasındaki seferlerde ara duraktır. Saraylar kalkışlı seferler Asmalı'ya uğrar.",
+      a: "Evet. Asmalı'dan Marmara yönüne her gün belirli saatlerde sefer kalkar, Saraylar'a giden seferler de Asmalı'ya uğrar. Saatleri tarife bölümünde görebilirsiniz.",
     },
     {
       q: "Şoförlü araç kiralama nasıl yapılıyor?",

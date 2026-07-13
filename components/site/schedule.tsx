@@ -108,8 +108,12 @@ const ORIGINS = ORDER.filter((id) =>
 const FLOW_DOT: Record<string, string> = {
   topagac: "bg-skylight",
   marmara: "bg-white",
+  asmali: "bg-sky",
   saraylar: "bg-sage",
 };
+
+/** Akış şeridinde etiketlerin çakışmaması için dört seviyeli yerleşim */
+const FLOW_LEVELS = ["bottom-3.5", "top-3.5", "bottom-12", "top-12"];
 
 function Beacon() {
   return (
@@ -191,7 +195,7 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
           <p aria-hidden className="text-base font-bold text-white">
             {SCHEDULE_COPY.pickerFromLabel}
           </p>
-          <div className="mt-2.5 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
+          <div className="mt-2.5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
             {ORIGINS.map((id) => (
               <ToggleButton
                 key={id}
@@ -403,12 +407,11 @@ function DayFlow({ nowMin }: { nowMin: number | null }) {
         </ul>
       </div>
 
-      <div aria-hidden className="relative mt-4 h-28">
+      <div aria-hidden className="relative mt-4 h-40">
         {/* Çizgi */}
         <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
 
         {departures.map((departure, index) => {
-          const above = index % 2 === 0;
           const isPast = nowMin !== null && departure.min < nowMin;
           return (
             <div
@@ -428,7 +431,7 @@ function DayFlow({ nowMin }: { nowMin: number | null }) {
               <div
                 className={cn(
                   "absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap",
-                  above ? "bottom-3.5" : "top-3.5"
+                  FLOW_LEVELS[index % FLOW_LEVELS.length]
                 )}
               >
                 <span className="block text-base font-bold text-white tabular-nums">
@@ -482,8 +485,8 @@ export function Schedule() {
           subtitle={SCHEDULE_COPY.subtitle}
         />
 
-        {/* Üç kalkış noktası, tek bakışta */}
-        <div className="mt-8 grid gap-5 md:grid-cols-3 sm:mt-10">
+        {/* Kalkış noktaları, tek bakışta */}
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 sm:mt-10 xl:grid-cols-4">
           {SCHEDULE.map((point, index) => {
             const live_ = live?.departures.find(
               (d) => d.point.id === point.id
