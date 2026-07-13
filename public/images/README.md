@@ -1,13 +1,13 @@
 # Fotoğrafları Değiştirme Rehberi
 
-Sitedeki fotoğraflar şu an **Pexels stok fotoğrafları** olarak internetten geliyor.
+Sitedeki tüm fotoğraflar bu klasörde (`public/images/`) durur.
 Hangi fotoğrafın nerede kullanıldığı **`lib/images.ts`** dosyasında tanımlıdır.
 
-## Kendi fotoğrafınızı koymak için
+## Bir fotoğrafı değiştirmek için
 
-1. Fotoğrafı bu klasöre (`public/images/`) yükleyin.
+1. Yeni fotoğrafı bu klasöre yükleyin.
    GitHub'da: bu klasöre girin, "Add file" ve "Upload files" ile yükleyin, Commit edin.
-   Örnek dosya adı: `arac-1.jpg`
+   Dosya adında boşluk ve Türkçe karakter kullanmayın. Örnek: `arac-1.jpg`
 2. `lib/images.ts` dosyasını açın (GitHub'da kalem simgesiyle düzenlenir).
 3. İlgili bölümün `src` değerini kendi dosyanızla değiştirin:
 
@@ -22,17 +22,17 @@ Hangi fotoğrafın nerede kullanıldığı **`lib/images.ts`** dosyasında tanı
 
 ## Fotoğraf bölümleri (lib/images.ts içindeki isimler)
 
-| İsim | Nerede görünür | Önerilen kare |
-|---|---|---|
-| `heroVehicle` | Açılış (hero) bölümündeki büyük araç fotoğrafı | Aracın 3/4 açıdan, gündüz çekimi |
-| `fleet1` | Araçlarımız bölümü, 1. araç | Araç dış çekim |
-| `fleet2` | Araçlarımız bölümü, 2. araç | Araç dış veya iç çekim |
-| `islandSea` | Marmara Adası bölümü, 1. fotoğraf | Deniz veya koy |
-| `islandHarbor` | Marmara Adası bölümü, 2. fotoğraf | İskele veya liman |
-| `islandVillage` | Marmara Adası bölümü, 3. fotoğraf | Köyden bir görünüm |
+| İsim | Dosya | Nerede görünür | Kırpma oranı |
+|---|---|---|---|
+| `heroVehicle` | `fleet-hero.jpg` | Açılış (hero) bölümündeki büyük fotoğraf | 4:3 |
+| `fleet1` | `fleet-1.jpg` | Araçlarımız, Citroën Jumper kartı | 16:10 |
+| `fleet2` | `fleet-2.jpg` | Araçlarımız, Opel Movano kartı | 16:10 |
+| `placeMarmara` | `marmara.jpg` | Marmara Adası bölümü, büyük fotoğraf | serbest yükseklik |
+| `placeTopagac` | `topagac.jpg` | Marmara Adası bölümü, alt sol | 16:9 |
+| `placeSaraylar` | `saraylar.jpg` | Marmara Adası bölümü, alt sağ | 16:9 |
 
 **İpuçları**
-- Yatay (genişlik > yükseklik) fotoğraflar kullanın; alanlar 4:3 ve 16:10 oranında kırpılır.
-- Dosya boyutunu 500 KB altında tutun ([squoosh.app](https://squoosh.app) ile küçültebilirsiniz).
+- Yatay (genişlik > yükseklik) fotoğraflar kullanın.
+- Dosya boyutunu 700 KB altında tutun ([squoosh.app](https://squoosh.app) ile küçültebilirsiniz).
 - `og-image.jpg` dosyası WhatsApp/sosyal medya paylaşım kartıdır; değiştirmek isterseniz
   1200x630 boyutunda aynı isimle yükleyin.

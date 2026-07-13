@@ -1,13 +1,12 @@
 /**
  * SEFATUR — Görsel yapılandırması (tek yerden düzenlenebilir).
  *
- * KENDİ FOTOĞRAFLARINIZI KOYMAK İÇİN:
- * 1. Fotoğrafı GitHub'da public/images/ klasörüne yükleyin
- *    ("Commit changes" derken bu branch'i seçtiğinizden emin olun)
+ * Tüm fotoğraflar public/images/ klasöründe durur.
+ * BİR FOTOĞRAFI DEĞİŞTİRMEK İÇİN:
+ * 1. Yeni fotoğrafı GitHub'da public/images/ klasörüne yükleyin
+ *    (dosya adında boşluk ve Türkçe karakter kullanmayın)
  * 2. Aşağıdaki ilgili "src" değerini "/images/dosyaadi.jpg" yapın
  * 3. Commit edin; Vercel 1-2 dakika içinde siteyi günceller.
- *
- * Şu an geçici olarak Pexels stok fotoğrafları kullanılıyor (hotlink).
  */
 
 export type ImageSlot = {
@@ -29,37 +28,37 @@ export const IMAGES: {
   placeTopagac: PlaceSlot;
   placeSaraylar: PlaceSlot;
 } = {
-  /** Hero bölümündeki araç fotoğrafı (yerine: /images/FleetHero.jpg) */
+  /** Hero bölümündeki araç fotoğrafı */
   heroVehicle: {
-    src: "https://images.pexels.com/photos/13297280/pexels-photo-13297280.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "SEFATUR minibüsü",
+    src: "/images/fleet-hero.jpg",
+    alt: "SEFATUR'un iki minibüsü, Opel Movano ve Citroën Jumper, gün batımında sahilde yan yana",
   },
-  /** Araçlarımız: Citroën Jumper (yerine: /images/Fleet1.jpg) */
+  /** Araçlarımız: Citroën Jumper (10 AOT 182) */
   fleet1: {
-    src: "https://images.pexels.com/photos/18687549/pexels-photo-18687549.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Citroën Jumper minibüs",
+    src: "/images/fleet-1.jpg",
+    alt: "Citroën Jumper minibüsümüz Marmara Adası iskele binasının önünde",
   },
-  /** Araçlarımız: Opel Movano (yerine: /images/Fleet2.jpg) */
+  /** Araçlarımız: Opel Movano (10 AYC 533) */
   fleet2: {
-    src: "https://images.pexels.com/photos/13731636/pexels-photo-13731636.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Opel Movano minibüs",
+    src: "/images/fleet-2.jpg",
+    alt: "Opel Movano minibüsümüz iskele meydanında",
   },
-  /** Ada bölümü, büyük fotoğraf: Marmara (yerine: /images/Marmara.jpg) */
+  /** Ada bölümü, büyük fotoğraf: Marmara */
   placeMarmara: {
-    src: "https://images.pexels.com/photos/23962081/pexels-photo-23962081.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Marmara merkezden bir görünüm",
+    src: "/images/marmara.jpg",
+    alt: "Marmara merkezin ve limanın tepeden görünümü",
     label: "Marmara",
   },
-  /** Ada bölümü: Topağaç (yerine: /images/Topagac.jpg) */
+  /** Ada bölümü: Topağaç */
   placeTopagac: {
-    src: "https://images.pexels.com/photos/34482767/pexels-photo-34482767.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Topağaç köyünden bir görünüm",
+    src: "/images/topagac.jpg",
+    alt: "Topağaç köyünün, limanının ve sahilinin havadan görünümü",
     label: "Topağaç",
   },
-  /** Ada bölümü: Saraylar (yerine: /images/Saraylar.jpg) */
+  /** Ada bölümü: Saraylar */
   placeSaraylar: {
-    src: "https://images.pexels.com/photos/13081252/pexels-photo-13081252.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Saraylar'dan bir görünüm",
+    src: "/images/saraylar.jpg",
+    alt: "Saraylar sahili ve kumsalı",
     label: "Saraylar",
   },
 };
