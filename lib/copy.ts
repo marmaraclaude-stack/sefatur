@@ -23,7 +23,7 @@ export const HERO = {
 export const SCHEDULE_COPY = {
   title: "Sefer Saatleri",
   subtitle:
-    "Bulunduğunuz durağın kartına bakın, her saatin yanında aracın nereye gittiği yazar. Asmalı, Topağaç ile Saraylar arasında ara duraktır.",
+    "Nereden nereye gideceğinizi seçin, uygun saatler listelensin. Asmalı, Topağaç ile Saraylar arasında ara duraktır.",
   notes: [
     "Ara duraklara varış saati yol durumuna göre birkaç dakika değişebilir.",
     "Yoğun yaz sezonunda ek sefer konulabilir ve saatlerde güncelleme yapılabilir.",

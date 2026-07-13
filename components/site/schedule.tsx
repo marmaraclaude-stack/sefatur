@@ -2,19 +2,24 @@
 
 /**
  * Sefer Saatleri: sitenin ana bölümü, koyu orman yeşili pano.
- * Üç kalkış noktası aynı anda görünür (sekme yok). Her kartın üstünde
- * büyük rakamlı "sıradaki sefer" paneli, altında günün tüm seferleri
- * saat + varış noktasıyla satır satır durur. Geniş ekranlarda kartların
+ * En üstte "yolculuk seçici" durur: Nereden / Nereye düğmeleriyle
+ * seçilen yolculuğa uyan seferler büyük, okunaklı satırlar halinde
+ * listelenir (ara durak Asmalı dahil, güzergâh kapsama mantığıyla).
+ * Altında üç kalkış noktası aynı anda görünür (sekme yok). Her kartın
+ * üstünde büyük rakamlı "sıradaki sefer" paneli, altında günün tüm
+ * seferleri saat + varış noktasıyla durur. Geniş ekranlarda kartların
  * altında günün tüm kalkışlarını kronolojik gösteren "Günün seferleri"
- * şeridi bulunur. Saatlerin tek kaynağı lib/data.ts; canlı durum mount sonrası
- * hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
+ * şeridi bulunur. Saatlerin tek kaynağı lib/data.ts; canlı durum mount
+ * sonrası hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
  */
 
+import { useState, type ReactNode } from "react";
 import { ArrowRight, Info, MessageCircle, Phone } from "lucide-react";
 
 import {
   CONTACT,
   SCHEDULE,
+  STOPS,
   type Departure,
   type DeparturePoint,
 } from "@/lib/data";
@@ -30,6 +35,75 @@ import { FadeIn } from "@/components/ui/fade-in";
 
 type RowState = "neutral" | "past" | "next" | "future";
 
+/* ————————————————————————————————
+   Güzergâh kapsama mantığı
+   Hat sırası batıdan doğuya: Marmara → Topağaç → Asmalı → Saraylar.
+   Bir sefer, kalkış ile varış arasındaki tüm ara durakları ve varışı
+   kapsar. Böylece ör. Saraylar → Marmara seferi Topağaç'a da uğrar.
+   ———————————————————————————————— */
+
+const ORDER = ["marmara", "topagac", "asmali", "saraylar"] as const;
+type StopId = (typeof ORDER)[number];
+
+const STOP_NAME = new Map(STOPS.map((stop) => [stop.id, stop.name]));
+const NAME_TO_ID = new Map<string, StopId>();
+for (const stop of STOPS) {
+  if ((ORDER as readonly string[]).includes(stop.id)) {
+    NAME_TO_ID.set(stop.name, stop.id as StopId);
+  }
+}
+
+function stopName(id: StopId): string {
+  return STOP_NAME.get(id) ?? id;
+}
+
+/** Kalkıştan varışa giden aracın uğradığı duraklar (varış dahil, kalkış hariç). */
+function coveredStops(originId: StopId, destId: StopId): StopId[] {
+  const oi = ORDER.indexOf(originId);
+  const di = ORDER.indexOf(destId);
+  if (oi === -1 || di === -1 || oi === di) return [];
+  const step = di > oi ? 1 : -1;
+  const covered: StopId[] = [];
+  for (let i = oi + step; step > 0 ? i <= di : i >= di; i += step) {
+    covered.push(ORDER[i]);
+  }
+  return covered;
+}
+
+/** Verilen seferin (originId kalkışlı) uğradığı duraklar. */
+function departureCovers(originId: StopId, departure: Departure): StopId[] {
+  const destId = NAME_TO_ID.get(departure.to);
+  if (destId === undefined) return [];
+  return coveredStops(originId, destId);
+}
+
+/** from → to yolculuğuna uyan seferler (kalkış saatine göre sıralı). */
+function journeyDepartures(fromId: StopId, toId: StopId): Departure[] {
+  const point = SCHEDULE.find((p) => p.id === fromId);
+  if (!point) return [];
+  return point.departures.filter((departure) =>
+    departureCovers(fromId, departure).includes(toId)
+  );
+}
+
+/** Seçilen kalkıştan bugünkü tarifeyle gerçekten ulaşılabilen duraklar. */
+function reachableFrom(fromId: StopId): StopId[] {
+  const point = SCHEDULE.find((p) => p.id === fromId);
+  if (!point) return [];
+  const reachable = new Set<StopId>();
+  for (const departure of point.departures) {
+    for (const stop of departureCovers(fromId, departure)) {
+      reachable.add(stop);
+    }
+  }
+  return ORDER.filter((id) => reachable.has(id) && id !== fromId);
+}
+
+/** Kalkış olabilen duraklar: tarifede saati listelenen noktalar, hat sırasıyla. */
+const ORIGINS = ORDER.filter((id) =>
+  SCHEDULE.some((point) => point.id === id)
+);
+
 /** Kalkış noktasına göre akış şeridindeki nokta rengi */
 const FLOW_DOT: Record<string, string> = {
   topagac: "bg-skylight",
@@ -43,6 +117,219 @@ function Beacon() {
       <span className="absolute inset-0 rounded-full bg-sky animate-beacon-ping motion-reduce:animate-none" />
       <span className="relative size-2.5 rounded-full bg-sky" />
     </span>
+  );
+}
+
+/** Yolculuk seçicideki hap biçimli büyük düğme. */
+function ToggleButton({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={cn(
+        "inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full border px-6 text-base transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep",
+        selected
+          ? "border-transparent bg-linear-to-r from-sky to-skylight font-bold text-ink shadow-card"
+          : "border-white/15 bg-white/[0.06] font-semibold text-white hover:border-skylight/40 hover:bg-white/[0.1]"
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+/**
+ * Yolculuk seçici: "Buradan oraya kaçta araç var?" sorusunu tek bakışta
+ * yanıtlar. Nereden / Nereye seçilir, uyan seferler büyük satırlarla
+ * listelenir. Canlıyken geçen seferler söner, sıradaki vurgulanır.
+ */
+function JourneyPicker({ nowMin }: { nowMin: number | null }) {
+  const [from, setFrom] = useState<StopId>("marmara");
+  const [to, setTo] = useState<StopId>("topagac");
+
+  const targets = reachableFrom(from);
+  const matches = journeyDepartures(from, to);
+  const toName = stopName(to);
+
+  const nextTime =
+    nowMin === null
+      ? null
+      : (matches.find((d) => timeToMinutes(d.time) >= nowMin)?.time ?? null);
+  const doneToday = nowMin !== null && nextTime === null && matches.length > 0;
+
+  const selectFrom = (id: StopId) => {
+    if (id === from) return;
+    const nextTargets = reachableFrom(id);
+    setFrom(id);
+    if (id === to || !nextTargets.includes(to)) {
+      // Varış geçersiz kaldıysa: yön değiştirme hissi için eski kalkışı
+      // varış yap, o da olmuyorsa ilk ulaşılabilir durağı seç.
+      setTo(nextTargets.includes(from) ? from : nextTargets[0]);
+    }
+  };
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-sm sm:p-7">
+      <h3 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+        {SCHEDULE_COPY.pickerTitle}
+      </h3>
+      <p className="mt-1.5 text-base leading-relaxed text-mist">
+        {SCHEDULE_COPY.pickerHint}
+      </p>
+
+      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+        <div role="group" aria-label={SCHEDULE_COPY.pickerFromLabel}>
+          <p aria-hidden className="text-base font-bold text-white">
+            {SCHEDULE_COPY.pickerFromLabel}
+          </p>
+          <div className="mt-2.5 flex flex-wrap gap-2.5">
+            {ORIGINS.map((id) => (
+              <ToggleButton
+                key={id}
+                selected={id === from}
+                onClick={() => selectFrom(id)}
+              >
+                {stopName(id)}
+              </ToggleButton>
+            ))}
+          </div>
+        </div>
+
+        <div role="group" aria-label={SCHEDULE_COPY.pickerToLabel}>
+          <p aria-hidden className="text-base font-bold text-white">
+            {SCHEDULE_COPY.pickerToLabel}
+          </p>
+          <div className="mt-2.5 flex flex-wrap gap-2.5">
+            {targets.map((id) => (
+              <ToggleButton
+                key={id}
+                selected={id === to}
+                onClick={() => setTo(id)}
+              >
+                {stopName(id)}
+              </ToggleButton>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Seçilen yolculuğun özeti + sefer sayısı */}
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-white/10 pt-5">
+        <p className="flex items-center gap-2 text-lg font-bold text-white">
+          {stopName(from)}
+          <ArrowRight aria-hidden className="size-5 shrink-0 text-skylight" />
+          {toName}
+        </p>
+        <p className="text-base text-mist">
+          {matches.length} {SCHEDULE_COPY.pickerCountSuffix}
+        </p>
+      </div>
+
+      {doneToday ? (
+        <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-4 sm:px-5">
+          <p className="text-lg font-bold text-white">
+            {SCHEDULE_COPY.doneToday}
+          </p>
+          <p className="mt-0.5 text-base font-semibold text-skylight">
+            {SCHEDULE_COPY.firstTomorrow}{" "}
+            <time dateTime={matches[0].time} className="font-bold tabular-nums">
+              {matches[0].time}
+            </time>
+          </p>
+        </div>
+      ) : null}
+
+      <ul className="mt-3 grid gap-2.5">
+        {matches.map((departure) => {
+          const state: RowState =
+            nowMin === null
+              ? "neutral"
+              : departure.time === nextTime
+                ? "next"
+                : timeToMinutes(departure.time) < nowMin
+                  ? "past"
+                  : "future";
+          const isNext = state === "next";
+          const isPast = state === "past";
+          // Aracın tabelası seçilen varıştan farklıysa bunu küçük notla
+          // belirt (ör. "Saraylar seferi"), aynıysa varsa ara durak notunu göster.
+          const note =
+            departure.to !== toName
+              ? departure.via
+                ? `${departure.to} ${SCHEDULE_COPY.pickerServiceSuffix}, ${departure.via}`
+                : `${departure.to} ${SCHEDULE_COPY.pickerServiceSuffix}`
+              : departure.via;
+          return (
+            <li key={departure.time}>
+              <div
+                className={cn(
+                  "flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border px-4 py-3 transition-colors sm:px-5",
+                  isNext
+                    ? "border-skylight/50 bg-skylight/10"
+                    : isPast
+                      ? "border-transparent bg-white/[0.03]"
+                      : "border-white/10 bg-white/[0.04]"
+                )}
+              >
+                <time
+                  dateTime={departure.time}
+                  className={cn(
+                    "text-3xl font-extrabold tracking-tight tabular-nums",
+                    isPast ? "text-white/40" : "text-white"
+                  )}
+                >
+                  {departure.time}
+                </time>
+                <ArrowRight
+                  aria-hidden
+                  className={cn(
+                    "size-5 shrink-0",
+                    isPast ? "text-white/30" : "text-skylight"
+                  )}
+                />
+                <div className="min-w-0 flex-1">
+                  <p
+                    className={cn(
+                      "text-lg font-bold",
+                      isPast ? "text-white/40" : "text-white"
+                    )}
+                  >
+                    {toName}
+                  </p>
+                  {note ? (
+                    <p
+                      className={cn(
+                        "text-sm",
+                        isPast ? "text-white/30" : "text-mist"
+                      )}
+                    >
+                      {note}
+                    </p>
+                  ) : null}
+                </div>
+                {isNext && nowMin !== null ? (
+                  <p className="flex items-center gap-2 text-base font-semibold text-skylight">
+                    <Beacon />
+                    <span className="sr-only">{SCHEDULE_COPY.nextLabel}, </span>
+                    {formatMinutes(timeToMinutes(departure.time) - nowMin)}{" "}
+                    {SCHEDULE_COPY.inMinutesSuffix}
+                  </p>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -189,8 +476,13 @@ export function Schedule() {
           subtitle={SCHEDULE_COPY.subtitle}
         />
 
+        {/* Yolculuk seçici: nereden nereye, uyan seferler */}
+        <FadeIn className="mt-8 sm:mt-10">
+          <JourneyPicker nowMin={nowMin} />
+        </FadeIn>
+
         {/* Üç kalkış noktası, tek bakışta */}
-        <div className="mt-8 grid gap-5 md:grid-cols-3 sm:mt-10">
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
           {SCHEDULE.map((point, index) => {
             const live_ = live?.departures.find(
               (d) => d.point.id === point.id
@@ -262,7 +554,8 @@ export function Schedule() {
                     ) : null}
                     {isLiveNext && live_.minutesLeft != null ? (
                       <p className="mt-1.5 text-base font-semibold text-skylight">
-                        {formatMinutes(live_.minutesLeft)} sonra
+                        {formatMinutes(live_.minutesLeft)}{" "}
+                        {SCHEDULE_COPY.inMinutesSuffix}
                       </p>
                     ) : null}
                     {doneToday ? (
