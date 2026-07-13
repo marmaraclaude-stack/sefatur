@@ -40,7 +40,7 @@ export const SCHEDULE: DeparturePoint[] = [
     name: "Marmara",
     to: "Topağaç",
     times: ["12:15", "13:30", "16:15", "19:30"],
-    note: "Marmara kalkışlı seferler Topağaç yönüne gider.",
+    note: "Marmara kalkışlı seferler Topağaç yönüne doğru gider.",
   },
   {
     id: "saraylar",

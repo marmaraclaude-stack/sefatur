@@ -8,11 +8,25 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Menu, MessageCircle, Phone, X } from "lucide-react";
 import { BRAND, CONTACT_COPY, NAV_LINKS } from "@/lib/copy";
 import { CONTACT } from "@/lib/data";
 
 const MOBILE_MENU_ID = "sefatur-mobil-menu";
+
+/** Marka logosu: public/images/logo.png (452x120, şeffaf zemin) */
+function BrandLogo() {
+  return (
+    <Image
+      src="/images/logo.png"
+      alt={BRAND.name}
+      width={452}
+      height={120}
+      className="h-9 w-auto md:h-10"
+    />
+  );
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -90,9 +104,10 @@ export function Header() {
           {/* Sol: marka */}
           <a
             href="#top"
-            className="rounded-lg py-2 font-heading text-xl font-extrabold tracking-tight text-ink outline-none focus-visible:ring-2 focus-visible:ring-teal"
+            aria-label={BRAND.name}
+            className="rounded-lg py-2 outline-none focus-visible:ring-2 focus-visible:ring-teal"
           >
-            {BRAND.name}
+            <BrandLogo />
           </a>
 
           {/* Orta: bağlantılar (lg ve üzeri) */}
@@ -148,9 +163,7 @@ export function Header() {
         >
           {/* Üst şerit: marka + kapat düğmesi */}
           <div className="mx-auto flex h-16 w-full max-w-[1400px] shrink-0 items-center justify-between px-5 sm:px-8 md:h-[72px]">
-            <span className="font-heading text-xl font-extrabold tracking-tight text-ink">
-              {BRAND.name}
-            </span>
+            <BrandLogo />
             <button
               ref={closeButtonRef}
               type="button"

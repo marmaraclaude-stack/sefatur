@@ -18,6 +18,7 @@ export const localBusinessJsonLd = {
   url: SITE_URL,
   telephone: "+905336555118",
   image: `${SITE_URL}/images/og-image.jpg`,
+  logo: `${SITE_URL}/images/logo.png`,
   priceRange: "₺",
   address: {
     "@type": "PostalAddress",

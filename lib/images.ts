@@ -51,8 +51,8 @@ export const IMAGES: {
   },
   /** Ada bölümü: Topağaç */
   placeTopagac: {
-    src: "/images/topagac.jpg",
-    alt: "Topağaç köyünün, limanının ve sahilinin havadan görünümü",
+    src: "/images/topagac-2.jpg",
+    alt: "Topağaç köyünün, limanının ve plajının havadan görünümü",
     label: "Topağaç",
   },
   /** Ada bölümü: Saraylar */

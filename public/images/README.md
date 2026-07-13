@@ -28,10 +28,12 @@ Hangi fotoğrafın nerede kullanıldığı **`lib/images.ts`** dosyasında tanı
 | `fleet1` | `fleet-1.jpg` | Araçlarımız, Citroën Jumper kartı | 16:10 |
 | `fleet2` | `fleet-2.jpg` | Araçlarımız, Opel Movano kartı | 16:10 |
 | `placeMarmara` | `marmara.jpg` | Marmara Adası bölümü, büyük fotoğraf | serbest yükseklik |
-| `placeTopagac` | `topagac.jpg` | Marmara Adası bölümü, alt sol | 16:9 |
+| `placeTopagac` | `topagac-2.jpg` | Marmara Adası bölümü, alt sol | 16:9 |
 | `placeSaraylar` | `saraylar.jpg` | Marmara Adası bölümü, alt sağ | 16:9 |
 
 **İpuçları**
+- `logo.png` üst menüdeki logodur. Tarayıcı sekmesi simgeleri `app/icon.png`
+  ve `app/apple-icon.png` dosyalarıdır.
 - Yatay (genişlik > yükseklik) fotoğraflar kullanın.
 - Dosya boyutunu 700 KB altında tutun ([squoosh.app](https://squoosh.app) ile küçültebilirsiniz).
 - `og-image.jpg` dosyası WhatsApp/sosyal medya paylaşım kartıdır; değiştirmek isterseniz
