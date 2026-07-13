@@ -143,7 +143,7 @@ export function Header() {
               aria-label="Menüyü aç"
               aria-expanded={open}
               aria-controls={MOBILE_MENU_ID}
-              className="flex h-11 w-11 items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal lg:hidden"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal lg:hidden"
             >
               <Menu className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -169,7 +169,7 @@ export function Header() {
               type="button"
               onClick={closeMenu}
               aria-label="Menüyü kapat"
-              className="flex h-11 w-11 items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-ink outline-none transition-colors hover:bg-ink/5 focus-visible:ring-2 focus-visible:ring-teal"
             >
               <X className="h-6 w-6" aria-hidden="true" />
             </button>

@@ -81,7 +81,7 @@ export function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16 xl:gap-20">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_1.12fr] lg:gap-14 xl:gap-16">
           {/* Sol sütun */}
           <div>
             <h1
@@ -158,94 +158,92 @@ export function Hero() {
 
           {/* Sağ sütun: iki fotoğraflı kolaj + yüzen kartlar */}
           <div
-            className="animate-fade-up relative sm:mb-14 lg:mb-12"
+            className="animate-fade-up grid gap-4 sm:gap-5"
             style={{ animationDelay: "0.12s" }}
           >
-            {/* Ana fotoğraf: gradyan çerçeve */}
-            <div className="rounded-[1.35rem] bg-linear-to-br from-sky/70 via-ice to-forest/40 p-[2px] shadow-card-lg">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[1.25rem]">
+            {/* Ana fotoğraf: gradyan çerçeve, üstünde konum çipi */}
+            <div className="relative rounded-[1.35rem] bg-linear-to-br from-sky/70 via-ice to-forest/40 p-[2px] shadow-card-lg">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem]">
                 <Image
                   src={IMAGES.heroVehicle.src}
                   alt={IMAGES.heroVehicle.alt}
                   fill
                   preload
-                  sizes="(min-width:1280px) 720px, (min-width:1024px) 640px, 100vw"
+                  sizes="(min-width:1024px) 780px, 100vw"
                   className="object-cover"
                 />
               </div>
+              <div className="absolute top-4 right-4 rounded-full bg-linear-to-br from-white/90 to-white/40 p-px shadow-card">
+                <div className="flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 backdrop-blur-2xl">
+                  <MapPin aria-hidden className="size-4 shrink-0 text-forest" />
+                  <span className="text-sm font-semibold whitespace-nowrap text-ink">
+                    Topağaç merkezli
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* İkinci fotoğraf: sol altta beyaz çerçeveli bindirme (sm ve üzeri) */}
-            <div className="absolute -bottom-10 -left-2 hidden w-[42%] rounded-2xl border-4 border-marble bg-marble shadow-card-lg sm:block lg:-left-6">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+            {/* Alt satır: ikinci fotoğraf + canlı sefer kartı, bindirme yok */}
+            <div className="grid gap-4 sm:grid-cols-[1.15fr_1fr] sm:gap-5">
+              <div className="relative hidden aspect-[16/10] overflow-hidden rounded-2xl shadow-card-lg ring-1 ring-ink/5 sm:block">
                 <Image
                   src={IMAGES.heroVehicle2.src}
                   alt={IMAGES.heroVehicle2.alt}
                   fill
-                  sizes="(min-width:1024px) 280px, 42vw"
+                  sizes="(min-width:1024px) 430px, 55vw"
                   className="object-cover"
                 />
               </div>
-            </div>
 
-            {/* Yüzen konum çipi: ince gradyan kenarlıklı cam */}
-            <div className="absolute -top-4 right-4 rounded-full bg-linear-to-br from-white/90 to-white/40 p-px shadow-card sm:right-6">
-              <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 backdrop-blur-2xl">
-                <MapPin aria-hidden className="size-4 shrink-0 text-forest" />
-                <span className="text-sm font-semibold whitespace-nowrap text-ink">
-                  Topağaç merkezli
-                </span>
-              </div>
-            </div>
-
-            {/* Yüzen canlı sefer kartı: ince gradyan kenarlıklı cam */}
-            {/* Mobilde fotoğrafın altında tam genişlik, sm ve üzeri yüzen kart */}
-            <a
-              href="#seferler"
-              className="group mt-3 block w-full rounded-2xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg transition hover:from-sky/60 hover:to-skylight/40 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:absolute sm:-bottom-7 sm:right-4 sm:mt-0 sm:w-auto sm:max-w-[55%]"
-            >
-              <span className="flex items-center gap-3 rounded-[calc(1rem-1px)] bg-white/80 px-4 py-3.5 backdrop-blur-2xl sm:px-5">
-                <span
-                  aria-hidden="true"
-                  className="relative flex size-2.5 shrink-0"
-                >
-                  <span className="animate-beacon-ping absolute inline-flex h-full w-full rounded-full bg-sky" />
-                  <span className="relative inline-flex size-2.5 rounded-full bg-sky" />
-                </span>
-                {next === null ? (
-                  <>
-                    <span className="sr-only">{SCHEDULE_COPY.nextLabel}</span>
+              {/* Canlı sefer kartı: fotoğrafla eşit yükseklikte karo */}
+              <a
+                href="#seferler"
+                className="group block rounded-2xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg transition hover:from-sky/60 hover:to-skylight/40 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <span className="flex h-full flex-col justify-center gap-1 rounded-[calc(1rem-1px)] bg-white/85 px-5 py-4 backdrop-blur-2xl">
+                  <span className="flex items-center gap-2">
                     <span
                       aria-hidden="true"
-                      className="h-10 w-44 max-w-full animate-pulse rounded bg-ice"
-                    />
-                  </>
-                ) : (
-                  <span className="min-w-0">
-                    <span className="block text-xs font-semibold tracking-wide text-forest uppercase">
+                      className="relative flex size-2.5 shrink-0"
+                    >
+                      <span className="animate-beacon-ping absolute inline-flex h-full w-full rounded-full bg-sky" />
+                      <span className="relative inline-flex size-2.5 rounded-full bg-sky" />
+                    </span>
+                    <span className="text-xs font-semibold tracking-wide text-forest uppercase">
                       {SCHEDULE_COPY.nextLabel}
                     </span>
-                    {soonest ? (
-                      <span className="block truncate text-base font-bold text-ink">
-                        {soonest.time}
-                        {" · "}
-                        <span className="font-semibold">
-                          {soonest.name} → {soonest.to}
-                        </span>
-                      </span>
-                    ) : (
-                      <span className="block truncate text-base font-bold text-ink">
-                        {SCHEDULE_COPY.firstTomorrow} {firstTomorrow}
-                      </span>
-                    )}
                   </span>
-                )}
-                <ArrowRight
-                  aria-hidden="true"
-                  className="ml-1 size-4 shrink-0 text-forest transition-transform group-hover:translate-x-0.5"
-                />
-              </span>
-            </a>
+
+                  {next === null ? (
+                    <span
+                      aria-hidden="true"
+                      className="h-14 w-44 max-w-full animate-pulse rounded bg-ice"
+                    />
+                  ) : soonest ? (
+                    <>
+                      <span className="text-3xl font-extrabold tracking-tight text-ink tabular-nums sm:text-4xl">
+                        {soonest.time}
+                      </span>
+                      <span className="text-base font-semibold text-ink/80">
+                        {soonest.name} → {soonest.to}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-lg font-bold text-ink">
+                      {SCHEDULE_COPY.firstTomorrow} {firstTomorrow}
+                    </span>
+                  )}
+
+                  <span className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-forest">
+                    Tüm saatler
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="size-4 shrink-0 transition-transform group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>

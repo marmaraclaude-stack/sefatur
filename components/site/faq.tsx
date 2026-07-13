@@ -42,7 +42,7 @@ function FaqItem({
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={onToggle}
-          className="group flex min-h-14 w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left transition-colors hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest sm:px-6"
+          className="group flex min-h-14 w-full cursor-pointer items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left transition-colors hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest sm:px-6"
         >
           <span className="text-lg font-semibold text-ink">{item.q}</span>
           <span

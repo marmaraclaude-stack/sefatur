@@ -36,6 +36,14 @@ export const SCHEDULE_COPY = {
   firstTomorrow: "İlk sefer yarın",
   dayFlowTitle: "Günün seferleri",
   nowLabel: "Şimdi",
+  pickerTitle: "Size uygun seferi bulun",
+  pickerHint:
+    "Nereden bineceğinizi ve nereye gideceğinizi seçin, uygun saatler hemen altta listelenir.",
+  pickerFromLabel: "Nereden",
+  pickerToLabel: "Nereye",
+  pickerCountSuffix: "sefer",
+  pickerServiceSuffix: "seferi",
+  inMinutesSuffix: "sonra",
 } as const;
 
 export const ROUTE_COPY = {
@@ -183,13 +191,17 @@ export const CONTACT_COPY = {
 
 /** Hero altındaki akan şerit (marquee) öğeleri */
 export const MARQUEE_ITEMS = [
-  "Her gün hizmette",
-  "3 ana durak",
+  "Tarifeli hat seferleri",
+  "Şehirler arası turlar ve geziler",
+  "Öğrenci servisi",
+  "Özel taşımacılık",
+  "Şoförlü araç kiralama",
   "Klimalı araçlar",
   "16+1 koltuk",
   "Sigortalı taşımacılık",
   "Yerel şoförler",
   "Feribot saatlerine uyumlu",
+  "Her gün hizmette",
 ] as const;
 
 export const NAV_LINKS = [
