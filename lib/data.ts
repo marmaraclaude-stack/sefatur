@@ -83,6 +83,6 @@ export const STOPS: Stop[] = [
     id: "saraylar",
     name: "Saraylar",
     kind: "main",
-    blurb: "Mermer ocaklarının kasabası. Hattın kuzeydoğu ucu.",
+    blurb: "Mermer ocaklarının ve Abroz'un bulunduğu mahalle.",
   },
 ];

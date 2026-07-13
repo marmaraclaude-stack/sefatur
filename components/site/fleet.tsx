@@ -41,16 +41,24 @@ export function Fleet() {
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
 
-                    {/* Plaka kartı: ince gradyan kenarlıklı cam */}
-                    <div className="absolute bottom-4 left-4 rounded-xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg">
-                      <div className="rounded-[calc(0.75rem-1px)] bg-white/85 px-4 py-2.5 backdrop-blur-xl">
-                        <span className="block text-[11px] font-semibold tracking-wide text-forest uppercase">
-                          Plaka
+                    {/* Plaka: gerçek Türk plakası görünümünde rozet.
+                        Mavi bant gerçek plakalardaki AB mavisidir, site
+                        paletine dahil değildir ve bilinçli olarak sabittir. */}
+                    <div
+                      aria-label={`Plaka ${vehicle.plate}`}
+                      className="absolute bottom-4 left-4 flex items-stretch overflow-hidden rounded-md bg-white shadow-card-lg ring-2 ring-ink/70"
+                    >
+                      <span
+                        aria-hidden
+                        className="flex w-7 items-end justify-center bg-[#036] pb-1"
+                      >
+                        <span className="text-[10px] font-bold leading-none text-white">
+                          TR
                         </span>
-                        <span className="block text-base font-bold tracking-wide text-ink">
-                          {vehicle.plate}
-                        </span>
-                      </div>
+                      </span>
+                      <span className="flex items-center px-3.5 py-1.5 text-lg font-bold tracking-[0.14em] text-ink tabular-nums">
+                        {vehicle.plate}
+                      </span>
                     </div>
                   </div>
 

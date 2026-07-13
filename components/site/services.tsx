@@ -1,11 +1,9 @@
 /**
  * Hizmetler: 4 eşit kart. Her kartın köşesinde büyük hayalet ikon,
  * üstte ikon karosu, başlık, açıklama ve kontrol listesi bulunur.
- * Ana hizmet (hat) koyu gradyan zeminle ayrışır ama boyutu eşittir.
  * Fiyat yönlendirmesi, tarifedeki arama bandıyla aynı dilde bir karttır.
  */
 import {
-  ArrowRight,
   BusFront,
   Check,
   GraduationCap,
@@ -18,7 +16,6 @@ import {
 } from "lucide-react";
 import { CONTACT_COPY, SERVICES } from "@/lib/copy";
 import { CONTACT } from "@/lib/data";
-import { cn } from "@/lib/utils";
 import { FadeIn } from "@/components/ui/fade-in";
 import { SectionHeading } from "@/components/ui/section-heading";
 
@@ -54,55 +51,27 @@ export function Services() {
         <div className="mt-8 grid grid-cols-1 items-stretch gap-5 sm:mt-10 sm:grid-cols-2 xl:grid-cols-4">
           {SERVICES.items.map((item, index) => {
             const Icon = SERVICE_ICONS[item.id];
-            const isPrimary = item.id === "hat";
             return (
               <FadeIn key={item.id} delay={index * 0.06} className="h-full">
-                <article
-                  className={cn(
-                    "group relative flex h-full flex-col overflow-hidden rounded-2xl p-6 transition duration-300 sm:p-7",
-                    isPrimary
-                      ? "bg-linear-to-br from-navy to-deep text-white shadow-card-lg"
-                      : "border border-ink/[0.06] bg-white shadow-card hover:-translate-y-1 hover:border-sky/40 hover:shadow-card-lg"
-                  )}
-                >
+                <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/[0.06] bg-white p-6 shadow-card transition duration-300 hover:-translate-y-1 hover:border-sky/40 hover:shadow-card-lg sm:p-7">
                   {/* Köşede büyük hayalet ikon */}
                   <Icon
                     aria-hidden
                     strokeWidth={1.25}
-                    className={cn(
-                      "pointer-events-none absolute -right-7 -bottom-7 size-36 -rotate-12 transition-colors duration-300",
-                      isPrimary
-                        ? "text-skylight/15"
-                        : "text-ice group-hover:text-skylight/50"
-                    )}
+                    className="pointer-events-none absolute -right-7 -bottom-7 size-36 -rotate-12 text-ice transition-colors duration-300 group-hover:text-skylight/50"
                   />
 
                   <div
                     aria-hidden
-                    className={cn(
-                      "relative flex size-12 items-center justify-center rounded-xl",
-                      isPrimary
-                        ? "bg-skylight/15 text-skylight"
-                        : "bg-ice text-forest"
-                    )}
+                    className="relative flex size-12 items-center justify-center rounded-xl bg-ice text-forest"
                   >
                     <Icon className="size-6" strokeWidth={1.75} />
                   </div>
 
-                  <h3
-                    className={cn(
-                      "relative mt-4 text-lg font-bold tracking-tight",
-                      isPrimary ? "text-white" : "text-ink"
-                    )}
-                  >
+                  <h3 className="relative mt-4 text-lg font-bold tracking-tight text-ink">
                     {item.name}
                   </h3>
-                  <p
-                    className={cn(
-                      "relative mt-2 text-[15px] leading-relaxed",
-                      isPrimary ? "text-mist" : "text-ink/70"
-                    )}
-                  >
+                  <p className="relative mt-2 text-[15px] leading-relaxed text-ink/70">
                     {item.description}
                   </p>
 
@@ -110,35 +79,16 @@ export function Services() {
                     {item.highlights.map((highlight) => (
                       <li
                         key={highlight}
-                        className={cn(
-                          "flex items-start gap-2 text-[15px]",
-                          isPrimary ? "text-white/85" : "text-ink/70"
-                        )}
+                        className="flex items-start gap-2 text-[15px] text-ink/70"
                       >
                         <Check
                           aria-hidden
-                          className={cn(
-                            "mt-0.5 w-4 shrink-0",
-                            isPrimary ? "text-skylight" : "text-forest"
-                          )}
+                          className="mt-0.5 w-4 shrink-0 text-forest"
                         />
                         <span>{highlight}</span>
                       </li>
                     ))}
                   </ul>
-
-                  {isPrimary ? (
-                    <a
-                      href="#seferler"
-                      className="group/link relative mt-auto inline-flex min-h-11 w-fit items-center gap-1.5 pt-4 text-[15px] font-semibold text-skylight transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none rounded"
-                    >
-                      Tüm saatler
-                      <ArrowRight
-                        aria-hidden
-                        className="size-4 transition-transform group-hover/link:translate-x-0.5"
-                      />
-                    </a>
-                  ) : null}
                 </article>
               </FadeIn>
             );

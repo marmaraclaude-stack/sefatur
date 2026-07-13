@@ -25,14 +25,17 @@ export const SCHEDULE_COPY = {
   subtitle:
     "Saatler kalkış noktasına göredir. Asmalı, Topağaç ile Saraylar arasında ara duraktır.",
   notes: [
-    "Seferler iki minibüsle karşılıklı yürütülür. Ara duraklara varış saati yol durumuna göre birkaç dakika değişebilir.",
+    "Ara duraklara varış saati yol durumuna göre birkaç dakika değişebilir.",
     "Yoğun yaz sezonunda ek sefer konulabilir ve saatlerde güncelleme yapılabilir.",
     "Kalkış saatinden birkaç dakika önce durakta olmanızı rica ederiz.",
   ],
   callNote: "Güncel saat bilgisi için bizi arayabilirsiniz.",
   nextLabel: "Sıradaki sefer",
+  firstLabel: "İlk kalkış",
   doneToday: "Bugünkü seferler tamamlandı",
   firstTomorrow: "İlk sefer yarın",
+  dayFlowTitle: "Günün akışı",
+  nowLabel: "Şimdi",
 } as const;
 
 export const ROUTE_COPY = {

@@ -1,113 +1,41 @@
-import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
-import { BRAND, CONTACT_COPY, NAV_LINKS, SCHEDULE_COPY } from "@/lib/copy";
+import { ArrowUp, MapPin, MessageCircle } from "lucide-react";
+import { BRAND, CONTACT_COPY, NAV_LINKS } from "@/lib/copy";
 import { CONTACT } from "@/lib/data";
 
 const MAPS_URL = "https://maps.google.com/?q=Topağaç,+Marmara,+Balıkesir";
 
 /**
- * İletişim + site alt bilgisi. Tam genişlik iki sütunlu üst blok:
- * solda başlık ve cam düğmeler, sağda dev tıkla-ara kartı.
+ * Minimalist alt bilgi: düz koyu zemin, üç sütun (marka, bölümler,
+ * iletişim) ve ince çizgiyle ayrılmış alt bar. Kart, cam ve gradyan yok.
+ * Mobilde alttaki arama çubuğu için ekstra alt boşluk bırakılır.
  * Sunucu bileşeni.
  */
 export function Footer() {
   return (
-    <footer
-      id="iletisim"
-      className="relative overflow-hidden bg-linear-to-b from-navy to-deep pt-10 pb-28 lg:pb-10"
-    >
-      {/* Zemin dokusu: parıltı lekeleri */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-48 left-1/3 size-[36rem] rounded-full bg-skylight/[0.07] blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-40 -bottom-56 size-[28rem] rounded-full bg-sage/[0.08] blur-3xl"
-      />
-
-      <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
-        {/* Üst blok: tam genişlik iki sütun */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          {/* Sol: başlık + eylemler */}
-          <div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              {CONTACT_COPY.title}
-            </h2>
-            <p className="mt-3 text-lg leading-relaxed text-mist">
-              {CONTACT_COPY.subtitle}
-            </p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <a
-                href={CONTACT.whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight sm:w-auto"
-              >
-                <MessageCircle className="size-5" aria-hidden />
-                {CONTACT_COPY.whatsappCta}
-              </a>
-              <a
-                href="#seferler"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/30 hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight sm:w-auto"
-              >
-                <Clock className="size-5" aria-hidden />
-                {SCHEDULE_COPY.title}
-              </a>
-            </div>
-          </div>
-
-          {/* Sağ: kompakt iletişim kartı */}
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur lg:justify-self-end lg:w-full lg:max-w-md">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/25 to-transparent"
-            />
-            <p className="text-sm text-mist">
-              {CONTACT.name} · {CONTACT.title}
-            </p>
-            <a
-              href={CONTACT.phoneHref}
-              className="mt-2.5 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 rounded-xl text-[clamp(1.5rem,2.6vw,2rem)] font-extrabold tracking-tight text-white transition-colors hover:text-skylight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
-            >
-              <span
-                aria-hidden
-                className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-sky to-skylight text-ink"
-              >
-                <Phone className="size-5" />
-              </span>
-              {CONTACT.phoneDisplay}
-            </a>
-            <a
-              href={MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-flex min-h-11 items-center gap-2.5 rounded-md text-mist transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
-            >
-              <MapPin className="size-5 shrink-0" aria-hidden />
-              <span className="text-[15px] leading-relaxed">{CONTACT.base}</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Bilgi ızgarası: marka + bağlantılar */}
-        <div className="mt-10 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-2 sm:items-start">
-          <div>
-            <p className="text-xl font-bold tracking-tight text-white">
+    <footer id="iletisim" className="bg-deep pt-12 pb-28 sm:pt-14 lg:pb-12">
+      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          {/* Marka */}
+          <div className="sm:col-span-2 lg:col-span-6">
+            <p className="text-2xl font-extrabold tracking-tight text-white">
               {BRAND.name}
             </p>
-            <p className="mt-2 max-w-sm text-base leading-relaxed text-mist">
+            <p className="mt-3 max-w-sm text-base leading-relaxed text-mist">
               {BRAND.subtitle}
             </p>
           </div>
 
-          <nav aria-label="Site içi bağlantılar" className="sm:justify-self-end">
-            <ul className="grid grid-cols-2 gap-x-10">
+          {/* Bölümler */}
+          <nav aria-label="Site içi bağlantılar" className="lg:col-span-3">
+            <p className="text-[13px] font-semibold tracking-[0.08em] text-white/40 uppercase">
+              Bölümler
+            </p>
+            <ul className="mt-3 grid grid-cols-2 gap-x-8">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="inline-flex min-h-10 items-center rounded-md text-base text-mist transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight"
+                    className="inline-flex min-h-10 items-center rounded-md text-base text-mist transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
                   >
                     {link.label}
                   </a>
@@ -115,11 +43,60 @@ export function Footer() {
               ))}
             </ul>
           </nav>
+
+          {/* İletişim */}
+          <div className="lg:col-span-3">
+            <p className="text-[13px] font-semibold tracking-[0.08em] text-white/40 uppercase">
+              {CONTACT_COPY.title}
+            </p>
+            <a
+              href={CONTACT.phoneHref}
+              className="mt-3 inline-flex min-h-11 items-center rounded-md text-2xl font-extrabold tracking-tight whitespace-nowrap text-white transition-colors hover:text-skylight focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
+            >
+              {CONTACT.phoneDisplay}
+            </a>
+            <p className="text-sm text-mist">
+              {CONTACT.name} · {CONTACT.title}
+            </p>
+            <ul className="mt-3 space-y-1">
+              <li>
+                <a
+                  href={CONTACT.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-10 items-center gap-2.5 rounded-md text-base text-mist transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
+                >
+                  <MessageCircle className="size-[18px] shrink-0" aria-hidden />
+                  {CONTACT_COPY.whatsappCta}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-10 items-center gap-2.5 rounded-md text-base text-mist transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
+                >
+                  <MapPin className="size-[18px] shrink-0" aria-hidden />
+                  {CONTACT.base}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* Alt bar */}
-        <div className="mt-8 border-t border-white/10 pt-5 text-sm text-mist/90">
-          <p>© {BRAND.name}, Marmara Adası</p>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-5">
+          <p className="text-sm text-mist/90">
+            © {BRAND.name}, Marmara Adası
+          </p>
+          <a
+            href="#top"
+            className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm text-mist transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
+          >
+            Başa dön
+            <ArrowUp className="size-4" aria-hidden />
+          </a>
         </div>
       </div>
     </footer>

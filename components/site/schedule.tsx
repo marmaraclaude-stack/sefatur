@@ -2,9 +2,12 @@
 
 /**
  * Sefer Saatleri: sitenin ana bölümü, koyu orman yeşili pano.
- * Üç kalkış noktası aynı anda görünür (sekme yok). Saatlerin tek
- * kaynağı lib/data.ts; canlı "sıradaki sefer" durumu mount sonrası
- * hesaplanır, ilk render'da tüm satırlar nötrdür (hydration güvenli).
+ * Üç kalkış noktası aynı anda görünür (sekme yok). Her kartın üstünde
+ * büyük rakamlı "sıradaki sefer" paneli, altında günün tüm saatleri
+ * çip ızgarası olarak durur. Geniş ekranlarda kartların altında günün
+ * 11 kalkışını kronolojik gösteren "Günün akışı" şeridi bulunur.
+ * Saatlerin tek kaynağı lib/data.ts; canlı durum mount sonrası
+ * hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
  */
 
 import { ArrowRight, Info, MessageCircle, Phone } from "lucide-react";
@@ -21,6 +24,116 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { FadeIn } from "@/components/ui/fade-in";
 
 type RowState = "neutral" | "past" | "next" | "future";
+
+/** Kalkış noktasına göre akış şeridindeki nokta rengi */
+const FLOW_DOT: Record<string, string> = {
+  topagac: "bg-skylight",
+  marmara: "bg-white",
+  saraylar: "bg-sage",
+};
+
+function Beacon() {
+  return (
+    <span aria-hidden className="relative flex size-2.5">
+      <span className="absolute inset-0 rounded-full bg-sky animate-beacon-ping motion-reduce:animate-none" />
+      <span className="relative size-2.5 rounded-full bg-sky" />
+    </span>
+  );
+}
+
+/**
+ * Günün akışı: tüm kalkışlar tek çizgi üzerinde, saate orantılı
+ * konumda. Etiketler çakışmayı önlemek için sırayla çizginin üstüne
+ * ve altına yerleşir. Canlıyken geçmiş kalkışlar söner ve "Şimdi"
+ * rozeti çizgi üzerinde ilerler. Yalnızca geniş ekranlarda görünür.
+ */
+function DayFlow({ nowMin }: { nowMin: number | null }) {
+  const departures = SCHEDULE.flatMap((point) =>
+    point.times.map((time) => ({
+      time,
+      min: timeToMinutes(time),
+      name: point.name,
+      id: point.id,
+    }))
+  ).sort((a, b) => a.min - b.min);
+
+  const start = departures[0].min - 40;
+  const end = departures[departures.length - 1].min + 40;
+  const pos = (min: number) => ((min - start) / (end - start)) * 100;
+  const showNow = nowMin !== null && nowMin >= start && nowMin <= end;
+
+  return (
+    <div className="mt-6 hidden rounded-2xl border border-white/10 bg-white/[0.03] px-8 py-6 lg:block">
+      <div className="flex items-center justify-between gap-6">
+        <h3 className="text-base font-bold tracking-tight text-white">
+          {SCHEDULE_COPY.dayFlowTitle}
+        </h3>
+        <ul className="flex items-center gap-5">
+          {SCHEDULE.map((point) => (
+            <li
+              key={point.id}
+              className="flex items-center gap-2 text-sm text-mist"
+            >
+              <span
+                aria-hidden
+                className={cn("size-2.5 rounded-full", FLOW_DOT[point.id])}
+              />
+              {point.name} kalkışlı
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div aria-hidden className="relative mt-4 h-28">
+        {/* Çizgi */}
+        <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
+
+        {departures.map((departure, index) => {
+          const above = index % 2 === 0;
+          const isPast = nowMin !== null && departure.min < nowMin;
+          return (
+            <div
+              key={`${departure.id}-${departure.time}`}
+              className={cn(
+                "absolute top-1/2 -translate-x-1/2 transition-opacity duration-500",
+                isPast && "opacity-35"
+              )}
+              style={{ left: `${pos(departure.min)}%` }}
+            >
+              <span
+                className={cn(
+                  "absolute top-0 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full",
+                  FLOW_DOT[departure.id]
+                )}
+              />
+              <div
+                className={cn(
+                  "absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap",
+                  above ? "bottom-3.5" : "top-3.5"
+                )}
+              >
+                <span className="block text-base font-bold text-white tabular-nums">
+                  {departure.time}
+                </span>
+                <span className="block text-xs text-mist">{departure.name}</span>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Şimdi rozeti */}
+        {showNow ? (
+          <span
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r from-sky to-skylight px-2 py-0.5 text-[11px] font-bold text-ink shadow-card"
+            style={{ left: `${pos(nowMin)}%` }}
+          >
+            {SCHEDULE_COPY.nowLabel}
+          </span>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 export function Schedule() {
   const live = useNextDepartures();
@@ -56,11 +169,19 @@ export function Schedule() {
             const departure = live?.departures.find(
               (d) => d.point.id === point.id
             );
+            const isLiveNext = departure?.isToday === true;
             const doneToday = departure !== undefined && !departure.isToday;
+            const heroTime = isLiveNext ? departure.time : point.times[0];
+            const heroLabel =
+              live === null
+                ? SCHEDULE_COPY.firstLabel
+                : isLiveNext
+                  ? SCHEDULE_COPY.nextLabel
+                  : SCHEDULE_COPY.firstTomorrow;
 
-            const rowState = (time: string): RowState => {
+            const chipState = (time: string): RowState => {
               if (nowMin === null) return "neutral";
-              if (departure?.isToday && departure.time === time) return "next";
+              if (isLiveNext && departure.time === time) return "next";
               if (timeToMinutes(time) < nowMin) return "past";
               return "future";
             };
@@ -80,58 +201,80 @@ export function Schedule() {
                     {point.note}
                   </p>
 
-                  <ul className="mt-5">
+                  {/* Sıradaki sefer paneli: kartın kahraman satırı */}
+                  <div
+                    className={cn(
+                      "mt-5 rounded-xl border p-4 transition-colors",
+                      isLiveNext
+                        ? "border-skylight/40 bg-skylight/10"
+                        : "border-white/10 bg-white/[0.04]"
+                    )}
+                  >
+                    <p
+                      className={cn(
+                        "flex items-center gap-2 text-[13px] font-semibold tracking-[0.08em] uppercase",
+                        isLiveNext ? "text-skylight" : "text-mist"
+                      )}
+                    >
+                      {isLiveNext ? <Beacon /> : null}
+                      {heroLabel}
+                    </p>
+                    <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+                      <time
+                        dateTime={heroTime}
+                        className="text-4xl font-extrabold tracking-tight text-white tabular-nums"
+                      >
+                        {heroTime}
+                      </time>
+                      {isLiveNext && departure.minutesLeft != null ? (
+                        <span className="text-base font-semibold text-skylight">
+                          {formatMinutes(departure.minutesLeft)} sonra
+                        </span>
+                      ) : null}
+                    </div>
+                    {doneToday ? (
+                      <p className="mt-1 text-sm text-mist">
+                        {SCHEDULE_COPY.doneToday}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  {/* Günün tüm saatleri: çip ızgarası */}
+                  <ul className="mt-4 grid grid-cols-3 gap-2">
                     {point.times.map((time) => {
-                      const state = rowState(time);
-                      const isNext = state === "next";
+                      const state = chipState(time);
                       return (
-                        <li
-                          key={time}
-                          className="flex items-center justify-between gap-3 border-b border-white/[0.07] py-2.5 last:border-0"
-                        >
+                        <li key={time}>
                           <time
                             dateTime={time}
                             className={cn(
-                              "text-2xl leading-relaxed tracking-tight sm:text-3xl",
-                              state === "past" && "text-white/50",
-                              (state === "neutral" || state === "future") &&
-                                "font-medium text-white",
-                              isNext && "font-bold text-skylight"
+                              "flex min-h-11 items-center justify-center rounded-lg border text-lg tabular-nums transition-colors",
+                              state === "next"
+                                ? "border-skylight/60 bg-skylight/15 font-bold text-skylight"
+                                : state === "past"
+                                  ? "border-transparent bg-white/[0.03] font-medium text-white/40"
+                                  : "border-white/10 bg-white/[0.04] font-medium text-white"
                             )}
                           >
                             {time}
                           </time>
-
-                          {isNext && departure?.minutesLeft != null ? (
-                            <span className="flex shrink-0 items-center gap-2 text-sm font-semibold text-skylight">
-                              <span
-                                aria-hidden
-                                className="relative flex size-2.5"
-                              >
-                                <span className="absolute inset-0 rounded-full bg-sky animate-beacon-ping motion-reduce:animate-none" />
-                                <span className="relative size-2.5 rounded-full bg-sky" />
-                              </span>
-                              sıradaki · {formatMinutes(departure.minutesLeft)}
-                            </span>
-                          ) : null}
                         </li>
                       );
                     })}
                   </ul>
-
-                  {doneToday ? (
-                    <p className="mt-4 text-sm text-mist">
-                      {SCHEDULE_COPY.doneToday}
-                    </p>
-                  ) : null}
                 </article>
               </FadeIn>
             );
           })}
         </div>
 
+        {/* Günün akışı: kronolojik şerit (yalnızca geniş ekran) */}
+        <FadeIn delay={0.08}>
+          <DayFlow nowMin={nowMin} />
+        </FadeIn>
+
         {/* Notlar: tam genişlikte üç sütun */}
-        <FadeIn delay={0.1} className="mt-10">
+        <FadeIn delay={0.1} className="mt-6">
           <ul className="grid gap-4 lg:grid-cols-3">
             {SCHEDULE_COPY.notes.map((note) => (
               <li
