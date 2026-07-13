@@ -24,7 +24,8 @@ Hangi fotoğrafın nerede kullanıldığı **`lib/images.ts`** dosyasında tanı
 
 | İsim | Dosya | Nerede görünür | Kırpma oranı |
 |---|---|---|---|
-| `heroVehicle` | `fleet-hero-2.jpg` | Açılış (hero) bölümündeki büyük fotoğraf | 4:3 |
+| `heroVehicle` | `fleet-hero.jpg` | Açılış (hero) bölümündeki büyük fotoğraf | 4:3 |
+| `heroVehicle2` | `fleet-hero-2.jpg` | Açılış bölümündeki küçük ikinci fotoğraf | 4:3 |
 | `fleet1` | `fleet-1.jpg` | Araçlarımız, Citroën Jumper kartı | 16:10 |
 | `fleet2` | `fleet-2.jpg` | Araçlarımız, Opel Movano kartı | 16:10 |
 | `placeMarmara` | `marmara.jpg` | Marmara Adası bölümü, büyük fotoğraf | serbest yükseklik |

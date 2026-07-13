@@ -22,14 +22,20 @@ export type PlaceSlot = ImageSlot & {
 
 export const IMAGES: {
   heroVehicle: ImageSlot;
+  heroVehicle2: ImageSlot;
   fleet1: ImageSlot;
   fleet2: ImageSlot;
   placeMarmara: PlaceSlot;
   placeTopagac: PlaceSlot;
   placeSaraylar: PlaceSlot;
 } = {
-  /** Hero bölümündeki araç fotoğrafı */
+  /** Hero bölümündeki büyük araç fotoğrafı */
   heroVehicle: {
+    src: "/images/fleet-hero.jpg",
+    alt: "SEFATUR'un iki minibüsü, Opel Movano ve Citroën Jumper, gün batımında sahilde yan yana",
+  },
+  /** Hero bölümündeki küçük (bindirmeli) ikinci fotoğraf */
+  heroVehicle2: {
     src: "/images/fleet-hero-2.jpg",
     alt: "SEFATUR'un iki minibüsü akşam saatinde meydanda yan yana",
   },

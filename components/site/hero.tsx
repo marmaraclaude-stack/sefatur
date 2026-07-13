@@ -64,7 +64,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-linear-to-b from-sand via-marble to-marble pt-28 pb-12 md:pt-32 sm:pb-16 xl:pt-40 xl:pb-24"
+      className="relative overflow-hidden bg-linear-to-b from-sand via-marble to-marble pt-28 pb-12 md:pt-32 sm:pb-16 xl:pt-36 xl:pb-20"
     >
       {/* Zemin: nokta deseni + renk lekeleri */}
       <div
@@ -85,7 +85,7 @@ export function Hero() {
           {/* Sol sütun */}
           <div>
             <h1
-              className="animate-fade-up text-[2.75rem] leading-[1.06] font-extrabold tracking-tight text-balance text-ink sm:text-6xl sm:leading-[1.05] lg:text-[4.25rem] lg:leading-[1.03] xl:text-[5rem] 2xl:text-[5.5rem]"
+              className="animate-fade-up text-[2.75rem] leading-[1.06] font-extrabold tracking-tight text-balance text-ink sm:text-6xl sm:leading-[1.05] lg:text-[4.25rem] lg:leading-[1.03]"
               style={{ animationDelay: "0s" }}
             >
               {headBefore}
@@ -100,7 +100,7 @@ export function Hero() {
             </h1>
 
             <p
-              className="animate-fade-up mt-6 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl xl:mt-7 xl:max-w-2xl xl:text-2xl"
+              className="animate-fade-up mt-6 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl"
               style={{ animationDelay: "0.08s" }}
             >
               {HERO.subheadline}
@@ -112,14 +112,14 @@ export function Hero() {
             >
               <a
                 href="#seferler"
-                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-7 text-base font-bold text-ink shadow-lg shadow-sky/30 inset-ring-1 inset-ring-white/45 transition hover:shadow-xl hover:shadow-sky/35 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto xl:h-14 xl:px-8 xl:text-lg"
+                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-7 text-base font-bold text-ink shadow-lg shadow-sky/30 inset-ring-1 inset-ring-white/45 transition hover:shadow-xl hover:shadow-sky/35 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
               >
                 <Clock aria-hidden="true" className="size-5 shrink-0" />
                 {HERO.ctaPrimary}
               </a>
               <a
                 href={CONTACT.phoneHref}
-                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-white/80 bg-white/70 px-6 text-base font-semibold text-ink shadow-card ring-1 ring-ink/5 backdrop-blur-md transition hover:bg-white hover:text-forest hover:ring-forest/25 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto xl:h-14 xl:px-7 xl:text-lg"
+                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-white/80 bg-white/70 px-6 text-base font-semibold text-ink shadow-card ring-1 ring-ink/5 backdrop-blur-md transition hover:bg-white hover:text-forest hover:ring-forest/25 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
               >
                 <Phone aria-hidden="true" className="size-5 shrink-0 text-forest" />
                 <span className="whitespace-nowrap">{CONTACT.phoneDisplay}</span>
@@ -146,7 +146,7 @@ export function Hero() {
                         aria-hidden="true"
                         className="size-4 shrink-0 text-forest"
                       />
-                      <span className="text-[15px] font-medium text-ink/70 xl:text-base">
+                      <span className="text-[15px] font-medium text-ink/70">
                         {fact}
                       </span>
                     </span>
@@ -156,12 +156,12 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Sağ sütun: gradyan çerçeveli fotoğraf + yüzen kartlar */}
+          {/* Sağ sütun: iki fotoğraflı kolaj + yüzen kartlar */}
           <div
-            className="animate-fade-up relative sm:mb-10 lg:mb-6"
+            className="animate-fade-up relative sm:mb-14 lg:mb-12"
             style={{ animationDelay: "0.12s" }}
           >
-            {/* Gradyan çerçeve */}
+            {/* Ana fotoğraf: gradyan çerçeve */}
             <div className="rounded-[1.35rem] bg-linear-to-br from-sky/70 via-ice to-forest/40 p-[2px] shadow-card-lg">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[1.25rem]">
                 <Image
@@ -170,6 +170,19 @@ export function Hero() {
                   fill
                   preload
                   sizes="(min-width:1280px) 720px, (min-width:1024px) 640px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            {/* İkinci fotoğraf: sol altta beyaz çerçeveli bindirme (sm ve üzeri) */}
+            <div className="absolute -bottom-10 -left-2 hidden w-[42%] rounded-2xl border-4 border-marble bg-marble shadow-card-lg sm:block lg:-left-6">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image
+                  src={IMAGES.heroVehicle2.src}
+                  alt={IMAGES.heroVehicle2.alt}
+                  fill
+                  sizes="(min-width:1024px) 280px, 42vw"
                   className="object-cover"
                 />
               </div>
@@ -189,7 +202,7 @@ export function Hero() {
             {/* Mobilde fotoğrafın altında tam genişlik, sm ve üzeri yüzen kart */}
             <a
               href="#seferler"
-              className="group mt-3 block w-full rounded-2xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg transition hover:from-sky/60 hover:to-skylight/40 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:absolute sm:-bottom-7 sm:left-6 sm:mt-0 sm:w-auto sm:max-w-[calc(100%-3rem)]"
+              className="group mt-3 block w-full rounded-2xl bg-linear-to-br from-white/90 to-white/40 p-px shadow-card-lg transition hover:from-sky/60 hover:to-skylight/40 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:absolute sm:-bottom-7 sm:right-4 sm:mt-0 sm:w-auto sm:max-w-[55%]"
             >
               <span className="flex items-center gap-3 rounded-[calc(1rem-1px)] bg-white/80 px-4 py-3.5 backdrop-blur-2xl sm:px-5">
                 <span

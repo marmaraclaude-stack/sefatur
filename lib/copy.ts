@@ -17,7 +17,7 @@ export const HERO = {
   ctaPrimary: "Sefer Saatleri",
   ctaSecondary: "Hemen Ara",
   /** Pill değil, düz satır olarak gösterilir */
-  facts: ["Günde 11 sefer", "3 ana durak", "Her gün hizmette"],
+  facts: ["Karşılıklı hat seferleri", "3 ana durak", "Her gün hizmette"],
 } as const;
 
 export const SCHEDULE_COPY = {
@@ -34,7 +34,7 @@ export const SCHEDULE_COPY = {
   firstLabel: "İlk kalkış",
   doneToday: "Bugünkü seferler tamamlandı",
   firstTomorrow: "İlk sefer yarın",
-  dayFlowTitle: "Günün akışı",
+  dayFlowTitle: "Günün seferleri",
   nowLabel: "Şimdi",
 } as const;
 
@@ -55,7 +55,7 @@ export const SERVICES = {
       description:
         "Marmara, Topağaç ve Saraylar arasında her gün belirli saatlerde kalkan minibüs seferleri. Saatimiz bellidir, sözümüz sözdür.",
       highlights: [
-        "Günde 11 sefer",
+        "Her gün karşılıklı seferler",
         "Sabit ve net saatler",
         "Feribot saatlerine uyumlu plan",
       ],
@@ -128,7 +128,7 @@ export const ISLAND = {
   ],
   stats: [
     { value: 3, suffix: "", label: "Ana durak" },
-    { value: 11, suffix: "", label: "Günlük sefer" },
+    { value: 2, suffix: "", label: "Minibüs" },
     { value: 16, suffix: "+1", label: "Koltuk düzeni" },
     { value: 117, suffix: " km²", label: "Ada yüzölçümü" },
   ],
@@ -183,7 +183,7 @@ export const CONTACT_COPY = {
 
 /** Hero altındaki akan şerit (marquee) öğeleri */
 export const MARQUEE_ITEMS = [
-  "Günde 11 sefer",
+  "Her gün hizmette",
   "3 ana durak",
   "Klimalı araçlar",
   "16+1 koltuk",

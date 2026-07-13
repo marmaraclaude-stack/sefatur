@@ -5,8 +5,8 @@
  * Üç kalkış noktası aynı anda görünür (sekme yok). Her kartın üstünde
  * büyük rakamlı "sıradaki sefer" paneli, altında günün tüm seferleri
  * saat + varış noktasıyla satır satır durur. Geniş ekranlarda kartların
- * altında günün 11 kalkışını kronolojik gösteren "Günün akışı" şeridi
- * bulunur. Saatlerin tek kaynağı lib/data.ts; canlı durum mount sonrası
+ * altında günün tüm kalkışlarını kronolojik gösteren "Günün seferleri"
+ * şeridi bulunur. Saatlerin tek kaynağı lib/data.ts; canlı durum mount sonrası
  * hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
  */
 
@@ -255,18 +255,15 @@ export function Schedule() {
                         {heroDeparture.to}
                       </span>
                     </div>
-                    {heroDeparture.via ||
-                    (isLiveNext && live_.minutesLeft != null) ? (
-                      <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
-                        <span className="text-sm text-mist">
-                          {heroDeparture.via ?? ""}
-                        </span>
-                        {isLiveNext && live_.minutesLeft != null ? (
-                          <span className="text-base font-semibold text-skylight">
-                            {formatMinutes(live_.minutesLeft)} sonra
-                          </span>
-                        ) : null}
-                      </div>
+                    {heroDeparture.via ? (
+                      <p className="mt-0.5 text-sm text-mist">
+                        {heroDeparture.via}
+                      </p>
+                    ) : null}
+                    {isLiveNext && live_.minutesLeft != null ? (
+                      <p className="mt-1.5 text-base font-semibold text-skylight">
+                        {formatMinutes(live_.minutesLeft)} sonra
+                      </p>
                     ) : null}
                     {doneToday ? (
                       <p className="mt-1 text-sm text-mist">
@@ -279,20 +276,18 @@ export function Schedule() {
                   <div className="mt-5 flex flex-1 flex-col gap-5">
                     {groupByDestination(point).map((group) => (
                       <div key={group.to}>
-                        <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-                          <span className="flex items-center gap-1.5 text-base font-bold text-white">
-                            <ArrowRight
-                              aria-hidden
-                              className="size-4 shrink-0 text-skylight"
-                            />
-                            {group.to}
-                          </span>
-                          {group.via ? (
-                            <span className="text-sm text-mist">
-                              {group.via}
-                            </span>
-                          ) : null}
+                        <p className="flex items-center gap-1.5 text-base font-bold text-white">
+                          <ArrowRight
+                            aria-hidden
+                            className="size-4 shrink-0 text-skylight"
+                          />
+                          {group.to}
                         </p>
+                        {group.via ? (
+                          <p className="mt-0.5 pl-[22px] text-sm text-mist">
+                            {group.via}
+                          </p>
+                        ) : null}
                         <ul className="mt-2 grid grid-cols-3 gap-2">
                           {group.departures.map((departure) => {
                             const state = rowState(departure.time);
