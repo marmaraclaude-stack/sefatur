@@ -18,36 +18,30 @@ export type DeparturePoint = {
   id: string;
   /** Kalkış noktası adı */
   name: string;
-  /** Varış / yön */
-  to: string;
   /** Kalkış saatleri, "HH:MM" 24 saat formatında */
   times: string[];
-  /** Kısa açıklama (ara durak bilgisi vb.) */
-  note: string;
 };
 
-/** Firma yetkilisinin verdiği güncel tarife. */
+/**
+ * Firma yetkilisinin verdiği güncel tarife.
+ * Saatler yalnızca kalkış noktasına göredir. Seferlerin varış yönü
+ * gün içinde değişebildiği için burada yön bilgisi TUTULMAZ.
+ */
 export const SCHEDULE: DeparturePoint[] = [
   {
     id: "topagac",
     name: "Topağaç",
-    to: "Marmara",
     times: ["08:30", "10:00", "12:40", "14:45", "18:30"],
-    note: "Topağaç kalkışlı seferler Marmara merkeze gider.",
   },
   {
     id: "marmara",
     name: "Marmara",
-    to: "Topağaç",
     times: ["12:15", "13:30", "16:15", "19:30"],
-    note: "Marmara kalkışlı seferler Topağaç yönüne doğru gider.",
   },
   {
     id: "saraylar",
     name: "Saraylar",
-    to: "Marmara",
     times: ["14:20", "18:00"],
-    note: "Saraylar kalkışlı seferler Asmalı ve Topağaç üzerinden Marmara merkeze gider.",
   },
 ];
 

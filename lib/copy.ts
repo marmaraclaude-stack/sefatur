@@ -84,7 +84,7 @@ export const SERVICES = {
     },
     {
       id: "kiralama",
-      name: "Özel Taşımacılık ve Şoförlü Kiralama",
+      name: "Özel Taşımacılık",
       description:
         "Düğün, misafir karşılama, ekip taşıma veya özel gezi için minibüslerimiz şoförüyle birlikte kiralanır.",
       highlights: [
@@ -101,7 +101,7 @@ export const SERVICES = {
 export const FLEET = {
   title: "Araçlarımız",
   subtitle:
-    "Biri Citroën Jumper, biri Opel Movano olmak üzere iki adet 16+1 koltuklu, klimalı minibüs ile hizmet veriyoruz. Araçlarımız düzenli bakımdan geçer ve her sefere temiz çıkar.",
+    "Biri Citroën Jumper, biri Opel Movano olmak üzere iki adet 16+1 koltuklu, klimalı minibüs ile hizmet veriyoruz. Araçlarımız düzenli bakımdan geçer ve her sefere temiz çıkar. Tüm yolcularımız sigorta kapsamında taşınır, direksiyonda ise her zaman adanın yollarını iyi bilen deneyimli şoförlerimiz vardır.",
   vehicles: [
     {
       id: "jumper",

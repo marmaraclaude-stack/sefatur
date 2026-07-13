@@ -23,7 +23,6 @@ import { timeToMinutes, useNextDepartures } from "@/lib/use-next-departure";
 type Soonest = {
   time: string;
   name: string;
-  to: string;
   minutesLeft: number;
 };
 
@@ -47,7 +46,6 @@ export function Hero() {
         soonest = {
           time: d.time,
           name: d.point.name,
-          to: d.point.to,
           minutesLeft: d.minutesLeft,
         };
       }
@@ -217,7 +215,7 @@ export function Hero() {
                         {soonest.time}
                         {" · "}
                         <span className="font-semibold">
-                          {soonest.name} → {soonest.to}
+                          {soonest.name} kalkışlı
                         </span>
                       </span>
                     ) : (

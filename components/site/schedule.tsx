@@ -10,7 +10,7 @@
  * hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
  */
 
-import { ArrowRight, Info, MessageCircle, Phone } from "lucide-react";
+import { Info, MessageCircle, Phone } from "lucide-react";
 
 import { CONTACT, SCHEDULE } from "@/lib/data";
 import { CONTACT_COPY, SCHEDULE_COPY } from "@/lib/copy";
@@ -189,17 +189,10 @@ export function Schedule() {
             return (
               <FadeIn key={point.id} delay={index * 0.08}>
                 <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-sm transition-colors hover:border-skylight/30 sm:p-7">
-                  <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xl font-bold tracking-tight text-white sm:text-2xl">
-                    <span>{point.name}</span>
-                    <ArrowRight
-                      aria-hidden
-                      className="size-6 shrink-0 text-skylight"
-                    />
-                    <span>{point.to}</span>
+                  <h3 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+                    {point.name}{" "}
+                    <span className="font-normal text-mist">kalkışlı</span>
                   </h3>
-                  <p className="mt-2 text-base leading-relaxed text-mist">
-                    {point.note}
-                  </p>
 
                   {/* Sıradaki sefer paneli: kartın kahraman satırı */}
                   <div
@@ -341,7 +334,6 @@ export function Schedule() {
             <thead>
               <tr>
                 <th scope="col">Kalkış Noktası</th>
-                <th scope="col">Yön</th>
                 <th scope="col">Kalkış Saatleri</th>
               </tr>
             </thead>
@@ -349,7 +341,6 @@ export function Schedule() {
               {SCHEDULE.map((point) => (
                 <tr key={point.id}>
                   <th scope="row">{point.name}</th>
-                  <td>{point.to}</td>
                   <td>{point.times.join(", ")}</td>
                 </tr>
               ))}
