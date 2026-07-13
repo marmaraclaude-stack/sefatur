@@ -12,7 +12,12 @@
 
 import { ArrowRight, Info, MessageCircle, Phone } from "lucide-react";
 
-import { CONTACT, SCHEDULE } from "@/lib/data";
+import {
+  CONTACT,
+  SCHEDULE,
+  type Departure,
+  type DeparturePoint,
+} from "@/lib/data";
 import { CONTACT_COPY, SCHEDULE_COPY } from "@/lib/copy";
 import {
   formatMinutes,
@@ -39,6 +44,27 @@ function Beacon() {
       <span className="relative size-2.5 rounded-full bg-sky" />
     </span>
   );
+}
+
+type DestinationGroup = {
+  to: string;
+  via?: string;
+  departures: Departure[];
+};
+
+/** Bir kalkış noktasının seferlerini varış noktasına göre gruplar. */
+function groupByDestination(point: DeparturePoint): DestinationGroup[] {
+  const groups: DestinationGroup[] = [];
+  for (const departure of point.departures) {
+    const group = groups.find((g) => g.to === departure.to);
+    if (group) {
+      group.departures.push(departure);
+      group.via ??= departure.via;
+    } else {
+      groups.push({ to: departure.to, via: departure.via, departures: [departure] });
+    }
+  }
+  return groups;
 }
 
 /**
@@ -249,59 +275,49 @@ export function Schedule() {
                     ) : null}
                   </div>
 
-                  {/* Günün tüm seferleri: saat + varış */}
-                  <ul className="mt-2">
-                    {point.departures.map((departure) => {
-                      const state = rowState(departure.time);
-                      const isNext = state === "next";
-                      return (
-                        <li
-                          key={departure.time}
-                          className={cn(
-                            "flex items-center justify-between gap-3 border-b border-white/[0.07] py-2.5 last:border-0 last:pb-0",
-                            state === "past" && "opacity-45"
-                          )}
-                        >
-                          <div className="flex min-w-0 flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-                            <time
-                              dateTime={departure.time}
-                              className={cn(
-                                "text-2xl tracking-tight tabular-nums",
-                                isNext
-                                  ? "font-bold text-skylight"
-                                  : "font-semibold text-white"
-                              )}
-                            >
-                              {departure.time}
-                            </time>
-                            <span className="flex items-center gap-1.5 text-base">
-                              <ArrowRight
-                                aria-hidden
-                                className={cn(
-                                  "size-4 shrink-0",
-                                  isNext ? "text-skylight" : "text-mist"
-                                )}
-                              />
-                              <span className="font-semibold text-white/90">
-                                {departure.to}
-                              </span>
-                            </span>
-                            {departure.via ? (
-                              <span className="text-sm text-mist">
-                                {departure.via}
-                              </span>
-                            ) : null}
-                          </div>
-                          {isNext ? (
-                            <span className="flex shrink-0 items-center gap-2 text-sm font-semibold text-skylight">
-                              <Beacon />
-                              sıradaki
+                  {/* Günün seferleri: varış noktasına göre gruplu saat çipleri */}
+                  <div className="mt-5 flex flex-1 flex-col gap-5">
+                    {groupByDestination(point).map((group) => (
+                      <div key={group.to}>
+                        <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+                          <span className="flex items-center gap-1.5 text-base font-bold text-white">
+                            <ArrowRight
+                              aria-hidden
+                              className="size-4 shrink-0 text-skylight"
+                            />
+                            {group.to}
+                          </span>
+                          {group.via ? (
+                            <span className="text-sm text-mist">
+                              {group.via}
                             </span>
                           ) : null}
-                        </li>
-                      );
-                    })}
-                  </ul>
+                        </p>
+                        <ul className="mt-2 grid grid-cols-3 gap-2">
+                          {group.departures.map((departure) => {
+                            const state = rowState(departure.time);
+                            return (
+                              <li key={departure.time}>
+                                <time
+                                  dateTime={departure.time}
+                                  className={cn(
+                                    "flex min-h-11 items-center justify-center rounded-lg border text-lg tabular-nums transition-colors",
+                                    state === "next"
+                                      ? "border-skylight/60 bg-skylight/15 font-bold text-skylight"
+                                      : state === "past"
+                                        ? "border-transparent bg-white/[0.03] font-medium text-white/40"
+                                        : "border-white/10 bg-white/[0.04] font-medium text-white"
+                                  )}
+                                >
+                                  {departure.time}
+                                </time>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
                 </article>
               </FadeIn>
             );

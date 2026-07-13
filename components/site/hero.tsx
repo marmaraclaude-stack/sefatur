@@ -64,7 +64,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-linear-to-b from-sand via-marble to-marble pt-28 pb-12 md:pt-32 sm:pb-16"
+      className="relative overflow-hidden bg-linear-to-b from-sand via-marble to-marble pt-28 pb-12 md:pt-32 sm:pb-16 xl:pt-40 xl:pb-24"
     >
       {/* Zemin: nokta deseni + renk lekeleri */}
       <div
@@ -81,11 +81,11 @@ export function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16 xl:gap-20">
           {/* Sol sütun */}
           <div>
             <h1
-              className="animate-fade-up text-[2.75rem] leading-[1.06] font-extrabold tracking-tight text-balance text-ink sm:text-6xl sm:leading-[1.05] lg:text-[4.25rem] lg:leading-[1.03]"
+              className="animate-fade-up text-[2.75rem] leading-[1.06] font-extrabold tracking-tight text-balance text-ink sm:text-6xl sm:leading-[1.05] lg:text-[4.25rem] lg:leading-[1.03] xl:text-[5rem] 2xl:text-[5.5rem]"
               style={{ animationDelay: "0s" }}
             >
               {headBefore}
@@ -100,7 +100,7 @@ export function Hero() {
             </h1>
 
             <p
-              className="animate-fade-up mt-6 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl"
+              className="animate-fade-up mt-6 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl xl:mt-7 xl:max-w-2xl xl:text-2xl"
               style={{ animationDelay: "0.08s" }}
             >
               {HERO.subheadline}
@@ -112,14 +112,14 @@ export function Hero() {
             >
               <a
                 href="#seferler"
-                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-7 text-base font-bold text-ink shadow-lg shadow-sky/30 inset-ring-1 inset-ring-white/45 transition hover:shadow-xl hover:shadow-sky/35 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
+                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-7 text-base font-bold text-ink shadow-lg shadow-sky/30 inset-ring-1 inset-ring-white/45 transition hover:shadow-xl hover:shadow-sky/35 hover:brightness-105 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto xl:h-14 xl:px-8 xl:text-lg"
               >
                 <Clock aria-hidden="true" className="size-5 shrink-0" />
                 {HERO.ctaPrimary}
               </a>
               <a
                 href={CONTACT.phoneHref}
-                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-white/80 bg-white/70 px-6 text-base font-semibold text-ink shadow-card ring-1 ring-ink/5 backdrop-blur-md transition hover:bg-white hover:text-forest hover:ring-forest/25 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto"
+                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-white/80 bg-white/70 px-6 text-base font-semibold text-ink shadow-card ring-1 ring-ink/5 backdrop-blur-md transition hover:bg-white hover:text-forest hover:ring-forest/25 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:outline-none sm:w-auto xl:h-14 xl:px-7 xl:text-lg"
               >
                 <Phone aria-hidden="true" className="size-5 shrink-0 text-forest" />
                 <span className="whitespace-nowrap">{CONTACT.phoneDisplay}</span>
@@ -146,7 +146,7 @@ export function Hero() {
                         aria-hidden="true"
                         className="size-4 shrink-0 text-forest"
                       />
-                      <span className="text-[15px] font-medium text-ink/70">
+                      <span className="text-[15px] font-medium text-ink/70 xl:text-base">
                         {fact}
                       </span>
                     </span>
@@ -169,7 +169,7 @@ export function Hero() {
                   alt={IMAGES.heroVehicle.alt}
                   fill
                   preload
-                  sizes="(min-width:1024px) 640px, 100vw"
+                  sizes="(min-width:1280px) 720px, (min-width:1024px) 640px, 100vw"
                   className="object-cover"
                 />
               </div>

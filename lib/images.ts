@@ -30,8 +30,8 @@ export const IMAGES: {
 } = {
   /** Hero bölümündeki araç fotoğrafı */
   heroVehicle: {
-    src: "/images/fleet-hero.jpg",
-    alt: "SEFATUR'un iki minibüsü, Opel Movano ve Citroën Jumper, gün batımında sahilde yan yana",
+    src: "/images/fleet-hero-2.jpg",
+    alt: "SEFATUR'un iki minibüsü akşam saatinde meydanda yan yana",
   },
   /** Araçlarımız: Citroën Jumper (10 AOT 182) */
   fleet1: {
