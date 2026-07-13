@@ -280,39 +280,43 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
                       : "border-white/10 bg-white/[0.04]"
                 )}
               >
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <time
-                    dateTime={departure.time}
-                    className={cn(
-                      "text-3xl font-extrabold tracking-tight tabular-nums",
-                      isPast ? "text-white/40" : "text-white"
-                    )}
-                  >
-                    {departure.time}
-                  </time>
-                  <ArrowRight
-                    aria-hidden
-                    className={cn(
-                      "size-5 shrink-0",
-                      isPast ? "text-white/30" : "text-skylight"
-                    )}
-                  />
-                  <p
-                    className={cn(
-                      "text-lg font-bold",
-                      isPast ? "text-white/40" : "text-white"
-                    )}
-                  >
-                    {toName}
-                  </p>
+                <div className="flex items-start justify-between gap-3 sm:items-center">
+                  <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0.5">
+                    <time
+                      dateTime={departure.time}
+                      className={cn(
+                        "text-3xl font-extrabold tracking-tight tabular-nums",
+                        isPast ? "text-white/40" : "text-white"
+                      )}
+                    >
+                      {departure.time}
+                    </time>
+                    <ArrowRight
+                      aria-hidden
+                      className={cn(
+                        "size-5 shrink-0",
+                        isPast ? "text-white/30" : "text-skylight"
+                      )}
+                    />
+                    <p
+                      className={cn(
+                        "text-lg font-bold",
+                        isPast ? "text-white/40" : "text-white"
+                      )}
+                    >
+                      {toName}
+                    </p>
+                  </div>
                   {isNext && nowMin !== null ? (
-                    <p className="ml-auto flex shrink-0 items-center gap-2 text-base font-semibold text-skylight">
+                    <p className="flex shrink-0 items-center gap-2 pt-2 text-sm font-semibold text-skylight sm:pt-0 sm:text-base">
                       <Beacon />
                       <span className="sr-only">
                         {SCHEDULE_COPY.nextLabel},{" "}
                       </span>
-                      {formatMinutes(timeToMinutes(departure.time) - nowMin)}{" "}
-                      {SCHEDULE_COPY.inMinutesSuffix}
+                      {formatMinutes(timeToMinutes(departure.time) - nowMin)}
+                      <span className="hidden sm:inline">
+                        {SCHEDULE_COPY.inMinutesSuffix}
+                      </span>
                     </p>
                   ) : null}
                 </div>

@@ -13,7 +13,7 @@ import { CONTACT } from "@/lib/data";
  */
 export function Footer() {
   return (
-    <footer id="iletisim" className="bg-deep pt-10 pb-24 lg:pb-8">
+    <footer id="iletisim" className="bg-deep pt-10 pb-8">
       <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
         <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between lg:gap-8">
           {/* Logo: koyu zeminde beyaz karo içinde */}
@@ -91,13 +91,14 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Alt bar: mobilde ortalanmış, geniş ekranda iki yana yaslı */}
-        <div className="mt-7 flex flex-col items-center gap-1 border-t border-white/10 pt-4 text-center lg:flex-row lg:justify-between lg:text-left">
-          <p className="text-sm text-mist/90">
-            © {BRAND.name} · {CONTACT.base}
-          </p>
+        {/* Alt bar: mobilde ortalanmış kısa satırlar, geniş ekranda yayılı */}
+        <div className="mt-7 flex flex-col items-center gap-0.5 border-t border-white/10 pt-4 text-center lg:flex-row lg:justify-between lg:gap-6 lg:text-left">
+          <p className="text-sm text-mist/90">{CONTACT.base}</p>
           <p className="text-sm text-mist/70">
             {CONTACT.name} · {CONTACT.title}
+          </p>
+          <p className="mt-1.5 text-sm text-mist/60 lg:mt-0">
+            © {BRAND.name}
           </p>
         </div>
       </div>

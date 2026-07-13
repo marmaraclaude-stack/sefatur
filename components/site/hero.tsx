@@ -54,7 +54,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-clip bg-linear-to-b from-sand via-marble to-marble pt-24 pb-10 md:pt-28 sm:pb-16 xl:pt-32 xl:pb-14"
+      className="relative overflow-clip bg-linear-to-b from-sand via-marble to-marble pt-24 pb-10 md:pt-28 sm:pb-16 xl:pt-32 xl:pb-14 2xl:pt-40 2xl:pb-20"
     >
       {/* Zemin: nokta deseni + renk lekeleri */}
       <div
@@ -75,7 +75,7 @@ export function Hero() {
           {/* Sol sütun */}
           <div>
             <h1
-              className="animate-fade-up text-[2.75rem] leading-[1.06] font-extrabold tracking-tight text-balance text-ink sm:text-6xl sm:leading-[1.05] lg:text-[4.25rem] lg:leading-[1.03] xl:text-[4.75rem]"
+              className="animate-fade-up text-[2.75rem] leading-[1.06] font-extrabold tracking-tight text-balance text-ink sm:text-6xl sm:leading-[1.05] lg:text-[4.25rem] lg:leading-[1.03] xl:text-[4.75rem] 2xl:text-[5.25rem]"
               style={{ animationDelay: "0s" }}
             >
               {headBefore}
@@ -90,7 +90,7 @@ export function Hero() {
             </h1>
 
             <p
-              className="animate-fade-up mt-5 max-w-xl text-lg leading-relaxed text-ink/70 sm:mt-6 sm:text-xl xl:max-w-2xl xl:text-[1.35rem]"
+              className="animate-fade-up mt-5 max-w-xl text-lg leading-relaxed text-ink/70 sm:mt-6 sm:text-xl xl:max-w-2xl xl:text-[1.35rem] 2xl:text-2xl"
               style={{ animationDelay: "0.08s" }}
             >
               {HERO.subheadline}
@@ -125,7 +125,7 @@ export function Hero() {
           >
             {/* Ana fotoğraf: gradyan çerçeve, üstünde konum çipi */}
             <div className="relative rounded-[1.35rem] bg-linear-to-br from-sky/70 via-ice to-forest/40 p-[2px] shadow-card-lg">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] lg:aspect-[16/9]">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] lg:aspect-[16/9] 2xl:aspect-[16/10]">
                 <Image
                   src={IMAGES.heroVehicle.src}
                   alt={IMAGES.heroVehicle.alt}
@@ -147,7 +147,7 @@ export function Hero() {
 
             {/* Alt satır: ikinci fotoğraf + canlı sefer kartı, bindirme yok */}
             <div className="grid gap-4 sm:grid-cols-[1.15fr_1fr] sm:gap-5">
-              <div className="relative hidden aspect-[16/10] overflow-hidden rounded-2xl shadow-card-lg ring-1 ring-ink/5 sm:block lg:aspect-[16/9]">
+              <div className="relative hidden aspect-[16/10] overflow-hidden rounded-2xl shadow-card-lg ring-1 ring-ink/5 sm:block lg:aspect-[16/9] 2xl:aspect-[16/10]">
                 <Image
                   src={IMAGES.heroVehicle2.src}
                   alt={IMAGES.heroVehicle2.alt}
