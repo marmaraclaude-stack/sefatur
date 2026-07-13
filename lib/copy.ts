@@ -16,8 +16,6 @@ export const HERO = {
     "Marmara, Topağaç ve Saraylar arasında her gün karşılıklı minibüs seferleri. Turlar, öğrenci servisi ve şoförlü araç kiralama için bizi arayın.",
   ctaPrimary: "Sefer Saatleri",
   ctaSecondary: "Hemen Ara",
-  /** Pill değil, düz satır olarak gösterilir */
-  facts: ["Karşılıklı hat seferleri", "3 ana durak", "Her gün hizmette"],
 } as const;
 
 export const SCHEDULE_COPY = {

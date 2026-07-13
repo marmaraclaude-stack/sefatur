@@ -32,7 +32,7 @@ export function Services() {
   return (
     <section
       id="hizmetler"
-      className="relative overflow-hidden bg-marble py-10 sm:py-14"
+      className="relative overflow-clip bg-marble py-10 sm:py-14"
     >
       {/* Zemin: yumuşak buz mavisi parıltı */}
       <div

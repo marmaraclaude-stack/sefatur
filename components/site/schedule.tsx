@@ -136,7 +136,7 @@ function ToggleButton({
       aria-pressed={selected}
       onClick={onClick}
       className={cn(
-        "inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full border px-6 text-base transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep",
+        "inline-flex min-h-12 w-full cursor-pointer items-center justify-center rounded-full border px-1 text-[15px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep sm:w-auto sm:px-6 sm:text-base",
         selected
           ? "border-transparent bg-linear-to-r from-sky to-skylight font-bold text-ink shadow-card"
           : "border-white/15 bg-white/[0.06] font-semibold text-white hover:border-skylight/40 hover:bg-white/[0.1]"
@@ -191,7 +191,7 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
           <p aria-hidden className="text-base font-bold text-white">
             {SCHEDULE_COPY.pickerFromLabel}
           </p>
-          <div className="mt-2.5 flex flex-wrap gap-2.5">
+          <div className="mt-2.5 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
             {ORIGINS.map((id) => (
               <ToggleButton
                 key={id}
@@ -208,7 +208,7 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
           <p aria-hidden className="text-base font-bold text-white">
             {SCHEDULE_COPY.pickerToLabel}
           </p>
-          <div className="mt-2.5 flex flex-wrap gap-2.5">
+          <div className="mt-2.5 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
             {targets.map((id) => (
               <ToggleButton
                 key={id}
@@ -272,7 +272,7 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
             <li key={departure.time}>
               <div
                 className={cn(
-                  "flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border px-4 py-3 transition-colors sm:px-5",
+                  "rounded-xl border px-4 py-3 transition-colors sm:px-5",
                   isNext
                     ? "border-skylight/50 bg-skylight/10"
                     : isPast
@@ -280,23 +280,23 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
                       : "border-white/10 bg-white/[0.04]"
                 )}
               >
-                <time
-                  dateTime={departure.time}
-                  className={cn(
-                    "text-3xl font-extrabold tracking-tight tabular-nums",
-                    isPast ? "text-white/40" : "text-white"
-                  )}
-                >
-                  {departure.time}
-                </time>
-                <ArrowRight
-                  aria-hidden
-                  className={cn(
-                    "size-5 shrink-0",
-                    isPast ? "text-white/30" : "text-skylight"
-                  )}
-                />
-                <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <time
+                    dateTime={departure.time}
+                    className={cn(
+                      "text-3xl font-extrabold tracking-tight tabular-nums",
+                      isPast ? "text-white/40" : "text-white"
+                    )}
+                  >
+                    {departure.time}
+                  </time>
+                  <ArrowRight
+                    aria-hidden
+                    className={cn(
+                      "size-5 shrink-0",
+                      isPast ? "text-white/30" : "text-skylight"
+                    )}
+                  />
                   <p
                     className={cn(
                       "text-lg font-bold",
@@ -305,23 +305,25 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
                   >
                     {toName}
                   </p>
-                  {note ? (
-                    <p
-                      className={cn(
-                        "text-sm",
-                        isPast ? "text-white/30" : "text-mist"
-                      )}
-                    >
-                      {note}
+                  {isNext && nowMin !== null ? (
+                    <p className="ml-auto flex shrink-0 items-center gap-2 text-base font-semibold text-skylight">
+                      <Beacon />
+                      <span className="sr-only">
+                        {SCHEDULE_COPY.nextLabel},{" "}
+                      </span>
+                      {formatMinutes(timeToMinutes(departure.time) - nowMin)}{" "}
+                      {SCHEDULE_COPY.inMinutesSuffix}
                     </p>
                   ) : null}
                 </div>
-                {isNext && nowMin !== null ? (
-                  <p className="flex items-center gap-2 text-base font-semibold text-skylight">
-                    <Beacon />
-                    <span className="sr-only">{SCHEDULE_COPY.nextLabel}, </span>
-                    {formatMinutes(timeToMinutes(departure.time) - nowMin)}{" "}
-                    {SCHEDULE_COPY.inMinutesSuffix}
+                {note ? (
+                  <p
+                    className={cn(
+                      "mt-0.5 text-sm",
+                      isPast ? "text-white/30" : "text-mist"
+                    )}
+                  >
+                    {note}
                   </p>
                 ) : null}
               </div>
@@ -456,7 +458,7 @@ export function Schedule() {
     <section
       id="seferler"
       aria-label={SCHEDULE_COPY.title}
-      className="relative overflow-hidden bg-linear-to-b from-navy to-deep py-10 sm:py-14"
+      className="relative overflow-clip bg-linear-to-b from-navy to-deep py-10 sm:py-14"
     >
       {/* Zemin dokusu */}
       <div
@@ -476,13 +478,8 @@ export function Schedule() {
           subtitle={SCHEDULE_COPY.subtitle}
         />
 
-        {/* Yolculuk seçici: nereden nereye, uyan seferler */}
-        <FadeIn className="mt-8 sm:mt-10">
-          <JourneyPicker nowMin={nowMin} />
-        </FadeIn>
-
         {/* Üç kalkış noktası, tek bakışta */}
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-3 sm:mt-10">
           {SCHEDULE.map((point, index) => {
             const live_ = live?.departures.find(
               (d) => d.point.id === point.id
@@ -615,6 +612,11 @@ export function Schedule() {
         {/* Günün akışı: kronolojik şerit (yalnızca geniş ekran) */}
         <FadeIn delay={0.08}>
           <DayFlow nowMin={nowMin} />
+        </FadeIn>
+
+        {/* Yolculuk seçici: nereden nereye, uyan seferler */}
+        <FadeIn delay={0.1} className="mt-6">
+          <JourneyPicker nowMin={nowMin} />
         </FadeIn>
 
         {/* Notlar: tam genişlikte üç sütun */}

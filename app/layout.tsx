@@ -56,6 +56,9 @@ export const metadata: Metadata = {
     images: ["/images/og-image.jpg"],
   },
   robots: { index: true, follow: true },
+  /* iOS'un adres ve numaraları otomatik bağlantıya çevirip altını
+     çizmesini engeller. Aranabilir numaralar zaten tel: bağlantısıdır. */
+  formatDetection: { telephone: false, address: false, email: false },
 };
 
 export const viewport: Viewport = {

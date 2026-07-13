@@ -26,7 +26,7 @@ export function IslandStory() {
   return (
     <section
       id="ada"
-      className="relative overflow-hidden bg-marble py-10 sm:py-14"
+      className="relative overflow-clip bg-marble py-10 sm:py-14"
     >
       {/* Zemin: yumuşak parıltılar */}
       <div

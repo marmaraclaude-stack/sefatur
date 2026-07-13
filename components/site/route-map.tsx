@@ -112,7 +112,7 @@ export function RouteMap() {
   return (
     <section
       id="guzergah"
-      className="relative overflow-hidden bg-marble py-10 sm:py-14"
+      className="relative overflow-clip bg-marble py-10 sm:py-14"
     >
       {/* Zemin: yumuşak buz mavisi parıltı + nokta deseni */}
       <div

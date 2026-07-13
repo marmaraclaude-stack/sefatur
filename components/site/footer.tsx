@@ -66,8 +66,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Alt bar */}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-1.5 border-t border-white/10 pt-4">
+        {/* Alt bar: mobilde ortalanmış, geniş ekranda iki yana yaslı */}
+        <div className="mt-8 flex flex-col items-center gap-1 border-t border-white/10 pt-4 text-center lg:flex-row lg:justify-between lg:text-left">
           <p className="text-sm text-mist/90">
             © {BRAND.name} · {CONTACT.base}
           </p>
