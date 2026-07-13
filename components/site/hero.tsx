@@ -54,7 +54,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-clip bg-linear-to-b from-sand via-marble to-marble pt-24 pb-10 md:pt-32 sm:pb-16 xl:pt-36 xl:pb-20"
+      className="relative overflow-clip bg-linear-to-b from-sand via-marble to-marble pt-24 pb-10 md:pt-28 sm:pb-16 xl:pt-32 xl:pb-14"
     >
       {/* Zemin: nokta deseni + renk lekeleri */}
       <div
@@ -71,7 +71,7 @@ export function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8">
-        <div className="grid grid-cols-1 items-center gap-9 lg:grid-cols-[1fr_1.12fr] lg:gap-14 xl:gap-16">
+        <div className="grid grid-cols-1 items-center gap-9 lg:grid-cols-[1.05fr_1fr] lg:gap-14 xl:gap-16">
           {/* Sol sütun */}
           <div>
             <h1
@@ -125,13 +125,13 @@ export function Hero() {
           >
             {/* Ana fotoğraf: gradyan çerçeve, üstünde konum çipi */}
             <div className="relative rounded-[1.35rem] bg-linear-to-br from-sky/70 via-ice to-forest/40 p-[2px] shadow-card-lg">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem]">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] lg:aspect-[16/9]">
                 <Image
                   src={IMAGES.heroVehicle.src}
                   alt={IMAGES.heroVehicle.alt}
                   fill
                   preload
-                  sizes="(min-width:1024px) 780px, 100vw"
+                  sizes="(min-width:1024px) 700px, 100vw"
                   className="object-cover"
                 />
               </div>
@@ -147,7 +147,7 @@ export function Hero() {
 
             {/* Alt satır: ikinci fotoğraf + canlı sefer kartı, bindirme yok */}
             <div className="grid gap-4 sm:grid-cols-[1.15fr_1fr] sm:gap-5">
-              <div className="relative hidden aspect-[16/10] overflow-hidden rounded-2xl shadow-card-lg ring-1 ring-ink/5 sm:block">
+              <div className="relative hidden aspect-[16/10] overflow-hidden rounded-2xl shadow-card-lg ring-1 ring-ink/5 sm:block lg:aspect-[16/9]">
                 <Image
                   src={IMAGES.heroVehicle2.src}
                   alt={IMAGES.heroVehicle2.alt}

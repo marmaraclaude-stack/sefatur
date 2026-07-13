@@ -46,17 +46,17 @@ export function Fleet() {
                         paletine dahil değildir ve bilinçli olarak sabittir. */}
                     <div
                       aria-label={`Plaka ${vehicle.plate}`}
-                      className="absolute bottom-4 left-4 flex items-stretch overflow-hidden rounded-md bg-white shadow-card-lg ring-2 ring-ink/70"
+                      className="absolute bottom-3 left-3 flex items-stretch overflow-hidden rounded-md bg-white shadow-card-lg ring-2 ring-ink/70 sm:bottom-4 sm:left-4"
                     >
                       <span
                         aria-hidden
-                        className="flex w-7 items-end justify-center bg-[#036] pb-1"
+                        className="flex w-5 items-end justify-center bg-[#036] pb-1 sm:w-7"
                       >
-                        <span className="text-[10px] font-bold leading-none text-white">
+                        <span className="text-[8px] font-bold leading-none text-white sm:text-[10px]">
                           TR
                         </span>
                       </span>
-                      <span className="flex items-center px-3.5 py-1.5 text-lg font-bold tracking-[0.14em] text-ink tabular-nums">
+                      <span className="flex items-center px-2.5 py-1 text-sm font-bold tracking-[0.12em] text-ink tabular-nums sm:px-3.5 sm:py-1.5 sm:text-lg sm:tracking-[0.14em]">
                         {vehicle.plate}
                       </span>
                     </div>
