@@ -127,10 +127,12 @@ function Beacon() {
 /** Yolculuk seçicideki hap biçimli büyük düğme. */
 function ToggleButton({
   selected,
+  disabled = false,
   onClick,
   children,
 }: {
   selected: boolean;
+  disabled?: boolean;
   onClick: () => void;
   children: ReactNode;
 }) {
@@ -138,12 +140,15 @@ function ToggleButton({
     <button
       type="button"
       aria-pressed={selected}
+      disabled={disabled}
       onClick={onClick}
       className={cn(
         "inline-flex min-h-12 w-full cursor-pointer items-center justify-center rounded-full border px-1 text-[15px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep sm:w-auto sm:px-6 sm:text-base",
         selected
           ? "border-transparent bg-linear-to-r from-sky to-skylight font-bold text-ink shadow-card"
-          : "border-white/15 bg-white/[0.06] font-semibold text-white hover:border-skylight/40 hover:bg-white/[0.1]"
+          : "border-white/15 bg-white/[0.06] font-semibold text-white hover:border-skylight/40 hover:bg-white/[0.1]",
+        disabled &&
+          "cursor-not-allowed opacity-35 hover:border-white/15 hover:bg-white/[0.06]"
       )}
     >
       {children}
@@ -212,11 +217,14 @@ function JourneyPicker({ nowMin }: { nowMin: number | null }) {
           <p aria-hidden className="text-base font-bold text-white">
             {SCHEDULE_COPY.pickerToLabel}
           </p>
-          <div className="mt-2.5 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
-            {targets.map((id) => (
+          {/* Kalkışla aynı dört durak görünür, seçili kalkış ve o kalkıştan
+              ulaşılamayan duraklar devre dışı kalır */}
+          <div className="mt-2.5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
+            {ORDER.map((id) => (
               <ToggleButton
                 key={id}
                 selected={id === to}
+                disabled={id === from || !targets.includes(id)}
                 onClick={() => setTo(id)}
               >
                 {stopName(id)}
