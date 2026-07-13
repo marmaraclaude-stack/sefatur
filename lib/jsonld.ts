@@ -13,7 +13,7 @@ export const localBusinessJsonLd = {
   "@id": `${SITE_URL}/#business`,
   name: BRAND.name,
   description: `${BRAND.subtitle}. Kalkış saatleri: ${SCHEDULE.map(
-    (p) => `${p.name} ${p.times.join(", ")}`
+    (p) => `${p.name} ${p.departures.map((d) => d.time).join(", ")}`
   ).join(" • ")}`,
   url: SITE_URL,
   telephone: "+905336555118",

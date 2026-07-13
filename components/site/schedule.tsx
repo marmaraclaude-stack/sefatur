@@ -3,14 +3,14 @@
 /**
  * Sefer Saatleri: sitenin ana bölümü, koyu orman yeşili pano.
  * Üç kalkış noktası aynı anda görünür (sekme yok). Her kartın üstünde
- * büyük rakamlı "sıradaki sefer" paneli, altında günün tüm saatleri
- * çip ızgarası olarak durur. Geniş ekranlarda kartların altında günün
- * 11 kalkışını kronolojik gösteren "Günün akışı" şeridi bulunur.
- * Saatlerin tek kaynağı lib/data.ts; canlı durum mount sonrası
+ * büyük rakamlı "sıradaki sefer" paneli, altında günün tüm seferleri
+ * saat + varış noktasıyla satır satır durur. Geniş ekranlarda kartların
+ * altında günün 11 kalkışını kronolojik gösteren "Günün akışı" şeridi
+ * bulunur. Saatlerin tek kaynağı lib/data.ts; canlı durum mount sonrası
  * hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
  */
 
-import { Info, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, Info, MessageCircle, Phone } from "lucide-react";
 
 import { CONTACT, SCHEDULE } from "@/lib/data";
 import { CONTACT_COPY, SCHEDULE_COPY } from "@/lib/copy";
@@ -49,9 +49,9 @@ function Beacon() {
  */
 function DayFlow({ nowMin }: { nowMin: number | null }) {
   const departures = SCHEDULE.flatMap((point) =>
-    point.times.map((time) => ({
-      time,
-      min: timeToMinutes(time),
+    point.departures.map((departure) => ({
+      time: departure.time,
+      min: timeToMinutes(departure.time),
       name: point.name,
       id: point.id,
     }))
@@ -166,12 +166,14 @@ export function Schedule() {
         {/* Üç kalkış noktası, tek bakışta */}
         <div className="mt-8 grid gap-5 md:grid-cols-3 sm:mt-10">
           {SCHEDULE.map((point, index) => {
-            const departure = live?.departures.find(
+            const live_ = live?.departures.find(
               (d) => d.point.id === point.id
             );
-            const isLiveNext = departure?.isToday === true;
-            const doneToday = departure !== undefined && !departure.isToday;
-            const heroTime = isLiveNext ? departure.time : point.times[0];
+            const isLiveNext = live_?.isToday === true;
+            const doneToday = live_ !== undefined && !live_.isToday;
+            const heroDeparture = isLiveNext
+              ? point.departures.find((d) => d.time === live_.time)!
+              : point.departures[0];
             const heroLabel =
               live === null
                 ? SCHEDULE_COPY.firstLabel
@@ -179,9 +181,9 @@ export function Schedule() {
                   ? SCHEDULE_COPY.nextLabel
                   : SCHEDULE_COPY.firstTomorrow;
 
-            const chipState = (time: string): RowState => {
+            const rowState = (time: string): RowState => {
               if (nowMin === null) return "neutral";
-              if (isLiveNext && departure.time === time) return "next";
+              if (isLiveNext && live_.time === time) return "next";
               if (timeToMinutes(time) < nowMin) return "past";
               return "future";
             };
@@ -197,7 +199,7 @@ export function Schedule() {
                   {/* Sıradaki sefer paneli: kartın kahraman satırı */}
                   <div
                     className={cn(
-                      "mt-5 rounded-xl border p-4 transition-colors",
+                      "mt-4 rounded-xl border p-4 transition-colors",
                       isLiveNext
                         ? "border-skylight/40 bg-skylight/10"
                         : "border-white/10 bg-white/[0.04]"
@@ -212,19 +214,34 @@ export function Schedule() {
                       {isLiveNext ? <Beacon /> : null}
                       {heroLabel}
                     </p>
-                    <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+                    <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-0.5">
                       <time
-                        dateTime={heroTime}
+                        dateTime={heroDeparture.time}
                         className="text-4xl font-extrabold tracking-tight text-white tabular-nums"
                       >
-                        {heroTime}
+                        {heroDeparture.time}
                       </time>
-                      {isLiveNext && departure.minutesLeft != null ? (
-                        <span className="text-base font-semibold text-skylight">
-                          {formatMinutes(departure.minutesLeft)} sonra
-                        </span>
-                      ) : null}
+                      <ArrowRight
+                        aria-hidden
+                        className="size-5 shrink-0 text-skylight"
+                      />
+                      <span className="text-xl font-bold text-white">
+                        {heroDeparture.to}
+                      </span>
                     </div>
+                    {heroDeparture.via ||
+                    (isLiveNext && live_.minutesLeft != null) ? (
+                      <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+                        <span className="text-sm text-mist">
+                          {heroDeparture.via ?? ""}
+                        </span>
+                        {isLiveNext && live_.minutesLeft != null ? (
+                          <span className="text-base font-semibold text-skylight">
+                            {formatMinutes(live_.minutesLeft)} sonra
+                          </span>
+                        ) : null}
+                      </div>
+                    ) : null}
                     {doneToday ? (
                       <p className="mt-1 text-sm text-mist">
                         {SCHEDULE_COPY.doneToday}
@@ -232,25 +249,55 @@ export function Schedule() {
                     ) : null}
                   </div>
 
-                  {/* Günün tüm saatleri: çip ızgarası */}
-                  <ul className="mt-4 grid grid-cols-3 gap-2">
-                    {point.times.map((time) => {
-                      const state = chipState(time);
+                  {/* Günün tüm seferleri: saat + varış */}
+                  <ul className="mt-2">
+                    {point.departures.map((departure) => {
+                      const state = rowState(departure.time);
+                      const isNext = state === "next";
                       return (
-                        <li key={time}>
-                          <time
-                            dateTime={time}
-                            className={cn(
-                              "flex min-h-11 items-center justify-center rounded-lg border text-lg tabular-nums transition-colors",
-                              state === "next"
-                                ? "border-skylight/60 bg-skylight/15 font-bold text-skylight"
-                                : state === "past"
-                                  ? "border-transparent bg-white/[0.03] font-medium text-white/40"
-                                  : "border-white/10 bg-white/[0.04] font-medium text-white"
-                            )}
-                          >
-                            {time}
-                          </time>
+                        <li
+                          key={departure.time}
+                          className={cn(
+                            "flex items-center justify-between gap-3 border-b border-white/[0.07] py-2.5 last:border-0 last:pb-0",
+                            state === "past" && "opacity-45"
+                          )}
+                        >
+                          <div className="flex min-w-0 flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+                            <time
+                              dateTime={departure.time}
+                              className={cn(
+                                "text-2xl tracking-tight tabular-nums",
+                                isNext
+                                  ? "font-bold text-skylight"
+                                  : "font-semibold text-white"
+                              )}
+                            >
+                              {departure.time}
+                            </time>
+                            <span className="flex items-center gap-1.5 text-base">
+                              <ArrowRight
+                                aria-hidden
+                                className={cn(
+                                  "size-4 shrink-0",
+                                  isNext ? "text-skylight" : "text-mist"
+                                )}
+                              />
+                              <span className="font-semibold text-white/90">
+                                {departure.to}
+                              </span>
+                            </span>
+                            {departure.via ? (
+                              <span className="text-sm text-mist">
+                                {departure.via}
+                              </span>
+                            ) : null}
+                          </div>
+                          {isNext ? (
+                            <span className="flex shrink-0 items-center gap-2 text-sm font-semibold text-skylight">
+                              <Beacon />
+                              sıradaki
+                            </span>
+                          ) : null}
                         </li>
                       );
                     })}
@@ -325,7 +372,7 @@ export function Schedule() {
           </div>
         </FadeIn>
 
-        {/* SEO / ekran okuyucu ikizi: tüm noktaların tam tarifesi.
+        {/* SEO / ekran okuyucu ikizi: tüm seferlerin tam listesi.
             Not: sr-only tabloya değil sarmalayıcıya verilir; tablolar
             width:1px kuralını uygulamaz ve mobilde yatay taşma yaratır. */}
         <div className="sr-only">
@@ -334,16 +381,23 @@ export function Schedule() {
             <thead>
               <tr>
                 <th scope="col">Kalkış Noktası</th>
-                <th scope="col">Kalkış Saatleri</th>
+                <th scope="col">Kalkış Saati</th>
+                <th scope="col">Varış</th>
               </tr>
             </thead>
             <tbody>
-              {SCHEDULE.map((point) => (
-                <tr key={point.id}>
-                  <th scope="row">{point.name}</th>
-                  <td>{point.times.join(", ")}</td>
-                </tr>
-              ))}
+              {SCHEDULE.flatMap((point) =>
+                point.departures.map((departure) => (
+                  <tr key={`${point.id}-${departure.time}`}>
+                    <th scope="row">{point.name}</th>
+                    <td>{departure.time}</td>
+                    <td>
+                      {departure.to}
+                      {departure.via ? ` (${departure.via})` : ""}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

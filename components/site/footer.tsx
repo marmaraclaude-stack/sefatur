@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
+import { ArrowUp, MessageCircle, Phone } from "lucide-react";
 import { BRAND, CONTACT_COPY, NAV_LINKS } from "@/lib/copy";
 import { CONTACT } from "@/lib/data";
 
 /**
- * Sade alt bilgi: açık zemin, ortalanmış tek sütun.
- * Logo, bağlantılar, telefon ve telif satırından ibarettir.
+ * Alt bilgi: koyu orman yeşili gradyan zemin (tarife panosuyla aynı dil),
+ * ortalanmış tek sütun. Beyaz karo içinde logo, kısa tanıtım, bağlantılar,
+ * telefon ve WhatsApp butonları, ince çizgili alt bar.
  * Mobilde alttaki arama çubuğu için ekstra alt boşluk bırakılır.
  * Sunucu bileşeni.
  */
@@ -13,22 +14,33 @@ export function Footer() {
   return (
     <footer
       id="iletisim"
-      className="border-t border-ink/10 bg-marble pt-12 pb-28 text-center sm:pt-14 lg:pb-12"
+      className="relative overflow-hidden bg-linear-to-b from-navy to-deep pt-12 pb-28 text-center sm:pt-14 lg:pb-12"
     >
-      <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center px-5 sm:px-8">
+      {/* Zemin: yumuşak parıltı */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-44 left-1/2 size-[38rem] -translate-x-1/2 rounded-full bg-skylight/[0.07] blur-3xl"
+      />
+
+      <div className="relative mx-auto flex w-full max-w-[1400px] flex-col items-center px-5 sm:px-8">
+        {/* Logo: koyu zeminde beyaz karo içinde */}
         <a
           href="#top"
           aria-label={BRAND.name}
-          className="rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-forest"
+          className="rounded-2xl bg-white px-5 py-3 shadow-card-lg outline-none transition hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-skylight"
         >
           <Image
             src="/images/logo.png"
             alt={BRAND.name}
             width={452}
             height={120}
-            className="h-10 w-auto"
+            className="h-9 w-auto"
           />
         </a>
+
+        <p className="mt-5 max-w-md text-base leading-relaxed text-mist">
+          {BRAND.subtitle}
+        </p>
 
         <nav aria-label="Site içi bağlantılar" className="mt-5">
           <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0.5">
@@ -36,7 +48,7 @@ export function Footer() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="inline-flex min-h-10 items-center rounded-md text-base text-ink/70 transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
+                  className="inline-flex min-h-10 items-center rounded-md text-base text-mist transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
                 >
                   {link.label}
                 </a>
@@ -45,25 +57,42 @@ export function Footer() {
           </ul>
         </nav>
 
-        <a
-          href={CONTACT.phoneHref}
-          className="mt-5 rounded-md text-[1.75rem] font-extrabold tracking-tight whitespace-nowrap text-ink transition-colors hover:text-forest focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
-        >
-          {CONTACT.phoneDisplay}
-        </a>
-        <a
-          href={CONTACT.whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-1 inline-flex min-h-10 items-center gap-2 rounded-md text-base text-ink/70 transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-forest focus-visible:outline-none"
-        >
-          <MessageCircle className="size-[18px] shrink-0" aria-hidden />
-          {CONTACT_COPY.whatsappCta}
-        </a>
+        <div className="mt-6 flex w-full flex-wrap items-center justify-center gap-3 sm:w-auto">
+          <a
+            href={CONTACT.phoneHref}
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-linear-to-r from-sky to-skylight px-6 text-base font-bold text-ink shadow-card transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep sm:w-auto"
+          >
+            <Phone aria-hidden className="size-5" />
+            <span className="whitespace-nowrap">{CONTACT.phoneDisplay}</span>
+          </a>
+          <a
+            href={CONTACT.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.06] px-5 text-base font-semibold text-white transition hover:border-skylight/40 hover:bg-white/[0.1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-skylight focus-visible:ring-offset-2 focus-visible:ring-offset-deep sm:w-auto"
+          >
+            <MessageCircle aria-hidden className="size-5" />
+            <span className="whitespace-nowrap">{CONTACT_COPY.whatsappCta}</span>
+          </a>
+        </div>
 
-        <p className="mt-8 w-full border-t border-ink/10 pt-5 text-sm text-ink/60">
-          © {BRAND.name} · {CONTACT.base}
+        <p className="mt-3 text-sm text-mist">
+          {CONTACT.name} · {CONTACT.title}
         </p>
+
+        {/* Alt bar */}
+        <div className="mt-10 flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-5 text-left">
+          <p className="text-sm text-mist/90">
+            © {BRAND.name} · {CONTACT.base}
+          </p>
+          <a
+            href="#top"
+            className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-sm text-mist transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-skylight focus-visible:outline-none"
+          >
+            Başa dön
+            <ArrowUp className="size-4" aria-hidden />
+          </a>
+        </div>
       </div>
     </footer>
   );

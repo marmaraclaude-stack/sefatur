@@ -34,7 +34,9 @@ function markerHtml(kind: "main" | "via"): string {
 
 function popupHtml(stopId: string, stopName: string, blurb: string): string {
   const point = SCHEDULE.find((p) => p.id === stopId);
-  const body = point ? `Kalkış: ${point.times.join(", ")}` : blurb;
+  const body = point
+    ? point.departures.map((d) => `${d.time} → ${d.to}`).join("<br/>")
+    : blurb;
   return `<strong>${stopName}</strong><br/>${body}`;
 }
 

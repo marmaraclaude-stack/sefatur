@@ -6,13 +6,15 @@
  * null döner, mount olduktan sonra dakikada bir güncellenir.
  */
 import { useEffect, useState } from "react";
-import { SCHEDULE, type DeparturePoint } from "@/lib/data";
+import { SCHEDULE, type Departure, type DeparturePoint } from "@/lib/data";
 
 export type NextDeparture = {
   /** Kalkış noktası */
   point: DeparturePoint;
   /** "HH:MM" */
   time: string;
+  /** Varış noktası */
+  to: string;
   /** Kaç dakika sonra (bugün sefer kalmadıysa null) */
   minutesLeft: number | null;
   /** Bugün bu noktadan sefer kaldı mı */
@@ -40,10 +42,10 @@ export function timeToMinutes(t: string): number {
 export function nextTimeFor(
   point: DeparturePoint,
   nowMin: number
-): { time: string; minutesLeft: number } | null {
-  for (const t of point.times) {
-    const tm = timeToMinutes(t);
-    if (tm >= nowMin) return { time: t, minutesLeft: tm - nowMin };
+): { departure: Departure; minutesLeft: number } | null {
+  for (const departure of point.departures) {
+    const tm = timeToMinutes(departure.time);
+    if (tm >= nowMin) return { departure, minutesLeft: tm - nowMin };
   }
   return null;
 }
@@ -67,8 +69,20 @@ export function useNextDepartures(): {
       const departures: NextDeparture[] = SCHEDULE.map((point) => {
         const next = nextTimeFor(point, nowMin);
         return next
-          ? { point, time: next.time, minutesLeft: next.minutesLeft, isToday: true }
-          : { point, time: point.times[0], minutesLeft: null, isToday: false };
+          ? {
+              point,
+              time: next.departure.time,
+              to: next.departure.to,
+              minutesLeft: next.minutesLeft,
+              isToday: true,
+            }
+          : {
+              point,
+              time: point.departures[0].time,
+              to: point.departures[0].to,
+              minutesLeft: null,
+              isToday: false,
+            };
       });
       setState({ nowMin, departures });
     };
