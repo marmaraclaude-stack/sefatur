@@ -8,9 +8,10 @@
  * Altında üç kalkış noktası aynı anda görünür (sekme yok). Her kartın
  * üstünde büyük rakamlı "sıradaki sefer" paneli, altında günün tüm
  * seferleri saat + varış noktasıyla durur. Geniş ekranlarda kartların
- * altında günün tüm kalkışlarını kronolojik gösteren "Günün seferleri"
- * şeridi bulunur. Saatlerin tek kaynağı lib/data.ts; canlı durum mount
- * sonrası hesaplanır, ilk render'da her şey nötrdür (hydration güvenli).
+ * altında "Günün seferleri" panosu bulunur: her kalkış noktasına bir
+ * satır, ortak orantılı saat ekseni. Saatlerin tek kaynağı lib/data.ts;
+ * canlı durum mount sonrası hesaplanır, ilk render'da her şey nötrdür
+ * (hydration güvenli).
  */
 
 import { useState, type ReactNode } from "react";
@@ -26,6 +27,7 @@ import {
 import { CONTACT_COPY, SCHEDULE_COPY } from "@/lib/copy";
 import {
   formatMinutes,
+  nextTimeFor,
   timeToMinutes,
   useNextDepartures,
 } from "@/lib/use-next-departure";
@@ -104,16 +106,16 @@ const ORIGINS = ORDER.filter((id) =>
   SCHEDULE.some((point) => point.id === id)
 );
 
-/** Kalkış noktasına göre akış şeridindeki nokta rengi */
-const FLOW_DOT: Record<string, string> = {
+/** Kalkış noktasına göre "Günün seferleri" panosundaki nokta rengi */
+const LANE_DOT: Record<string, string> = {
   topagac: "bg-skylight",
   marmara: "bg-white",
   asmali: "bg-sky",
   saraylar: "bg-sage",
 };
 
-/** Akış şeridinde etiketlerin çakışmaması için dört seviyeli yerleşim */
-const FLOW_LEVELS = ["bottom-3.5", "top-3.5", "bottom-12", "top-12"];
+/** Pano satır yüksekliği: üstte saat, ortada nokta, altta varış yönü */
+const LANE_HEIGHT = "h-[4.75rem]";
 
 function Beacon() {
   return (
@@ -373,93 +375,156 @@ function groupByDestination(point: DeparturePoint): DestinationGroup[] {
 }
 
 /**
- * Günün akışı: tüm kalkışlar tek çizgi üzerinde, saate orantılı
- * konumda. Etiketler çakışmayı önlemek için sırayla çizginin üstüne
- * ve altına yerleşir. Canlıyken geçmiş kalkışlar söner ve "Şimdi"
- * rozeti çizgi üzerinde ilerler. Yalnızca geniş ekranlarda görünür.
+ * Günün seferleri panosu: her kalkış noktasına bir satır (hat sırasıyla,
+ * batıdan doğuya) ve tüm satırların paylaştığı orantılı saat ekseni.
+ * Her sefer kendi satırında bir noktayla işaretlenir; üstünde kalkış
+ * saati, altında varış yönü yazar. Satırlar kendi adıyla etiketli olduğu
+ * için ayrıca lejant gerekmez. Canlıyken geçmiş kalkışlar söner, her
+ * satırın sıradaki seferi vurgulanır ve "Şimdi" çizgisi eksende ilerler.
+ * Yalnızca geniş ekranlarda görünür.
  */
 function DayFlow({ nowMin }: { nowMin: number | null }) {
-  const departures = SCHEDULE.flatMap((point) =>
-    point.departures.map((departure) => ({
-      time: departure.time,
-      min: timeToMinutes(departure.time),
-      name: point.name,
-      id: point.id,
-    }))
-  ).sort((a, b) => a.min - b.min);
+  // Satırlar hat sırasıyla dizilir; güzergâh bölümündeki durak listesiyle aynı düzen
+  const lanes = ORDER.map((id) =>
+    SCHEDULE.find((point) => point.id === id)
+  ).filter((point): point is DeparturePoint => point !== undefined);
 
-  const start = departures[0].min - 40;
-  const end = departures[departures.length - 1].min + 40;
+  const mins = lanes.flatMap((point) =>
+    point.departures.map((departure) => timeToMinutes(departure.time))
+  );
+  // Eksen tam saatlere oturur, uçlarda en az yarım saat nefes payı kalır
+  const start = Math.floor((Math.min(...mins) - 30) / 60) * 60;
+  const end = Math.ceil((Math.max(...mins) + 30) / 60) * 60;
   const pos = (min: number) => ((min - start) / (end - start)) * 100;
+
+  const hours: number[] = [];
+  for (let h = start / 60; h <= end / 60; h += 1) hours.push(h);
+
   const showNow = nowMin !== null && nowMin >= start && nowMin <= end;
+  const nowClock =
+    nowMin === null
+      ? ""
+      : `${String(Math.floor(nowMin / 60)).padStart(2, "0")}:${String(
+          nowMin % 60
+        ).padStart(2, "0")}`;
 
   return (
     <div className="mt-6 hidden rounded-2xl border border-white/10 bg-white/[0.03] px-8 py-6 lg:block">
-      <div className="flex items-center justify-between gap-6">
-        <h3 className="text-base font-bold tracking-tight text-white">
-          {SCHEDULE_COPY.dayFlowTitle}
-        </h3>
-        <ul className="flex items-center gap-5">
-          {SCHEDULE.map((point) => (
-            <li
+      <h3 className="text-base font-bold tracking-tight text-white">
+        {SCHEDULE_COPY.dayFlowTitle}
+      </h3>
+
+      <div aria-hidden className="mt-1 flex">
+        {/* Sol sütun: satır etiketleri */}
+        <div className="flex w-28 shrink-0 flex-col pt-8">
+          {lanes.map((point) => (
+            <p
               key={point.id}
-              className="flex items-center gap-2 text-sm text-mist"
-            >
-              <span
-                aria-hidden
-                className={cn("size-2.5 rounded-full", FLOW_DOT[point.id])}
-              />
-              {point.name} kalkışlı
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div aria-hidden className="relative mt-4 h-40">
-        {/* Çizgi */}
-        <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
-
-        {departures.map((departure, index) => {
-          const isPast = nowMin !== null && departure.min < nowMin;
-          return (
-            <div
-              key={`${departure.id}-${departure.time}`}
               className={cn(
-                "absolute top-1/2 -translate-x-1/2 transition-opacity duration-500",
-                isPast && "opacity-35"
+                "flex items-center gap-2.5 text-[15px] font-bold text-white",
+                LANE_HEIGHT
               )}
-              style={{ left: `${pos(departure.min)}%` }}
             >
               <span
                 className={cn(
-                  "absolute top-0 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full",
-                  FLOW_DOT[departure.id]
+                  "size-2.5 shrink-0 rounded-full",
+                  LANE_DOT[point.id]
                 )}
               />
-              <div
-                className={cn(
-                  "absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap",
-                  FLOW_LEVELS[index % FLOW_LEVELS.length]
-                )}
-              >
-                <span className="block text-base font-bold text-white tabular-nums">
-                  {departure.time}
-                </span>
-                <span className="block text-xs text-mist">{departure.name}</span>
-              </div>
-            </div>
-          );
-        })}
+              {point.name}
+            </p>
+          ))}
+        </div>
 
-        {/* Şimdi rozeti */}
-        {showNow ? (
-          <span
-            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r from-sky to-skylight px-2 py-0.5 text-[11px] font-bold text-ink shadow-card"
-            style={{ left: `${pos(nowMin)}%` }}
-          >
-            {SCHEDULE_COPY.nowLabel}
-          </span>
-        ) : null}
+        {/* Saat ekseni alanı */}
+        <div className="relative flex-1">
+          {/* Saat kılavuz çizgileri */}
+          {hours.map((h) => (
+            <span
+              key={h}
+              className="absolute top-8 bottom-6 w-px bg-white/[0.07]"
+              style={{ left: `${pos(h * 60)}%` }}
+            />
+          ))}
+
+          {/* Satırlar */}
+          <div className="pt-8">
+            {lanes.map((point) => {
+              const nextTime =
+                nowMin === null
+                  ? null
+                  : (nextTimeFor(point, nowMin)?.departure.time ?? null);
+              return (
+                <div key={point.id} className={cn("relative", LANE_HEIGHT)}>
+                  <span className="absolute inset-x-0 top-1/2 h-px bg-white/10" />
+                  {point.departures.map((departure) => {
+                    const min = timeToMinutes(departure.time);
+                    const isPast = nowMin !== null && min < nowMin;
+                    const isNext = departure.time === nextTime;
+                    return (
+                      <span
+                        key={departure.time}
+                        className={cn(
+                          "absolute top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500",
+                          isPast && "opacity-35"
+                        )}
+                        style={{ left: `${pos(min)}%` }}
+                      >
+                        <span
+                          className={cn(
+                            "block size-3 rounded-full",
+                            LANE_DOT[point.id],
+                            isNext &&
+                              "ring-2 ring-skylight/80 ring-offset-2 ring-offset-deep"
+                          )}
+                        />
+                        <span
+                          className={cn(
+                            "absolute bottom-full left-1/2 mb-2 -translate-x-1/2 text-[15px] font-bold whitespace-nowrap tabular-nums",
+                            isNext ? "text-skylight" : "text-white"
+                          )}
+                        >
+                          {departure.time}
+                        </span>
+                        <span className="absolute top-full left-1/2 mt-2 -translate-x-1/2 text-[11px] whitespace-nowrap text-mist">
+                          → {departure.to}
+                        </span>
+                      </span>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Saat etiketleri (iki saatte bir) */}
+          <div className="relative h-6">
+            {hours
+              .filter((h) => h % 2 === 0)
+              .map((h) => (
+                <span
+                  key={h}
+                  className="absolute top-1.5 -translate-x-1/2 text-xs text-mist/80 tabular-nums"
+                  style={{ left: `${pos(h * 60)}%` }}
+                >
+                  {String(h).padStart(2, "0")}:00
+                </span>
+              ))}
+          </div>
+
+          {/* Şimdi çizgisi: tüm satırları keser, üstte saatli rozet */}
+          {showNow ? (
+            <div
+              className="pointer-events-none absolute inset-y-0 z-10"
+              style={{ left: `${pos(nowMin)}%` }}
+            >
+              <span className="absolute top-7 bottom-6 w-px -translate-x-1/2 bg-linear-to-b from-skylight via-skylight/50 to-transparent" />
+              <span className="absolute top-0 -translate-x-1/2 rounded-full bg-linear-to-r from-sky to-skylight px-2.5 py-1 text-[11px] font-bold whitespace-nowrap text-ink shadow-card">
+                {SCHEDULE_COPY.nowLabel} {nowClock}
+              </span>
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

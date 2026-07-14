@@ -4,13 +4,21 @@
  * Güzergâh bölümü: gerçek harita (Leaflet) + durak listesi.
  * Leaflet window'a dokunduğu için kütüphane useEffect içinde
  * dinamik olarak yüklenir; sadece tipler statik import edilir.
+ * Rota önce yaklaşık yedek çizgiyle açılır, ardından OSRM'den gelen
+ * gerçek yol geometrisiyle güncellenir (bkz. lib/map-data.ts).
  */
 import { useEffect, useRef } from "react";
 import type { Map as LeafletMap } from "leaflet";
 import { Info } from "lucide-react";
 import { ROUTE_COPY } from "@/lib/copy";
 import { SCHEDULE, STOPS } from "@/lib/data";
-import { MAP_CENTER, MAP_ZOOM, ROUTE_WAYPOINTS, STOP_COORDS } from "@/lib/map-data";
+import {
+  MAP_CENTER,
+  MAP_ZOOM,
+  ROUTE_WAYPOINTS,
+  STOP_COORDS,
+  fetchRoadRoute,
+} from "@/lib/map-data";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { FadeIn } from "@/components/ui/fade-in";
 import { cn } from "@/lib/utils";
@@ -68,11 +76,22 @@ export function RouteMap() {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
 
-      L.polyline(ROUTE_WAYPOINTS, {
+      const routeLine = L.polyline(ROUTE_WAYPOINTS, {
         color: ROUTE_BLUE,
         weight: 4,
         opacity: 0.9,
       }).addTo(map);
+
+      /* Rota her ekran boyutunda tam görünsün (dar ekranda Saraylar
+         kadraj dışında kalıyordu) */
+      map.fitBounds(routeLine.getBounds(), { padding: [28, 28] });
+
+      /* Gerçek yol geometrisi geldiğinde çizgi yol şekline oturur */
+      void fetchRoadRoute().then((route) => {
+        if (!cancelled && route && mapRef.current) {
+          routeLine.setLatLngs(route);
+        }
+      });
 
       for (const stop of STOPS) {
         const coords = STOP_COORDS[stop.id];
